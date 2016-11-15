@@ -25,6 +25,7 @@ public class MealCategoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
+        //TODO: Replace with sqlite
         String[] foodtypes = {"Popcorn", "Sausages", "Coffee", "Fish", "Pancakes", "Bacon", "Canned Food", "Baby Food"};
 
         ListAdapter listAdapter = new CustomAdapter(this, foodtypes);
