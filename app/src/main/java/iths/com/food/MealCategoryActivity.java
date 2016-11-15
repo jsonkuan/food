@@ -13,9 +13,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import static android.support.v7.appcompat.R.styleable.MenuItem;
 
 public class MealCategoryActivity extends AppCompatActivity {
+
+    ArrayList<String> foodtypes;
+    ListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +31,12 @@ public class MealCategoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //TODO: Replace with sqlite
-        String[] foodtypes = {"Popcorn", "Sausages", "Coffee", "Fish", "Pancakes", "Bacon", "Canned Food", "Baby Food"};
+        foodtypes = new ArrayList<>();
+        foodtypes.add("Popcorn");
+        foodtypes.add("Sausages");
+        foodtypes.add("Coffee");
 
-        ListAdapter listAdapter = new CustomAdapter(this, foodtypes);
-
+        listAdapter = new CustomAdapter(this, foodtypes);
         ListView listView = (ListView) findViewById(R.id.categoryListView);
         listView.setAdapter(listAdapter);
 
@@ -64,6 +71,10 @@ public class MealCategoryActivity extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
 
+    void addNewCategory(String categoryName) {
+        foodtypes.add(categoryName);
+        //listAdapter.notify();  //
     }
 }

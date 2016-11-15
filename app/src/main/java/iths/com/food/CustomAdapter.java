@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 class CustomAdapter extends ArrayAdapter<String> {
 
-    CustomAdapter(Context context, String[] foodtypes) {
+    CustomAdapter(Context context, ArrayList<String> foodtypes) {
         super(context, R.layout.custom_row, foodtypes);
     }
 
