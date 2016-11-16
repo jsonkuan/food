@@ -10,16 +10,76 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="iths.com.food.MealActivity">
 
-    <Button
-        android:text="Button"
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:hint="Namn på maten"
+        android:textSize="30dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/desc"
+        android:hint="Beskrivning"
+        android:layout_below="@+id/name"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Smakbetyg"
+        android:id="@+id/taste"
+        android:layout_below="@id/desc"/>
+    <RatingBar
+        android:id="@+id/rating_taste"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="99dp"
-        android:layout_marginStart="99dp"
-        android:layout_marginBottom="204dp"
-        android:onClick="onClickBtnSave"/>
+        android:numStars="5"
+        android:layout_below="@id/taste"
+        android:stepSize="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hälsobetyg"
+        android:id="@+id/health"
+        android:layout_below="@id/rating_taste"/>
+    <RatingBar
+        android:id="@+id/rating_health"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:layout_below="@id/health"
+        android:stepSize="1"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/category"
+        android:layout_below="@+id/rating_health"
+        android:hint="Kategori"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category"
+        android:id="@+id/linear1">
+
+        <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spara"
+        android:id="@+id/save_btn"
+        android:onClick="saveMeal"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visa"
+            android:id="@+id/showMeal"
+            android:onClick="showMeal"/>
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID"
+        android:id="@+id/idOfMeal"
+        android:layout_below="@+id/linear1"/>
+
 </RelativeLayout>

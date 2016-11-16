@@ -25,6 +25,7 @@ final class DatabaseContract {
                     MealEntry.COLUMN_HEALTHY_SCORE + " INTEGER," +
                     MealEntry.COLUMN_TASTE_SCORE + " INTEGER," +
                     MealEntry.COLUMN_LONGITUDE + " DOUBLE," +
+                    MealEntry.COLUMN_IMAGE_PATH + " TEXT," +
                     MealEntry.COLUMN_LATITUDE + " DOUBLE);" +
             "CREATE TABLE " + CategoryEntry.TABLE + " (" +
                     CategoryEntry.COLUMN_NAME + "TEXT)";

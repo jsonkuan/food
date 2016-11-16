@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(DatabaseContract.MealEntry.COLUMN_ID, meal.getId());
+        //values.put(DatabaseContract.MealEntry.COLUMN_ID, meal.getId());
         values.put(DatabaseContract.MealEntry.COLUMN_NAME, meal.getName());
         values.put(DatabaseContract.MealEntry.COLUMN_CATEGORY, meal.getCategory());
         values.put(DatabaseContract.MealEntry.COLUMN_DATE_TIME, meal.getDateTime());
@@ -120,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     public ArrayList<String> getCategries(){
         return  null;
     }
-    public int updateMeal(Meal meal){
+    public void updateMeal(Meal meal){     //stod som public int förut??
         // New values for row
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.MealEntry.COLUMN_NAME, meal.getName());
