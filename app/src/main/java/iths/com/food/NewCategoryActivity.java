@@ -22,9 +22,7 @@ public class NewCategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_category);
-
         addCategoryName = (EditText) findViewById(R.id.add_category_editText);
-
         Button saveButton = (Button) findViewById(R.id.save_button);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +42,6 @@ public class NewCategoryActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);

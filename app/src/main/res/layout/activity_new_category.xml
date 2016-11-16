@@ -21,7 +21,8 @@
         android:id="@+id/add_category_editText"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:hint="@string/write_category_name"/>
+        android:hint="@string/write_category_name"
+        android:maxLength="20"/>
 
     <Button
         android:id="@+id/save_button"
