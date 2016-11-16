@@ -1,7 +1,6 @@
 package iths.com.food;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,18 +8,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
-import static android.support.v7.appcompat.R.styleable.MenuItem;
 
 public class MealCategoryActivity extends AppCompatActivity {
 
-    ArrayList<String> foodtypes;
+
+
+    public ArrayList<String> foodtypes;
     ListAdapter listAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class MealCategoryActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add_category_item:
                 Intent intent = new Intent(this, NewCategoryActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 100);
                 return true;
 
             default:
@@ -73,8 +74,16 @@ public class MealCategoryActivity extends AppCompatActivity {
         }
     }
 
-    void addNewCategory(String categoryName) {
-        foodtypes.add(categoryName);
-        //listAdapter.notify();  //
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //if (requestCode == NewCategoryActivity.REQUEST_CODE) {
+
+                String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
+
+                foodtypes.add(text);
+
+                ((BaseAdapter) listAdapter).notifyDataSetChanged();
+        //}
     }
 }

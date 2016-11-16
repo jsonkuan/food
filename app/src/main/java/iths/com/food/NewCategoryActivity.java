@@ -9,9 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class NewCategoryActivity extends AppCompatActivity {
 
+
+    public static final int REQUEST_CODE = 0;
+    public static final String EDIT_TEXT_KEY = "EDIT_TEXT";
     EditText addCategoryName;
 
     @Override
@@ -20,14 +24,35 @@ public class NewCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_category);
 
         addCategoryName = (EditText) findViewById(R.id.add_category_editText);
+
         Button saveButton = (Button) findViewById(R.id.save_button);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText add_category_editText = (EditText) findViewById(R.id.add_category_editText);
+                String text = add_category_editText.getText().toString();
+
+                if (text.length() == 0) {
+                    Toast.makeText(NewCategoryActivity.this, "Enter the category name.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra(EDIT_TEXT_KEY, text);
+                    setResult(REQUEST_CODE, resultIntent);
+                    finish();
+                }
+            }
+        });
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null){
+        /*if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        }*/
     }
 
     @Override
@@ -47,8 +72,15 @@ public class NewCategoryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    void saveButtonPressed(View view) {
+    /*public void saveButtonPressed(View view) {
         //TODO: Save to database and update MealCategoryActivity
-        MealCategoryActivity.addNewCategory(addCategoryName.getText().toString());
-    }
+
+        EditText add_category_editText = (EditText) findViewById(R.id.add_category_editText);
+        String text = add_category_editText.getText().toString();
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(EDIT_TEXT_KEY, text);
+        setResult(REQUEST_CODE, resultIntent);
+        //finish();
+    }*/
 }
