@@ -42,6 +42,8 @@ public class MealActivity extends AppCompatActivity {
 
         //tja, när du kör kommer du få en toast med dessa tre kategorier
         //dvs det funkar som tänkt
+        // Meat och Fish kommer finnas med eftersom de skapas när databasen skapas.
+        // Jag la in dem i SQL-scriptet i DatabaseContract
         db.insertCategory("Hamburgare");
         db.insertCategory("Pizza");
         db.insertCategory("Frukost");

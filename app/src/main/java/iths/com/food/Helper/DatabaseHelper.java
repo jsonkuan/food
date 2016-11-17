@@ -27,6 +27,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // run the SQL script for creating necessary entries
+        // run the SQL statements one by one, due to limitation in execSQL()
         for (String sql: DatabaseContract.SQL_CREATE_SCRIPT.split(";")) {
             db.execSQL(sql);
         }
@@ -156,8 +158,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
             }
         }
         catch (Exception e) {
-            String tag = "DatabaseHelper";
-            Log.d(tag,e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
         finally {
             if(cursor != null)
@@ -234,8 +235,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
             }
         }
         catch (Exception e) {
-            String tag = "DatabaseHelper";
-            Log.d(tag,e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
         finally {
             if(cursor != null)
