@@ -24,6 +24,7 @@ public class Category {
     }
 
     public double getAverageScore() {
+        calculateAverageScore();
         return averageScore;
     }
 

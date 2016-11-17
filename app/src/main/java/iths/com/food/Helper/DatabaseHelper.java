@@ -117,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return meal;
     }
 
-    public ArrayList<String> getCategries(){
+    public ArrayList<String> getCategories(){
         return  null;
     }
     public int updateMeal(Meal meal){     //FUNKAR
