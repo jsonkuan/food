@@ -28,6 +28,7 @@ public class NewCategoryActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: Save to database and update MealCategoryActivity
                 EditText add_category_editText = (EditText) findViewById(R.id.add_category_editText);
                 String text = add_category_editText.getText().toString();
 
