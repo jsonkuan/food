@@ -45,6 +45,8 @@ public class MealActivity extends AppCompatActivity {
         Category category = db.createCategory("Juice");
         ArrayList<Category> categories = db.getCategories();
 
+        //Toast.makeText(this, getApplicationContext().getDatabasePath("food.db").toString(), Toast.LENGTH_SHORT).show();
+
 
 
 

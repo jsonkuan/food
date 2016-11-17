@@ -131,20 +131,23 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         };
 
         // Filter results WHERE "categoryName" = 'categoryName'. The row we wont to return
-        String selection = DatabaseContract.CategoryEntry.COLUMN_NAME + " = ?";
-        String[] selectionArgs = {"*"};
+        //String selection = DatabaseContract.CategoryEntry.COLUMN_NAME + " = ?";
+        //String[] selectionArgs = {"*"};
 
-        Cursor cursor = getReadableDatabase().query(
-                DatabaseContract.CategoryEntry.TABLE,         // The table to query
-                projection,                               // The columns to return
-                selection,                                // The columns for the WHERE clause
-                selectionArgs,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
-        );
 
+        Cursor cursor = null;
         try {
+
+            cursor = getReadableDatabase().query(
+                    DatabaseContract.CategoryEntry.TABLE,         // The table to query
+                    projection,                               // The columns to return
+                    null,                                // The columns for the WHERE clause
+                    null,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null                                 // The sort order
+            );
+
             while (cursor.moveToNext()) {
                 String categoryName = cursor.getString( cursor.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_NAME));
                 Category category = createCategory(categoryName);
