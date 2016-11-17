@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Food</string>
+    <string name="taste">Taste</string>
+    <string name="healthy">Healthy</string>
 </resources>
