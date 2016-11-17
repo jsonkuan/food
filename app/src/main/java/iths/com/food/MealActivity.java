@@ -3,6 +3,8 @@ package iths.com.food;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -10,9 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.Date;
@@ -25,10 +31,14 @@ public class MealActivity extends AppCompatActivity {
     private ImageView imageView;
     private static Uri photoFilePath;
     private static boolean isOpenedFromCameraActivity;
+    int healthGrade;
+    int tasteGrade;
+    int averageGrade;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("TEST", "Testar logfunktionen");
         setContentView(R.layout.activity_meal_edit);
         if(isOpenedFromCameraActivity) {
             isOpenedFromCameraActivity = false;
@@ -108,8 +118,12 @@ public class MealActivity extends AppCompatActivity {
     }
 
     private void showImage() {
+        imageView = (ImageView) findViewById(R.id.edit_meal_image);
         int imageViewHeight = imageView.getHeight();
         int imageViewWidth = imageView.getWidth();
+
+        Toast.makeText(this, "height: " + imageViewHeight, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "width: " + imageViewWidth, Toast.LENGTH_SHORT).show();
 
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
@@ -121,8 +135,7 @@ public class MealActivity extends AppCompatActivity {
         try {
             scaleFactor = Math.min(opt.outHeight / imageViewHeight, opt.outWidth / imageViewWidth);
         } catch(Exception e) {
-            Log.d("Tag", "Funkade inte att skala");
-
+            Toast.makeText(this, "Funkade inte att skala", Toast.LENGTH_SHORT).show();
         }
 
         opt = new BitmapFactory.Options();
@@ -130,10 +143,67 @@ public class MealActivity extends AppCompatActivity {
 
         Bitmap image = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
 
-        imageView.setImageBitmap(image);
+        String stringUri = photoFilePath.toString();
+
+        ExifInterface exif;
+        int orientation = 167;
+
+        try {
+            exif = new ExifInterface(photoFilePath.toString());
+            orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+            Log.d("ORIENTATION", orientation + "");
+        } catch (Exception e) {
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+        }
+
+        Toast.makeText(getApplicationContext(), "" + orientation, Toast.LENGTH_SHORT).show();
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
+
+        imageView.setImageBitmap(rotatedBitmap);
     }
 
+    public void fillHearts(View view) {
+        ImageView iv = (ImageView) view;
+        ViewGroup viewParent = (ViewGroup) iv.getParent();
+        int resid = view.getId();
+        String idStr = getResources().getResourceEntryName(resid);
 
+        String healthOrTaste;
+
+        int heartNr;
+
+        if( (viewParent).getId() == R.id.health_hearts) {
+            healthOrTaste = "heart_health_";
+            heartNr = Integer.parseInt(idStr.replace(healthOrTaste, ""));
+            healthGrade = heartNr;
+        } else {
+            healthOrTaste = "heart_taste_";
+            heartNr = Integer.parseInt(idStr.replace(healthOrTaste, ""));
+            tasteGrade = heartNr;
+        }
+
+
+        for(int i = 1; i <= 10; i++) {
+            int imgId = getResources().getIdentifier(healthOrTaste + i, "id", getPackageName());
+            ImageView heart = (ImageView) findViewById(imgId);
+            heart.setImageResource(R.drawable.empty_heart);
+        }
+        for(int i = 1; i <= heartNr; i++) {
+            int imgId = getResources().getIdentifier(healthOrTaste + i, "id", getPackageName());
+            ImageView heart = (ImageView) findViewById(imgId);
+            heart.setImageResource(R.drawable.filled_heart);
+        }
+        setAverageGrade();
+    }
+
+    private void setAverageGrade() {
+        double averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
+        TextView averageGradeTV = (TextView) findViewById(R.id.average_number);
+        averageGradeTV.setText(Double.toString(averageGrade));
+    }
 
     //TODO: Reusable view with editable and non-editable objects
 }

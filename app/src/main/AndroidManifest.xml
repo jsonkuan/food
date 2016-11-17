@@ -21,13 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CameraTestResultActivity" />
         <activity android:name=".MealCategoryActivity" />
         <activity android:name=".MealListActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".MealActivity" />
         <activity android:name=".NewCategoryActivity" />
-        <activity android:name=".CameraTestActivity" />
 
     </application>
 
