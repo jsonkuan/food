@@ -59,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return getWritableDatabase().insert(DatabaseContract.CategoryEntry.TABLE, null, values);
     }
 
-    public Meal getMeal(long id){
+    public Meal getMeal(long id){ // FUNKAR
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -120,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     public ArrayList<String> getCategries(){
         return  null;
     }
-    public void updateMeal(Meal meal){     //stod som public int förut??
+    public int updateMeal(Meal meal){     //FUNKAR
         // New values for row
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.MealEntry.COLUMN_NAME, meal.getName());
@@ -142,11 +142,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
                 values,
                 selection,
                 selectionArgs);
+        return count;
     }
 
-    public int deleteMeal(long id){
-        // Define 'where' part of query.
-        String selection = DatabaseContract.CategoryEntry.COLUMN_NAME + " LIKE ?";
+    public int deleteMeal(long id)/*FUNKAR*/{
+        // Define 'where' part of query. WHERE "meal" LIKE '1'
+        String selection = DatabaseContract.MealEntry.COLUMN_ID + " LIKE ?";
 
         // Specify arguments in placeholder order.
         String[] selectionArgs = { String.valueOf(id) };

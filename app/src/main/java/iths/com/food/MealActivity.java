@@ -76,5 +76,43 @@ public class MealActivity extends AppCompatActivity {
 
     }
 
+    public void deleteMeal(View view) {
+        String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        id = Long.valueOf(text);
+
+        int rows = db.deleteMeal(id);
+
+        if(rows > 0) {
+            Toast.makeText(getApplicationContext(), "Deleted "+rows+" row(s)", Toast.LENGTH_SHORT).show();
+        } else if (rows == 0) {
+            Toast.makeText(getApplicationContext(), "No rows deleted", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void updateMeal(View view) {
+        String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        id = Long.valueOf(text);
+
+        Meal meal = db.getMeal(id);
+        meal.setHealthyScore((int)healthGrade.getRating());
+        meal.setTasteScore((int)tasteGrade.getRating());
+        meal.setName(name.getText().toString());
+        meal.setDescription(description.getText().toString());
+        meal.setCategory(category.getText().toString());
+        meal.setDateTime(Calendar.getInstance().getTime().toString());
+        meal.setLatitude(0);
+        meal.setLongitude(0);
+        meal.setImagePath("insert ImagePath");
+
+        int rowsAffected = db.updateMeal(meal);
+
+        if (rowsAffected > 0) {
+            Toast.makeText(getApplicationContext(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
     //TODO: Reusable view with editable and non-editable objects
 }

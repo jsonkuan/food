@@ -61,18 +61,35 @@
         android:id="@+id/linear1">
 
         <Button
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Spara"
         android:id="@+id/save_btn"
-        android:onClick="saveMeal"/>
+        android:onClick="saveMeal"
+            android:layout_weight="1"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Visa"
             android:id="@+id/showMeal"
-            android:onClick="showMeal"/>
+            android:onClick="showMeal"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ta bort"
+            android:id="@+id/delete_meal_btn"
+            android:onClick="deleteMeal"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Uppdatera"
+            android:id="@+id/update_meal_btn"
+            android:onClick="updateMeal"
+            android:layout_weight="1"/>
+
 
     </LinearLayout>
     <EditText
