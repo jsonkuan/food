@@ -27,8 +27,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DatabaseContract.SQL_CREATE_MEAL_ENTRY);
-        db.execSQL(DatabaseContract.SQL_CREATE_CATEGORY_ENTRY);
+        for (String sql: DatabaseContract.SQL_CREATE_SCRIPT.split(";")) {
+            db.execSQL(sql);
+        }
     }
 
     // Do nothing here yet

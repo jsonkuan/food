@@ -15,7 +15,7 @@ final class DatabaseContract {
     static final String DATABASE_NAME = "food.db";
 
     // SQL statements for creating table Meal and Category
-    static final String SQL_CREATE_MEAL_ENTRY =
+    static final String SQL_CREATE_SCRIPT =
             "CREATE TABLE " + MealEntry.TABLE + " (" +
                     MealEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     MealEntry.COLUMN_NAME + " TEXT," +
@@ -26,12 +26,15 @@ final class DatabaseContract {
                     MealEntry.COLUMN_TASTE_SCORE + " INTEGER," +
                     MealEntry.COLUMN_LONGITUDE + " DOUBLE," +
                     MealEntry.COLUMN_IMAGE_PATH + " TEXT," +
-                    MealEntry.COLUMN_LATITUDE + " DOUBLE)";
-    static final String SQL_CREATE_CATEGORY_ENTRY =
+                    MealEntry.COLUMN_LATITUDE + " DOUBLE);" +
             "CREATE TABLE " + CategoryEntry.TABLE + " (" +
-                CategoryEntry.COLUMN_NAME + " TEXT)";
-
+                CategoryEntry.COLUMN_NAME + " TEXT);" +
     //TODO: skapa alla default kategories här med sql
+            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+                    "VALUES ('Meat');" +
+            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+                    "VALUES ('Fish')";
+
 
     // Prevents instantiating of this class
     private DatabaseContract() {}
