@@ -2,6 +2,7 @@ package iths.com.food.Helper;
 
 import java.util.ArrayList;
 
+import iths.com.food.Model.Category;
 import iths.com.food.Model.Meal;
 
 /**
@@ -19,4 +20,6 @@ public interface IDatabaseHelper {
     public ArrayList<String> getCategories();
 
     public int deleteMeal(long id);
+
+    public void setArrayListMeals (Category);
 }

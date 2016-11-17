@@ -11,6 +11,10 @@ public class Category {
     private double averageScore;
     private ArrayList<Meal> meals;
 
+    public void setMeals(ArrayList<Meal> meals) {
+        this.meals = meals;
+    }
+
     public Category(String name, ArrayList<Meal> meals) {
         this.name = name;
         this.meals = meals;
@@ -41,4 +45,5 @@ public class Category {
 
         averageScore = sum / meals.size();
     }
+
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import iths.com.food.Model.Category;
 import iths.com.food.Model.Meal;
 
 /**
@@ -46,6 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         values.put(DatabaseContract.MealEntry.COLUMN_IMAGE_PATH, meal.getImagePath());
 
         // Insert the new row, return the primary key value of the new row
+        //setArrayListMeals(meal.getCategory());
         return getWritableDatabase().insert(DatabaseContract.MealEntry.TABLE, null, values);
     }
 
@@ -157,4 +159,14 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     }
 
 
+
+    @Override
+    public void setArrayListMeals(Category category) {
+        //Plocka ut alla meals för en category
+        //Lägga alla meals i en arraylist MEALARRAY
+
+        category.setMeals(MEALARRAY);
+
+
+    }
 }
