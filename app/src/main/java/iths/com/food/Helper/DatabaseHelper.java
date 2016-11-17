@@ -24,7 +24,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DatabaseContract.SQL_CREATE_ENTRIES);
+        db.execSQL(DatabaseContract.SQL_CREATE_MEAL_ENTRY);
+        db.execSQL(DatabaseContract.SQL_CREATE_CATEGORY_ENTRY);
     }
 
     // Do nothing here yet
@@ -119,8 +120,89 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return meal;
     }
 
-    public ArrayList<String> getCategories(){
-        return  null;
+    public ArrayList<Category> getCategories(){
+
+        ArrayList<Category> categories = new ArrayList<>();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DatabaseContract.CategoryEntry.COLUMN_NAME
+        };
+
+        // Filter results WHERE "categoryName" = 'categoryName'. The row we wont to return
+        String selection = DatabaseContract.CategoryEntry.COLUMN_NAME + " = ?";
+        String[] selectionArgs = {"*"};
+
+        Cursor cursor = getReadableDatabase().query(
+                DatabaseContract.CategoryEntry.TABLE,         // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        try {
+            while (cursor.moveToNext()) {
+                String categoryName = cursor.getString( cursor.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_NAME));
+                Category category = createCategory(categoryName);
+                categories.add(category);
+            }
+        } catch (Exception e) {
+            String tag = "DatabaseHelper";
+            Log.d(tag,e.getMessage());
+        } finally {
+            cursor.close();
+        }
+
+
+        return  categories;
+    }
+
+    public Category createCategory(String categoryName){  //Make private
+
+        ArrayList<Meal> meals = new ArrayList<>();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                DatabaseContract.MealEntry.COLUMN_ID
+        };
+        // Filter results WHERE "categoryName" = 'categoryName'. The row we wont to return
+        String selection = DatabaseContract.MealEntry.COLUMN_CATEGORY + " = ?";
+        String[] selectionArgs = {categoryName };
+
+        Cursor cursor = getReadableDatabase().query(
+                DatabaseContract.MealEntry.TABLE,         // The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                null                                 // The sort order
+        );
+
+        try {
+            while (cursor.moveToNext()) {
+
+                Meal meal = getMeal(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseContract.MealEntry.COLUMN_ID)));
+                meals.add(meal);
+            }
+        } catch (Exception e) {
+            String tag = "DatabaseHelper";
+            Log.d(tag,e.getMessage());
+        } finally {
+            cursor.close();
+        }
+
+        Category category = new Category(categoryName, meals);
+
+        return category;
+
+
+
     }
     public int updateMeal(Meal meal){     //FUNKAR
         // New values for row
@@ -158,15 +240,4 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return getWritableDatabase().delete(DatabaseContract.MealEntry.TABLE, selection, selectionArgs);
     }
 
-
-
-    @Override
-    public void setArrayListMeals(Category category) {
-        //Plocka ut alla meals för en category
-        //Lägga alla meals i en arraylist MEALARRAY
-
-        category.setMeals(MEALARRAY);
-
-
-    }
 }

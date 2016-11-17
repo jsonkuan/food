@@ -10,22 +10,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import iths.com.food.Helper.DatabaseHelper;
+
 public class MealCategoryActivity extends AppCompatActivity {
 
-    Database database = new Database(this);
-
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal_category_list);
+        db = new DatabaseHelper(getApplicationContext());
 
     }
 
     public void deleteDatabase(View v) {
         Intent intent = new Intent(this, MealCategoryActivity.class);
-        super.deleteDatabase(Database.DATABASE_NAME);
-        Database db = new Database(this);
+        super.deleteDatabase("food.db");
+        db = new DatabaseHelper(this);
         startActivity(intent);
         finish();
         Toast.makeText(getApplicationContext(), "Database deleted and restarted", Toast.LENGTH_SHORT).show();

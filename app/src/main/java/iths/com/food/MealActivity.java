@@ -7,12 +7,14 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Model.Category;
 import iths.com.food.Model.Meal;
 
 public class MealActivity extends AppCompatActivity {
@@ -36,6 +38,16 @@ public class MealActivity extends AppCompatActivity {
         category = (EditText)findViewById(R.id.category);
         healthGrade = (RatingBar) findViewById(R.id.rating_health);
         tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
+
+        db.insertCategory("Hamburgare");
+        db.insertCategory("Pizza");
+        db.insertCategory("Frukost");
+        Category category = db.createCategory("Juice");
+        ArrayList<Category> categories = db.getCategories();
+
+
+
+
     }
 
 

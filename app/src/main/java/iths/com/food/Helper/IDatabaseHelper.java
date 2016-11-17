@@ -17,9 +17,7 @@ public interface IDatabaseHelper {
 
     public Meal getMeal(long id);
 
-    public ArrayList<String> getCategories();
-
     public int deleteMeal(long id);
 
-    public void setArrayListMeals (Category);
+    public ArrayList<Category> getCategories();
 }
