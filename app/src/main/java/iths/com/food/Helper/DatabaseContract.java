@@ -31,6 +31,8 @@ final class DatabaseContract {
             "CREATE TABLE " + CategoryEntry.TABLE + " (" +
                 CategoryEntry.COLUMN_NAME + " TEXT)";
 
+    //TODO: skapa alla default kategories här med sql
+
     // Prevents instantiating of this class
     private DatabaseContract() {}
 

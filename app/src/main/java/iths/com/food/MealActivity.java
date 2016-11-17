@@ -15,6 +15,7 @@ import java.util.jar.Attributes;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Category;
+import iths.com.food.Model.CategoryList;
 import iths.com.food.Model.Meal;
 
 public class MealActivity extends AppCompatActivity {
@@ -39,17 +40,14 @@ public class MealActivity extends AppCompatActivity {
         healthGrade = (RatingBar) findViewById(R.id.rating_health);
         tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
 
+        //tja, när du kör kommer du få en toast med dessa tre kategorier
+        //dvs det funkar som tänkt
         db.insertCategory("Hamburgare");
         db.insertCategory("Pizza");
         db.insertCategory("Frukost");
-        Category category = db.createCategory("Juice");
-        ArrayList<Category> categories = db.getCategories();
 
-        //Toast.makeText(this, getApplicationContext().getDatabasePath("food.db").toString(), Toast.LENGTH_SHORT).show();
-
-
-
-
+        CategoryList categories = db.getCategories();
+        Toast.makeText(this, categories.getCategoryNames().toString(), Toast.LENGTH_SHORT).show();
     }
 
 
