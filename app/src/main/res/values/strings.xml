@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Food</string>
+    <string name="taste">Taste</string>
+    <string name="healthy">Healthy</string>
     <string name="categoryname">CategoryName</string>
     <string name="add_category">add_category</string>
     <string name="save">Save</string>
