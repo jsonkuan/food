@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_meal"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
-    tools:context="iths.com.food.MealActivity">
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Meal name"
+        android:textSize="32sp"
+        />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/meal_name_text"
+    </Spinner>
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="250dp">
+
+        <ImageView
+            android:id="@+id/edit_meal_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/testmeal" />
+
+        <ImageView
+            android:id="@+id/camera_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Testmåltid"
-            android:textSize="32sp"/>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_action_name"
+            android:onClick="takePhoto"/>
 
-        <Button
-            android:id="@+id/edit_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="edit"
-            android:onClick="makeEditable"/>
+    </RelativeLayout>
 
-        </LinearLayout>
-
-    <TextView
-        android:id="@+id/category_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pizza"/>
-
-    <ImageView
-        android:id="@+id/meal_image"
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@mipmap/testmeal" />
-
-    <TextView
-        android:id="@+id/meal_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Asgod mat!"/>
+        android:layout_height="200dp"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="top"
+        android:textAlignment="gravity"
+        android:hint="Description here"/>
 
     <TextView
         android:id="@+id/taste_text"
@@ -56,81 +63,81 @@
         android:text="@string/taste"/>
 
     <LinearLayout
-        android:id="@+id/taste_hearts"
+        android:id="@+id/edit_taste_hearts"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher">
 
         <ImageView
-            android:id="@+id/heart_taste_1"
+            android:id="@+id/edit_heart_taste_1"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_2"
+            android:id="@+id/edit_heart_taste_2"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_3"
+            android:id="@+id/edit_heart_taste_3"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_4"
+            android:id="@+id/edit_heart_taste_4"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_5"
+            android:id="@+id/edit_heart_taste_5"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_6"
+            android:id="@+id/edit_heart_taste_6"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_7"
+            android:id="@+id/edit_heart_taste_7"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_8"
+            android:id="@+id/edit_heart_taste_8"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_9"
+            android:id="@+id/edit_heart_taste_9"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_taste_10"
+            android:id="@+id/edit_heart_taste_10"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
     </LinearLayout>
 
@@ -141,80 +148,80 @@
         android:text="@string/healthy"/>
 
     <LinearLayout
-        android:id="@+id/health_hearts"
+        android:id="@+id/edit_health_hearts"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/heart_health_1"
+            android:id="@+id/edit_heart_health_1"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_2"
+            android:id="@+id/edit_heart_health_2"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_3"
+            android:id="@+id/edit_heart_health_3"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_4"
+            android:id="@+id/edit_heart_health_4"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_5"
+            android:id="@+id/edit_heart_health_5"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_6"
+            android:id="@+id/edit_heart_health_6"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_7"
+            android:id="@+id/edit_heart_health_7"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_8"
+            android:id="@+id/edit_heart_health_8"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_9"
+            android:id="@+id/edit_heart_health_9"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
         <ImageView
-            android:id="@+id/heart_health_10"
+            android:id="@+id/edit_heart_health_10"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/empty_heart"
-            />
+            android:onClick="fillHearts"/>
 
     </LinearLayout>
 
@@ -222,13 +229,39 @@
         android:id="@+id/average_grade_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Snittbetyg:" />
+        android:text="Total grade:" />
 
     <TextView
-        android:id="@+id/average_number"
+        android:id="@+id/edit_average_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
         android:textSize="32sp"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/save_position_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save position"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/save_changes_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:onClick="saveChanges"/>
+
 </LinearLayout>
+
+</ScrollView>
