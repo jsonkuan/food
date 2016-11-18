@@ -129,9 +129,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return meal;
     }
 
-    public CategoryList getCategories(){
+    public ArrayList<Category> getCategories(){
 
-        CategoryList categories = new CategoryList();
+        ArrayList<Category> categories = new ArrayList<>();
+        //CategoryList categories = new CategoryList();
 
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
@@ -155,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
             while (cursor.moveToNext()) {
 
-                String categoryName = cursor.getString( cursor.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_NAME));
+                String categoryName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_NAME));
                 Category category = getCategory(categoryName);
                 categories.add(category);
             }

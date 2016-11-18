@@ -40,16 +40,8 @@ public class MealActivity extends AppCompatActivity {
         healthGrade = (RatingBar) findViewById(R.id.rating_health);
         tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
 
-        //tja, när du kör kommer du få en toast med dessa tre kategorier
-        //dvs det funkar som tänkt
-        // Meat och Fish kommer finnas med eftersom de skapas när databasen skapas.
-        // Jag la in dem i SQL-scriptet i DatabaseContract
-        db.insertCategory("Hamburgare");
-        db.insertCategory("Pizza");
-        db.insertCategory("Frukost");
-
-        CategoryList categories = db.getCategories();
-        Toast.makeText(this, categories.getCategoryNames().toString(), Toast.LENGTH_SHORT).show();
+        ArrayList<Category> categories = db.getCategories();
+        Toast.makeText(this, ""+categories.get(0).getAverageScore(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -68,10 +60,7 @@ public class MealActivity extends AppCompatActivity {
         meal.setImagePath("insert ImagePath");
 
         long id = db.insertMeal(meal);
-        Toast.makeText(getApplicationContext(), "Meal created, id="+String.valueOf(id), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), "Hälsabetyg: "+String.valueOf(healthGrade.getRating()), Toast.LENGTH_LONG).show();
-
-
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
     }
 
     public void showMeal(View view) {
