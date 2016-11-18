@@ -103,7 +103,7 @@ public class MealActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    public static void setOpenedFromOtherActivity(boolean b) {
+    public static void setOpenedFromCameraActivity(boolean b) {
         isOpenedFromCameraActivity = b;
     }
 

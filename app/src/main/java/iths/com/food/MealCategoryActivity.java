@@ -52,6 +52,12 @@ public class MealCategoryActivity extends AppCompatActivity {
         );
     }
 
+    public void addMeal(View view) {
+        Intent intent = new Intent(this, MealActivity.class);
+        MealActivity.setOpenedFromCameraActivity(true);
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
