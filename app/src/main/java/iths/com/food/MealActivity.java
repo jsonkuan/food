@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,14 +63,21 @@ public class MealActivity extends AppCompatActivity {
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
         meal.setCategory(category.getText().toString());
-        meal.setDateTime(Calendar.getInstance().getTime().toString());
+
+
+        Date dateTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+        meal.setDateTime(dateFormat.format(dateTime));
+
         meal.setLatitude(0);
         meal.setLongitude(0);
         meal.setImagePath("insert ImagePath");
 
         long id = db.insertMeal(meal);
-        Toast.makeText(getApplicationContext(), "Meal created, id="+String.valueOf(id), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), "Hälsabetyg: "+String.valueOf(healthGrade.getRating()), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Meal created, id="+String.valueOf(id), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "Hälsabetyg: "+String.valueOf(healthGrade.getRating()), Toast.LENGTH_LONG).show();
+
+        Toast.makeText(this, dateFormat.format(dateTime), Toast.LENGTH_LONG).show();
 
 
     }
@@ -114,7 +122,8 @@ public class MealActivity extends AppCompatActivity {
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
         meal.setCategory(category.getText().toString());
-        meal.setDateTime(Calendar.getInstance().getTime().toString());
+
+
         meal.setLatitude(0);
         meal.setLongitude(0);
         meal.setImagePath("insert ImagePath");
