@@ -40,7 +40,7 @@ public class Category {
         double sum = 0;
 
         for (Meal meal: meals) {
-            sum += meal.getAverageScore();
+            sum += meal.getTotalScore();
         }
 
         averageScore = sum / meals.size();

@@ -39,11 +39,16 @@ public class MealActivity extends AppCompatActivity {
         healthGrade = (RatingBar) findViewById(R.id.rating_health);
         tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
 
-        db.insertCategory("Hamburgare");
+        db.insertCategory("Hamburgare"); //LÄGGS INTE TILL??
         db.insertCategory("Pizza");
         db.insertCategory("Frukost");
         Category category = db.createCategory("Juice");
         ArrayList<Category> categories = db.getCategories();
+        //Toast.makeText(this, categories.get(0).getName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, categories.get(1).getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, categories.get(2).getName(), Toast.LENGTH_SHORT).show();
+
+
 
 
 

@@ -99,7 +99,7 @@ public class Meal {
         this.imagePath = imagePath;
     }
 
-    public double getAverageScore() {
+    public double getTotalScore() {
         return (tasteScore + healthyScore) / 2.0;
     }
 }

@@ -137,8 +137,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         Cursor cursor = getReadableDatabase().query(
                 DatabaseContract.CategoryEntry.TABLE,         // The table to query
                 projection,                               // The columns to return
-                selection,                                // The columns for the WHERE clause
-                selectionArgs,                            // The values for the WHERE clause
+                /*selection*/ null,                                // The columns for the WHERE clause
+                /*selectionArgs*/null,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
@@ -146,7 +146,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
         try {
             while (cursor.moveToNext()) {
-                String categoryName = cursor.getString( cursor.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_NAME));
+                //String categoryName = cursor.getString( cursor.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_NAME));
+                String categoryName = cursor.getString(0);
                 Category category = createCategory(categoryName);
                 categories.add(category);
             }
