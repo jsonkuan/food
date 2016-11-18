@@ -15,6 +15,7 @@ import java.util.jar.Attributes;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Category;
+import iths.com.food.Model.CategoryList;
 import iths.com.food.Model.Meal;
 
 public class MealActivity extends AppCompatActivity {
@@ -39,20 +40,16 @@ public class MealActivity extends AppCompatActivity {
         healthGrade = (RatingBar) findViewById(R.id.rating_health);
         tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
 
-        db.insertCategory("Hamburgare"); //LÄGGS INTE TILL??
+        //tja, när du kör kommer du få en toast med dessa tre kategorier
+        //dvs det funkar som tänkt
+        // Meat och Fish kommer finnas med eftersom de skapas när databasen skapas.
+        // Jag la in dem i SQL-scriptet i DatabaseContract
+        db.insertCategory("Hamburgare");
         db.insertCategory("Pizza");
         db.insertCategory("Frukost");
-        Category category = db.createCategory("Juice");
-        ArrayList<Category> categories = db.getCategories();
-        //Toast.makeText(this, categories.get(0).getName(), Toast.LENGTH_SHORT).show();
-        //Toast.makeText(this, categories.get(1).getName(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, categories.get(2).getName(), Toast.LENGTH_SHORT).show();
 
-
-
-
-
-
+        CategoryList categories = db.getCategories();
+        Toast.makeText(this, categories.getCategoryNames().toString(), Toast.LENGTH_SHORT).show();
     }
 
 
