@@ -44,22 +44,93 @@
         android:src="@mipmap/testmeal" />
 
     <TextView
+        android:id="@+id/meal_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Asgod mat!"/>
+
+    <TextView
         android:id="@+id/taste_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/taste"/>
 
     <LinearLayout
+        android:id="@+id/taste_hearts"
         android:orientation="horizontal"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher">
 
         <ImageView
-            android:orientation="horizontal"
+            android:id="@+id/heart_taste_1"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_5"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_6"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_7"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_8"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_9"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_taste_10"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
 
     </LinearLayout>
 
@@ -70,19 +141,80 @@
         android:text="@string/healthy"/>
 
     <LinearLayout
+        android:id="@+id/health_hearts"
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/heart_health_1"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/empty_heart"
+            />
 
         <ImageView
+            android:id="@+id/heart_health_2"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_5"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_6"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_7"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_8"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_9"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
+
+        <ImageView
+            android:id="@+id/heart_health_10"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/empty_heart"
+            />
 
     </LinearLayout>
 
@@ -96,7 +228,7 @@
         android:id="@+id/average_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1,5"
+        android:text="0"
         android:textSize="32sp"/>
 
 </LinearLayout>

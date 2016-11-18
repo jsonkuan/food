@@ -1,6 +1,7 @@
 package iths.com.food;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -13,7 +14,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -25,15 +25,20 @@ import java.util.Date;
 
 public class MealActivity extends AppCompatActivity {
 
+    private static final String SHARED_PREFS = "SHARED_PREFS";
+    private static final String HEALTH_GRADE = "HEALTH_GRADE";
+    private static final String TASTE_GRADE = "TASTE_GRADE";
+    private static final String SAVE_POSITION = "SAVE_POSITION";
     private boolean editable;
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final String TAG = "TAG";
     private ImageView imageView;
     private static Uri photoFilePath;
     private static boolean isOpenedFromCameraActivity;
-    int healthGrade;
-    int tasteGrade;
-    int averageGrade;
+    private int healthGrade;
+    private int tasteGrade;
+    private double averageGrade;
+    private boolean savePosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +54,41 @@ public class MealActivity extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_meal);
             imageView = (ImageView) findViewById(R.id.meal_image);
+            getSavedData();
+            setHearts(false);
         }
 
+    }
+
+    private void getSavedData() {
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        healthGrade = prefs.getInt(HEALTH_GRADE, 3);
+        tasteGrade = prefs.getInt(TASTE_GRADE, 5);
+        savePosition = prefs.getBoolean(SAVE_POSITION, false);
     }
 
     public void makeEditable(View view) {
         setContentView(R.layout.activity_meal_edit);
         setUpSpinner();
+        setHearts(true);
     }
 
     public void saveChanges(View view) {
         //getStuffFromScreenAndMakeMealObject();
         //saveMealToDatabase();
+
+        //Tillfällig sparfunktion för att testa:
+        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(HEALTH_GRADE, healthGrade);
+        editor.putInt(TASTE_GRADE, tasteGrade);
+        editor.putBoolean(SAVE_POSITION, savePosition);
+        editor.commit();
+
         setContentView(R.layout.activity_meal);
+        imageView = (ImageView) findViewById(R.id.meal_image);
+        getSavedData();
+        setHearts(false);
         //setStuffOnScreenToNewMeal();
     }
 
@@ -122,8 +149,8 @@ public class MealActivity extends AppCompatActivity {
         int imageViewHeight = imageView.getHeight();
         int imageViewWidth = imageView.getWidth();
 
-        Toast.makeText(this, "height: " + imageViewHeight, Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "width: " + imageViewWidth, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "height: " + imageViewHeight, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "width: " + imageViewWidth, Toast.LENGTH_LONG).show();
 
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
@@ -149,22 +176,32 @@ public class MealActivity extends AppCompatActivity {
         int orientation = 167;
 
         try {
-            exif = new ExifInterface(photoFilePath.toString());
+            exif = new ExifInterface(photoFilePath.getPath());
             orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
             Log.d("ORIENTATION", orientation + "");
         } catch (Exception e) {
             Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
         }
 
-        Toast.makeText(getApplicationContext(), "" + orientation, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "orientation: " + orientation, Toast.LENGTH_SHORT).show();
 
         Matrix matrix = new Matrix();
-        matrix.postRotate(90);
+        if(orientation == 6) {
+            matrix.postRotate(90);
+        } else if(orientation == 8) {
+            matrix.postRotate(270);
+        } else if(orientation == 3) {
+            matrix.postRotate(180);
+        }
         Bitmap rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
 
         imageView.setImageBitmap(rotatedBitmap);
     }
 
+    /**
+     * Fyller i hjärtan när användaren trycker på ett hjärta.
+     * @param view
+     */
     public void fillHearts(View view) {
         ImageView iv = (ImageView) view;
         ViewGroup viewParent = (ViewGroup) iv.getParent();
@@ -175,16 +212,15 @@ public class MealActivity extends AppCompatActivity {
 
         int heartNr;
 
-        if( (viewParent).getId() == R.id.health_hearts) {
-            healthOrTaste = "heart_health_";
+        if( (viewParent).getId() == R.id.edit_health_hearts) {
+            healthOrTaste = "edit_heart_health_";
             heartNr = Integer.parseInt(idStr.replace(healthOrTaste, ""));
             healthGrade = heartNr;
         } else {
-            healthOrTaste = "heart_taste_";
+            healthOrTaste = "edit_heart_taste_";
             heartNr = Integer.parseInt(idStr.replace(healthOrTaste, ""));
             tasteGrade = heartNr;
         }
-
 
         for(int i = 1; i <= 10; i++) {
             int imgId = getResources().getIdentifier(healthOrTaste + i, "id", getPackageName());
@@ -196,14 +232,63 @@ public class MealActivity extends AppCompatActivity {
             ImageView heart = (ImageView) findViewById(imgId);
             heart.setImageResource(R.drawable.filled_heart);
         }
-        setAverageGrade();
+        setAverageEditGrade();
+    }
+
+    /**
+     * Fyller i hjärtan enligt betyg då skärmen laddas.
+     * @param isEditScreen
+     */
+
+    private void setHearts(boolean isEditScreen) {
+
+        String edit = "";
+
+        if(isEditScreen) {
+            edit = "edit_";
+        }
+
+        for(int i = 1; i <= 10; i++) {
+            int imgId = getResources().getIdentifier(edit + "heart_health_" + i, "id", getPackageName());
+            ImageView heart = (ImageView) findViewById(imgId);
+            heart.setImageResource(R.drawable.empty_heart);
+        }
+        for(int i = 1; i <= healthGrade; i++) {
+            int imgId = getResources().getIdentifier(edit + "heart_health_" + i, "id", getPackageName());
+            ImageView heart = (ImageView) findViewById(imgId);
+            heart.setImageResource(R.drawable.filled_heart);
+        }
+
+        for(int i = 1; i <= 10; i++) {
+            int imgId = getResources().getIdentifier(edit + "heart_taste_" + i, "id", getPackageName());
+            ImageView heart = (ImageView) findViewById(imgId);
+            heart.setImageResource(R.drawable.empty_heart);
+        }
+        for(int i = 1; i <= tasteGrade; i++) {
+            int imgId = getResources().getIdentifier(edit + "heart_taste_" + i, "id", getPackageName());
+            ImageView heart = (ImageView) findViewById(imgId);
+            heart.setImageResource(R.drawable.filled_heart);
+        }
+
+        if(isEditScreen) {
+            setAverageEditGrade();
+        } else {
+            setAverageGrade();
+        }
+    }
+
+    private void setAverageEditGrade() {
+        averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
+        TextView averageGradeTV = (TextView) findViewById(R.id.edit_average_number);
+        averageGradeTV.setText(Double.toString(averageGrade));
     }
 
     private void setAverageGrade() {
-        double averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
+        averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
         TextView averageGradeTV = (TextView) findViewById(R.id.average_number);
         averageGradeTV.setText(Double.toString(averageGrade));
     }
+
 
     //TODO: Reusable view with editable and non-editable objects
 }
