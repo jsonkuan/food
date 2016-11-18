@@ -42,7 +42,6 @@ public class MealActivity extends AppCompatActivity {
         tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
 
         ArrayList<Category> categories = db.getCategories();
-        Toast.makeText(this, ""+categories.get(0).getAverageScore(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -67,27 +66,12 @@ public class MealActivity extends AppCompatActivity {
 
         long id = db.insertMeal(meal);
 
-        Toast.makeText(this, dateFormat.format(dateTime), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
 
 
 
     }
 
-    public void showMeal(View view) {
-        String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
-        id = Long.valueOf(text);
-
-        Meal meal = db.getMeal(id);
-
-        name.setText(meal.getName());
-        description.setText(meal.getDescription());
-        category.setText(meal.getCategory());
-        healthGrade.setRating(meal.getHealthyScore());
-        tasteGrade.setRating(meal.getTasteScore());
-
-
-
-    }
 
     public void deleteMeal(View view) {
         String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
@@ -113,8 +97,6 @@ public class MealActivity extends AppCompatActivity {
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
         meal.setCategory(category.getText().toString());
-
-
         meal.setLatitude(0);
         meal.setLongitude(0);
         meal.setImagePath("insert ImagePath");

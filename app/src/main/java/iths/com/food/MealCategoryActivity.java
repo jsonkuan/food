@@ -32,8 +32,5 @@ public class MealCategoryActivity extends AppCompatActivity {
         finish();
         Toast.makeText(getApplicationContext(), "Database deleted and restarted", Toast.LENGTH_SHORT).show();
     }
-    public void createNewMeal(View v) {
-        Intent intent = new Intent(this, MealActivity.class);
-        startActivity(intent);
-    }
+
 }

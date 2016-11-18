@@ -21,11 +21,6 @@
             android:text="Delete data"
             android:id="@+id/delete_btn"
             android:onClick="deleteDatabase"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create new meal"
-            android:onClick="createNewMeal"/>
     </LinearLayout>
 
 </RelativeLayout>
