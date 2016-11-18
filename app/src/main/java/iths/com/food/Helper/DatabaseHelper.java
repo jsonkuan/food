@@ -40,9 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     public long insertMeal(Meal meal){
 
-        // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        //values.put(DatabaseContract.MealEntry.COLUMN_ID, meal.getId());
         values.put(DatabaseContract.MealEntry.COLUMN_NAME, meal.getName());
         values.put(DatabaseContract.MealEntry.COLUMN_CATEGORY, meal.getCategory());
         values.put(DatabaseContract.MealEntry.COLUMN_DATE_TIME, meal.getDateTime());
@@ -53,24 +51,20 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         values.put(DatabaseContract.MealEntry.COLUMN_LATITUDE, meal.getLatitude());
         values.put(DatabaseContract.MealEntry.COLUMN_IMAGE_PATH, meal.getImagePath());
 
-        // Insert the new row, return the primary key value of the new row
-        //setArrayListMeals(meal.getCategory());
+
         return getWritableDatabase().insert(DatabaseContract.MealEntry.TABLE, null, values);
     }
 
     public long insertCategory(String name){
 
-        // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.CategoryEntry.COLUMN_NAME, name);
 
-        // Insert the new row, return the primary key value of the new row
         return getWritableDatabase().insert(DatabaseContract.CategoryEntry.TABLE, null, values);
     }
 
     public Meal getMeal(long id){
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
+
         String[] projection = {
                 DatabaseContract.MealEntry.COLUMN_NAME,
                 DatabaseContract.MealEntry.COLUMN_CATEGORY,
@@ -83,11 +77,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
                 DatabaseContract.MealEntry.COLUMN_IMAGE_PATH
         };
 
-        // Filter results WHERE "id" = 'id'. The row we wont to return
-        String selection = DatabaseContract.MealEntry.COLUMN_ID + " = ?";
-        String[] selectionArgs = { String.valueOf(id) }; // jag vill kanske skicka en long
 
-        // How you want the results sorted in the resulting Cursor
+        String selection = DatabaseContract.MealEntry.COLUMN_ID + " = ?";
+        String[] selectionArgs = { String.valueOf(id) };
+
         String sortOrder = DatabaseContract.MealEntry.COLUMN_TASTE_SCORE + " DESC";
 
         Meal meal = new Meal();
@@ -103,7 +96,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
                     sortOrder                                 // The sort order
             );
 
-            //populate the meal object
             meal.setId(id);
             while (cursor.moveToNext()) {
                 meal.setName( cursor.getString( cursor.getColumnIndexOrThrow(DatabaseContract.MealEntry.COLUMN_NAME)));
@@ -132,10 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     public ArrayList<Category> getCategories(){
 
         ArrayList<Category> categories = new ArrayList<>();
-        //CategoryList categories = new CategoryList();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
         String[] projection = {
                 DatabaseContract.CategoryEntry.COLUMN_NAME
         };
@@ -173,19 +162,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     }
 
     public int updateMeal(Meal meal){
-        // New values for row
+
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.MealEntry.COLUMN_NAME, meal.getName());
         values.put(DatabaseContract.MealEntry.COLUMN_CATEGORY, meal.getCategory());
-        //values.put(DatabaseContract.MealEntry.COLUMN_DATE_TIME, meal.getDateTime());
         values.put(DatabaseContract.MealEntry.COLUMN_DESCRIPTION, meal.getDescription());
         values.put(DatabaseContract.MealEntry.COLUMN_HEALTHY_SCORE, meal.getHealthyScore());
         values.put(DatabaseContract.MealEntry.COLUMN_TASTE_SCORE, meal.getTasteScore());
-        //values.put(DatabaseContract.MealEntry.COLUMN_LONGITUDE, meal.getLongitude());
-        //values.put(DatabaseContract.MealEntry.COLUMN_LATITUDE, meal.getLatitude());
         values.put(DatabaseContract.MealEntry.COLUMN_IMAGE_PATH, meal.getImagePath());
 
-        // Which row to update, based on the id. WHERE "id" LIKE 'id'
         String selection = DatabaseContract.MealEntry.COLUMN_ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(meal.getId()) };
 
@@ -198,13 +183,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     }
 
     public int deleteMeal(long id){
-        // Define 'where' part of query. WHERE "meal" LIKE '1'
+
         String selection = DatabaseContract.MealEntry.COLUMN_ID + " LIKE ?";
 
-        // Specify arguments in placeholder order.
         String[] selectionArgs = { String.valueOf(id) };
 
-        // Issue SQL statement. Returns one on success, zero otherwise
         return getWritableDatabase().delete(DatabaseContract.MealEntry.TABLE, selection, selectionArgs);
     }
 
@@ -212,11 +195,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
         ArrayList<Meal> meals = new ArrayList<>();
 
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
         String[] projection = {DatabaseContract.MealEntry.COLUMN_ID};
 
-        // Filter results WHERE "categoryName" = 'categoryName'. The row we wont to return
         String selection = DatabaseContract.MealEntry.COLUMN_CATEGORY + " = ?";
         String[] selectionArgs = {categoryName };
 
