@@ -32,9 +32,10 @@
 
         <ImageView
             android:id="@+id/edit_meal_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/testmeal" />
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/testmeal"
+            android:scaleType="centerCrop"/>
 
         <ImageView
             android:id="@+id/camera_icon"
@@ -54,9 +55,10 @@
         android:background="@color/colorAccent"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:padding="16dp"
         android:gravity="top"
         android:textAlignment="gravity"
-        android:hint="Description here"/>
+        android:hint="Describe your experience"/>
 
     <TextView
         android:id="@+id/taste_text"
@@ -262,7 +264,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
-        android:onClick="saveChanges"/>
+        android:onClick="saveMeal"/>
 
 </LinearLayout>
 
