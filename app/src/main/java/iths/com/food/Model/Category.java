@@ -19,7 +19,6 @@ public class Category {
         this.name = name;
         this.meals = meals;
 
-        // calculate average score for the category
         calculateAverageScore();
     }
 
