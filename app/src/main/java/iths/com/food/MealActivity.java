@@ -82,8 +82,6 @@ public class MealActivity extends AppCompatActivity {
 
         }
 
-
-
     }
 
     public void makeEditable(View view) {
@@ -91,7 +89,6 @@ public class MealActivity extends AppCompatActivity {
         setUpSpinner();
         setHearts(true);
     }
-
     private void setUpSpinner() {
         String[] categoryNames = new String[categories.size()];
         for(int i = 0; i < categories.size(); i++) {
