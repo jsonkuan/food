@@ -19,9 +19,24 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.util.Date;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.StringTokenizer;
+import java.util.jar.Attributes;
+
+import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Model.Category;
+import iths.com.food.Model.CategoryList;
+import iths.com.food.Model.Meal;
 
 public class MealActivity extends AppCompatActivity {
 
@@ -36,6 +51,11 @@ public class MealActivity extends AppCompatActivity {
     private int tasteGrade;
     private double averageGrade;
     private boolean savePosition;
+    EditText name;
+    EditText description;
+    DatabaseHelper db;
+    long id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,40 +68,31 @@ public class MealActivity extends AppCompatActivity {
             setUpSpinner();
             imageView = (ImageView) findViewById(R.id.edit_meal_image);
             takePhoto(imageView);
+            name = (EditText) findViewById(R.id.name);
+            description = (EditText) findViewById(R.id.desc);
         } else {
             setContentView(R.layout.activity_meal);
             imageView = (ImageView) findViewById(R.id.meal_image);
-            getSavedData();
             setHearts(false);
+
         }
+        db = new DatabaseHelper(getApplicationContext());
+        //name = (EditText) findViewById(R.id.name);
+        //description = (EditText) findViewById(R.id.desc);
+        //category = (EditText)findViewById(R.id.category);
+        //healthGrade = (RatingBar) findViewById(R.id.rating_health);
+        //tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
+
+        ArrayList<Category> categories = db.getCategories();
 
     }
-/*
-    private void getSavedData() {
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        healthGrade = prefs.getInt(HEALTH_GRADE, 3);
-        tasteGrade = prefs.getInt(TASTE_GRADE, 5);
-        savePosition = prefs.getBoolean(SAVE_POSITION, false);
-    }
-*/
+
     public void makeEditable(View view) {
         setContentView(R.layout.activity_meal_edit);
         setUpSpinner();
         setHearts(true);
     }
-/*
-    public void saveChanges(View view) {
-        //getStuffFromScreenAndMakeMealObject();
-        //saveMealToDatabase();
 
-
-        setContentView(R.layout.activity_meal);
-        imageView = (ImageView) findViewById(R.id.meal_image);
-        getSavedData();
-        setHearts(false);
-        //setStuffOnScreenToNewMeal();
-    }
-*/
     private void setUpSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
@@ -277,8 +288,82 @@ public class MealActivity extends AppCompatActivity {
         averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
         TextView averageGradeTV = (TextView) findViewById(R.id.average_number);
         averageGradeTV.setText(Double.toString(averageGrade));
+
+
     }
 
 
-    //TODO: Reusable view with editable and non-editable objects
+    public void saveMeal(View view) {
+
+        Meal meal = new Meal();
+
+        //meal.setHealthyScore((int)healthGrade.getRating());
+        meal.setHealthyScore(healthGrade);
+        //meal.setTasteScore((int)tasteGrade.getRating());
+        meal.setTasteScore(tasteGrade);
+        meal.setName(name.getText().toString());
+        meal.setDescription(description.getText().toString());
+        //meal.setCategory(category.getText().toString());
+        // ta in från spinner
+
+        Date dateTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+        meal.setDateTime(dateFormat.format(dateTime));
+        meal.setLatitude(0);
+        meal.setLongitude(0);
+        meal.setImagePath("insert ImagePath");
+
+        long id = db.insertMeal(meal);
+
+        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+
+
+
+    }
+
+    /*  LÄGG TILL I MEAL LIST
+    public void deleteMeal(View view) {
+        String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        id = Long.valueOf(text);
+
+        int rows = db.deleteMeal(id);
+
+        if(rows > 0) {
+            Toast.makeText(getApplicationContext(), "Deleted "+rows+" row(s)", Toast.LENGTH_SHORT).show();
+        } else if (rows == 0) {
+            Toast.makeText(getApplicationContext(), "No rows deleted", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    } */
+
+    public void updateMeal(View view) {
+
+        //VI FÅR IN ID PÅ ANNAT SÄTT
+        //String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        //id = Long.valueOf(text);
+
+        Meal meal = db.getMeal(id);
+        //meal.setHealthyScore((int)healthGrade.getRating());
+        meal.setHealthyScore(healthGrade);
+        //meal.setTasteScore((int)tasteGrade.getRating());
+        meal.setTasteScore(tasteGrade);
+        meal.setName(name.getText().toString());
+        meal.setDescription(description.getText().toString());
+
+        // Ta in från spinner
+        // meal.setCategory(category.getText().toString());
+        //meal.setLatitude(0);
+        //meal.setLongitude(0);
+        meal.setImagePath("insert ImagePath");
+
+        int rowsAffected = db.updateMeal(meal);
+
+        if (rowsAffected > 0) {
+            Toast.makeText(getApplicationContext(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }
