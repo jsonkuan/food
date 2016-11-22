@@ -53,9 +53,6 @@ public class MealActivity extends AppCompatActivity {
     private boolean savePosition;
     EditText name;
     EditText description;
-    //EditText category;
-    //RatingBar healthGrade;
-    //RatingBar tasteGrade;
     DatabaseHelper db;
     long id;
 

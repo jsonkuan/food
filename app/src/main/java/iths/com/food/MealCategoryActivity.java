@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Model.Category;
 
 public class MealCategoryActivity extends AppCompatActivity {
 
@@ -44,11 +45,11 @@ public class MealCategoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
-        //TODO: Replace with sqlite
-        foodtypes = new ArrayList<>();
-        foodtypes.add("Popcorn");
-        foodtypes.add("Sausages");
-        foodtypes.add("Coffee");
+        ArrayList<Category> categories = db.getCategories();
+        foodtypes = new ArrayList<>(categories.size());
+        for (int i = 0; i < categories.size(); i++) {
+            foodtypes.add(categories.get(i).getName());
+        }
 
         listAdapter = new CustomAdapter(this, foodtypes);
         ListView listView = (ListView) findViewById(R.id.categoryListView);
@@ -116,9 +117,4 @@ public class MealCategoryActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Database deleted and restarted", Toast.LENGTH_SHORT).show();
     } */
 
-
-   /* public void takePhoto(View view) {
-        Intent intent = new Intent(this, MealActivity.class);
-        startActivity(intent);
-    } */
 }
