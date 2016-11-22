@@ -86,33 +86,13 @@ public class MealActivity extends AppCompatActivity {
         ArrayList<Category> categories = db.getCategories();
 
     }
-/*
-    private void getSavedData() {
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        healthGrade = prefs.getInt(HEALTH_GRADE, 3);
-        tasteGrade = prefs.getInt(TASTE_GRADE, 5);
-        savePosition = prefs.getBoolean(SAVE_POSITION, false);
-    }
-*/
+
     public void makeEditable(View view) {
         setContentView(R.layout.activity_meal_edit);
         setUpSpinner();
         setHearts(true);
     }
-/*
-    public void saveChanges(View view) {
-        //getStuffFromScreenAndMakeMealObject();
-        //saveMealToDatabase();
 
-
-        setContentView(R.layout.activity_meal);
-
-        imageView = (ImageView) findViewById(R.id.meal_image);
-        getSavedData();
-        setHearts(false);
-        //setStuffOnScreenToNewMeal();
-    }
-*/
     private void setUpSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
