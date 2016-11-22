@@ -12,6 +12,7 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <EditText
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Meal name"
@@ -47,6 +48,7 @@
     </RelativeLayout>
 
     <EditText
+        android:id="@+id/desc"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/colorAccent"
