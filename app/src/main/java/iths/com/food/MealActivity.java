@@ -24,10 +24,7 @@ import java.util.Date;
 
 public class MealActivity extends AppCompatActivity {
 
-    private static final String SHARED_PREFS = "SHARED_PREFS";
-    private static final String HEALTH_GRADE = "HEALTH_GRADE";
-    private static final String TASTE_GRADE = "TASTE_GRADE";
-    private static final String SAVE_POSITION = "SAVE_POSITION";
+
     private boolean editable;
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final String TAG = "TAG";
@@ -43,7 +40,7 @@ public class MealActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("TEST", "Testar logfunktionen");
-        setContentView(R.layout.activity_meal_edit);
+        //setContentView(R.layout.activity_meal_edit);
         if(isOpenedFromCameraActivity) {
             isOpenedFromCameraActivity = false;
             setContentView(R.layout.activity_meal_edit);
@@ -58,31 +55,24 @@ public class MealActivity extends AppCompatActivity {
         }
 
     }
-
+/*
     private void getSavedData() {
         SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         healthGrade = prefs.getInt(HEALTH_GRADE, 3);
         tasteGrade = prefs.getInt(TASTE_GRADE, 5);
         savePosition = prefs.getBoolean(SAVE_POSITION, false);
     }
-
+*/
     public void makeEditable(View view) {
         setContentView(R.layout.activity_meal_edit);
         setUpSpinner();
         setHearts(true);
     }
-
+/*
     public void saveChanges(View view) {
         //getStuffFromScreenAndMakeMealObject();
         //saveMealToDatabase();
 
-        //Tillfällig sparfunktion för att testa:
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(HEALTH_GRADE, healthGrade);
-        editor.putInt(TASTE_GRADE, tasteGrade);
-        editor.putBoolean(SAVE_POSITION, savePosition);
-        editor.commit();
 
         setContentView(R.layout.activity_meal);
         imageView = (ImageView) findViewById(R.id.meal_image);
@@ -90,7 +80,7 @@ public class MealActivity extends AppCompatActivity {
         setHearts(false);
         //setStuffOnScreenToNewMeal();
     }
-
+*/
     private void setUpSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
