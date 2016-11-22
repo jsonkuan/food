@@ -19,7 +19,6 @@ public class Category {
         this.name = name;
         this.meals = meals;
 
-        // calculate average score for the category
         calculateAverageScore();
     }
 
@@ -40,7 +39,7 @@ public class Category {
         double sum = 0;
 
         for (Meal meal: meals) {
-            sum += meal.getAverageScore();
+            sum += meal.getTotalScore();
         }
 
         averageScore = sum / meals.size();

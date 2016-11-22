@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/img1"
+        android:id="@+id/iconThumbnail"
+        android:layout_margin="5dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/categoryName"
+            android:text="@string/categoryname"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:textSize="20sp" />
+
+        <RatingBar
+            android:id="@+id/categoryRatingBar"
+            style="@style/customRatingBar"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/categoryName"
+            android:rating="3"
+            android:numStars="5"
+            android:isIndicator="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Avg. 3"
+            android:textSize="10sp"
+            android:layout_below="@id/categoryRatingBar"
+            android:layout_marginLeft="20sp" />
+    </RelativeLayout>
+</LinearLayout>
