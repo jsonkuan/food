@@ -55,16 +55,21 @@ public class MealActivity extends AppCompatActivity {
     EditText description;
     DatabaseHelper db;
     long id;
+    Spinner spinner;
+    ArrayList<Category> categories;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("TEST", "Testar logfunktionen");
+        db = new DatabaseHelper(getApplicationContext());
+        categories = db.getCategories();
         //setContentView(R.layout.activity_meal_edit);
         if(isOpenedFromCameraActivity) {
             isOpenedFromCameraActivity = false;
             setContentView(R.layout.activity_meal_edit);
+            spinner = (Spinner) findViewById(R.id.spinner);
             setUpSpinner();
             imageView = (ImageView) findViewById(R.id.edit_meal_image);
             takePhoto(imageView);
@@ -76,8 +81,8 @@ public class MealActivity extends AppCompatActivity {
             setHearts(false);
 
         }
-        db = new DatabaseHelper(getApplicationContext());
-        ArrayList<Category> categories = db.getCategories();
+
+
 
     }
 
@@ -88,12 +93,9 @@ public class MealActivity extends AppCompatActivity {
     }
 
     private void setUpSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
-        ArrayList<Category> categories = db.getCategories();
         String[] categoryNames = new String[categories.size()];
         for(int i = 0; i < categories.size(); i++) {
-            categoryNames[i] = categories.get(0).getName();
+            categoryNames[i] = categories.get(i).getName();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames);
@@ -296,14 +298,11 @@ public class MealActivity extends AppCompatActivity {
 
         Meal meal = new Meal();
 
-        //meal.setHealthyScore((int)healthGrade.getRating());
         meal.setHealthyScore(healthGrade);
-        //meal.setTasteScore((int)tasteGrade.getRating());
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-        //meal.setCategory(category.getText().toString());
-        // ta in från spinner
+        meal.setCategory(spinner.getSelectedItem().toString());
 
         Date dateTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
@@ -314,7 +313,9 @@ public class MealActivity extends AppCompatActivity {
 
         long id = db.insertMeal(meal);
 
-        Toast.makeText(this, "Saved", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
+
+        //Gör ett intent som öppnar Meal List
 
 
 
@@ -344,18 +345,14 @@ public class MealActivity extends AppCompatActivity {
         //id = Long.valueOf(text);
 
         Meal meal = db.getMeal(id);
-        //meal.setHealthyScore((int)healthGrade.getRating());
         meal.setHealthyScore(healthGrade);
-        //meal.setTasteScore((int)tasteGrade.getRating());
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-
-        // Ta in från spinner
-        // meal.setCategory(category.getText().toString());
-        //meal.setLatitude(0);
-        //meal.setLongitude(0);
+        meal.setCategory(spinner.getSelectedItem().toString());
         meal.setImagePath("insert ImagePath");
+
+        // Man kan inte ändra ID eller location??
 
         int rowsAffected = db.updateMeal(meal);
 
