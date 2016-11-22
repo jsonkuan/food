@@ -41,7 +41,7 @@
         android:id="@+id/meal_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@mipmap/testmeal" />
+        android:src="@drawable/testmeal" />
 
     <TextView
         android:id="@+id/meal_description"
