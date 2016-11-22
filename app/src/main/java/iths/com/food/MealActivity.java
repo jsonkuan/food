@@ -55,12 +55,15 @@ public class MealActivity extends AppCompatActivity {
     EditText description;
     DatabaseHelper db;
     long id;
+    ArrayList<Category> categories;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("TEST", "Testar logfunktionen");
+        db = new DatabaseHelper(getApplicationContext());
+        categories = db.getCategories();
         //setContentView(R.layout.activity_meal_edit);
         if(isOpenedFromCameraActivity) {
             isOpenedFromCameraActivity = false;
@@ -76,14 +79,7 @@ public class MealActivity extends AppCompatActivity {
             setHearts(false);
 
         }
-        db = new DatabaseHelper(getApplicationContext());
-        //name = (EditText) findViewById(R.id.name);
-        //description = (EditText) findViewById(R.id.desc);
-        //category = (EditText)findViewById(R.id.category);
-        //healthGrade = (RatingBar) findViewById(R.id.rating_health);
-        //tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
 
-        ArrayList<Category> categories = db.getCategories();
 
     }
 
@@ -92,12 +88,15 @@ public class MealActivity extends AppCompatActivity {
         setUpSpinner();
         setHearts(true);
     }
-
     private void setUpSpinner() {
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_string_array, android.R.layout.simple_spinner_item);
+        String[] categoryNames = new String[categories.size()];
+        for(int i = 0; i < categories.size(); i++) {
+            categoryNames[i] = categories.get(i).getName();
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
