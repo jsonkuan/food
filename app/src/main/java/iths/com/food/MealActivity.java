@@ -23,9 +23,9 @@ public class MealActivity extends AppCompatActivity {
 
     EditText name;
     EditText description;
-    EditText category;
-    RatingBar healthGrade;
-    RatingBar tasteGrade;
+    //EditText category;
+    //RatingBar healthGrade;
+    //RatingBar tasteGrade;
     DatabaseHelper db;
     long id;
 
@@ -37,9 +37,9 @@ public class MealActivity extends AppCompatActivity {
         db = new DatabaseHelper(getApplicationContext());
         name = (EditText) findViewById(R.id.name);
         description = (EditText) findViewById(R.id.desc);
-        category = (EditText)findViewById(R.id.category);
-        healthGrade = (RatingBar) findViewById(R.id.rating_health);
-        tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
+        //category = (EditText)findViewById(R.id.category);
+        //healthGrade = (RatingBar) findViewById(R.id.rating_health);
+        //tasteGrade = (RatingBar) findViewById(R.id.rating_taste);
 
         ArrayList<Category> categories = db.getCategories();
     }
@@ -49,17 +49,18 @@ public class MealActivity extends AppCompatActivity {
 
         Meal meal = new Meal();
 
-        meal.setHealthyScore((int)healthGrade.getRating());
-        meal.setTasteScore((int)tasteGrade.getRating());
+        //meal.setHealthyScore((int)healthGrade.getRating());
+        meal.setHealthyScore(healthGrade);
+        //meal.setTasteScore((int)tasteGrade.getRating());
+        meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-        meal.setCategory(category.getText().toString());
-
+        //meal.setCategory(category.getText().toString());
+        // ta in från spinner
 
         Date dateTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
         meal.setDateTime(dateFormat.format(dateTime));
-
         meal.setLatitude(0);
         meal.setLongitude(0);
         meal.setImagePath("insert ImagePath");
@@ -72,7 +73,7 @@ public class MealActivity extends AppCompatActivity {
 
     }
 
-
+    /*  LÄGG TILL I MEAL LIST
     public void deleteMeal(View view) {
         String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
         id = Long.valueOf(text);
@@ -85,20 +86,26 @@ public class MealActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No rows deleted", Toast.LENGTH_SHORT).show();
         }
 
-    }
+
+
+    } */
 
     public void updateMeal(View view) {
         String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
         id = Long.valueOf(text);
 
         Meal meal = db.getMeal(id);
-        meal.setHealthyScore((int)healthGrade.getRating());
-        meal.setTasteScore((int)tasteGrade.getRating());
+        //meal.setHealthyScore((int)healthGrade.getRating());
+        meal.setHealthyScore(healthGrade);
+        //meal.setTasteScore((int)tasteGrade.getRating());
+        meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-        meal.setCategory(category.getText().toString());
-        meal.setLatitude(0);
-        meal.setLongitude(0);
+
+        // Ta in från spinner
+        // meal.setCategory(category.getText().toString());
+        //meal.setLatitude(0);
+        //meal.setLongitude(0);
         meal.setImagePath("insert ImagePath");
 
         int rowsAffected = db.updateMeal(meal);

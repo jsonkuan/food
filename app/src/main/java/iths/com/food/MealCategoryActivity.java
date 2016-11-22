@@ -24,13 +24,18 @@ public class MealCategoryActivity extends AppCompatActivity {
 
     }
 
-    public void deleteDatabase(View v) {
+   /* public void deleteDatabase(View v) {
         Intent intent = new Intent(this, MealCategoryActivity.class);
         super.deleteDatabase("food.db");
         db = new DatabaseHelper(this);
         startActivity(intent);
         finish();
         Toast.makeText(getApplicationContext(), "Database deleted and restarted", Toast.LENGTH_SHORT).show();
-    }
+    } */
 
+
+   /* public void takePhoto(View view) {
+        Intent intent = new Intent(this, MealActivity.class);
+        startActivity(intent);
+    } */
 }

@@ -10,6 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="iths.com.food.MealActivity">
 
+    <!--
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,5 +100,7 @@
         android:hint="ID"
         android:id="@+id/idOfMeal"
         android:layout_below="@+id/linear1"/>
+
+        -->
 
 </RelativeLayout>
