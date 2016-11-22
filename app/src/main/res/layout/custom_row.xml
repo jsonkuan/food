@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_below="@+id/categoryName"
             android:rating="3"
-            android:numStars="5"
+            android:numStars="10"
             android:isIndicator="true"/>
         <TextView
             android:layout_width="wrap_content"
