@@ -232,3 +232,96 @@
         android:textSize="32sp"/>
 
 </LinearLayout>
+
+    <!--
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:hint="Namn på maten"
+        android:textSize="30dp"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/desc"
+        android:hint="Beskrivning"
+        android:layout_below="@+id/name"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Smakbetyg"
+        android:id="@+id/taste"
+        android:layout_below="@id/desc"/>
+    <RatingBar
+        android:id="@+id/rating_taste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:layout_below="@id/taste"
+        android:stepSize="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hälsobetyg"
+        android:id="@+id/health"
+        android:layout_below="@id/rating_taste"/>
+    <RatingBar
+        android:id="@+id/rating_health"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
+        android:layout_below="@id/health"
+        android:stepSize="1"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/category"
+        android:layout_below="@+id/rating_health"
+        android:hint="Kategori"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/category"
+        android:id="@+id/linear1">
+
+        <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Spara"
+        android:id="@+id/save_btn"
+        android:onClick="saveMeal"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Visa"
+            android:id="@+id/showMeal"
+            android:onClick="showMeal"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ta bort"
+            android:id="@+id/delete_meal_btn"
+            android:onClick="deleteMeal"
+            android:layout_weight="1"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Uppdatera"
+            android:id="@+id/update_meal_btn"
+            android:onClick="updateMeal"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID"
+        android:id="@+id/idOfMeal"
+        android:layout_below="@+id/linear1"/>
+
+        -->
