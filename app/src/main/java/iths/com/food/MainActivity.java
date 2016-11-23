@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import iths.com.food.Fragments.AddFragment;
+import iths.com.food.Fragments.CategoriesFragment;
 
 public class MainActivity extends AppCompatActivity {
 
