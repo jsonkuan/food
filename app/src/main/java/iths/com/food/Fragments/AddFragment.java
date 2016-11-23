@@ -24,6 +24,7 @@ public class AddFragment extends Fragment {
     ArrayList<Category> categories;
     Spinner spinner;
     DatabaseHelper db;
+    boolean isOpenedFromMenu;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,24 +34,22 @@ public class AddFragment extends Fragment {
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
         categories = db.getCategories();
 
-        String[] categoryNames = new String[categories.size()];
-        for(int i = 0; i < categories.size(); i++) {
-            categoryNames[i] = categories.get(i).getName();
-        }
-
         spinner = (Spinner) v.findViewById(R.id.spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, categoryNames);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        setUpSpinner();
 
         return v;
     }
 
     private void setUpSpinner() {
+        //TODO: Refactor SetUpSpinner
+        String[] categoryNames = new String[categories.size()];
+        for(int i = 0; i < categories.size(); i++) {
+            categoryNames[i] = categories.get(i).getName();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, categoryNames);
 
-
-
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
 }
