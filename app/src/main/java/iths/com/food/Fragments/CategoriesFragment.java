@@ -13,9 +13,11 @@ import iths.com.food.R;
  * Created by asakwarnmark on 2016-11-23.
  */
 
-public class CategoriesFragment extends ListFragment implements View.OnClickListener{
-    @Override
-    public void onClick(View view) {
+public class CategoriesFragment extends Fragment{
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_categories, container, false);
     }
+
 }

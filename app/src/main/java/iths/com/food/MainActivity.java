@@ -16,6 +16,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set the start fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new AddFragment()).commit();
+
+        // Set the bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
 
@@ -29,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
                                         .replace(R.id.container, new AddFragment()).commit();
                                 break;
                             case R.id.action_categories:
-
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.container, new CategoriesFragment()).commit();
                                 break;
                             case R.id.action_map:
 
