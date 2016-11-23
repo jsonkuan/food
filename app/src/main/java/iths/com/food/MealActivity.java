@@ -55,8 +55,8 @@ public class MealActivity extends AppCompatActivity {
     EditText description;
     DatabaseHelper db;
     long id;
-    Spinner spinner;
-    ArrayList<Category> categories;
+//    Spinner spinner;
+//    ArrayList<Category> categories;
 
 
     @Override
@@ -64,13 +64,13 @@ public class MealActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("TEST", "Testar logfunktionen");
         db = new DatabaseHelper(getApplicationContext());
-        categories = db.getCategories();
+//PUTBACK        categories = db.getCategories();
         //setContentView(R.layout.activity_meal_edit);
         if(isOpenedFromCameraActivity) {
             isOpenedFromCameraActivity = false;
             setContentView(R.layout.activity_meal_edit);
-            spinner = (Spinner) findViewById(R.id.spinner);
-            setUpSpinner();
+//            spinner = (Spinner) findViewById(R.id.spinner);
+//            setUpSpinner();
             imageView = (ImageView) findViewById(R.id.edit_meal_image);
             takePhoto(imageView);
             name = (EditText) findViewById(R.id.name);
@@ -86,21 +86,21 @@ public class MealActivity extends AppCompatActivity {
 
     public void makeEditable(View view) {
         setContentView(R.layout.activity_meal_edit);
-        setUpSpinner();
+       // setUpSpinner(); //PUT BACK
         setHearts(true);
     }
-    private void setUpSpinner() {
-        String[] categoryNames = new String[categories.size()];
-        for(int i = 0; i < categories.size(); i++) {
-            categoryNames[i] = categories.get(i).getName();
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-    }
+//    private void setUpSpinner() {
+//        String[] categoryNames = new String[categories.size()];
+//        for(int i = 0; i < categories.size(); i++) {
+//            categoryNames[i] = categories.get(i).getName();
+//        }
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames);
+//
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        spinner.setAdapter(adapter);
+//    }
 
     public static void setOpenedFromCameraActivity(boolean b) {
         isOpenedFromCameraActivity = b;
@@ -299,7 +299,7 @@ public class MealActivity extends AppCompatActivity {
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-        meal.setCategory(spinner.getSelectedItem().toString());
+// PUT BACK       // meal.setCategory(spinner.getSelectedItem().toString());
 
         Date dateTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
@@ -346,7 +346,7 @@ public class MealActivity extends AppCompatActivity {
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-        meal.setCategory(spinner.getSelectedItem().toString());
+//PUTBACK **** meal.setCategory(spinner.getSelectedItem().toString());
         meal.setImagePath("insert ImagePath");
 
         // Man kan inte ändra ID eller location??
