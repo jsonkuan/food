@@ -56,8 +56,8 @@ public class AddFragment extends Fragment implements OnClickListener{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
+        //TODO: Find proper id to avoid hardcoding
         heart = new HeartRating(getActivity().getApplicationContext(), getActivity());
-
         imageView = (ImageView) v.findViewById(R.id.edit_heart_health_1);
         imageView.setOnClickListener(this);
 
@@ -83,6 +83,9 @@ public class AddFragment extends Fragment implements OnClickListener{
                 heart.fillHearts(view);
                 break;
             case R.id.edit_health_hearts:
+                heart.fillHearts(view);
+                break;
+            case R.id.edit_taste_hearts:
                 heart.fillHearts(view);
                 break;
             default:

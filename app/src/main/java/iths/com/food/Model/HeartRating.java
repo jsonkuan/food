@@ -43,7 +43,6 @@ public class HeartRating {
             heartNr = Integer.parseInt(idStr.replace(healthOrTaste, ""));
             tasteGrade = heartNr;
         }
-
         for(int i = 1; i <= 10; i++) {
             int imgId = context.getResources().getIdentifier(healthOrTaste + i, "id", PACKAGE_NAME);
             ImageView heart = (ImageView) activity.findViewById(imgId);
