@@ -15,8 +15,8 @@ import iths.com.food.R;
 
 public class HeartRating {
 
-    Activity activity;
-    Context context;
+    private Activity activity;
+    private Context context;
     private int healthGrade;
     private int tasteGrade;
     private double averageGrade;
@@ -57,7 +57,7 @@ public class HeartRating {
         setAverageEditGrade();
     }
 
-    private void setHearts(boolean isEditScreen) {
+    public void setHearts(boolean isEditScreen) {
 
         String edit = "";
 
@@ -66,7 +66,7 @@ public class HeartRating {
         }
 
         for(int i = 1; i <= 10; i++) {
-            int imgId = context.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
+            int imgId = activity.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
             ImageView heart = (ImageView) activity.findViewById(imgId);
             heart.setImageResource(R.drawable.empty_heart);
         }
@@ -106,5 +106,8 @@ public class HeartRating {
         averageGradeTV.setText(Double.toString(averageGrade));
 
 
+    }
+
+    public void fillHeart(View view) {
     }
 }
