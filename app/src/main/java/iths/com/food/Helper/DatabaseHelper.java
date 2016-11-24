@@ -206,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         getWritableDatabase().execSQL(deleteCategorySQL);
     }
 
-    private Category getCategory(String categoryName){
+    public Category getCategory(String categoryName){
 
         ArrayList<Meal> meals = new ArrayList<>();
 

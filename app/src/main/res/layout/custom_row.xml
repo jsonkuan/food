@@ -35,6 +35,7 @@
             android:numStars="10"
             android:isIndicator="true"/>
         <TextView
+            android:id="@+id/average_grade_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Avg. 3"
