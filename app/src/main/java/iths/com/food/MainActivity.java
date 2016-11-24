@@ -10,10 +10,13 @@ import iths.com.food.Fragments.AddFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String PACKAGE_NAME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PACKAGE_NAME = getApplicationContext().getPackageName();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
