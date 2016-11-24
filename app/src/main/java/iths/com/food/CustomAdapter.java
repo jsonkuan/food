@@ -42,7 +42,13 @@ class CustomAdapter extends ArrayAdapter<String> {
         String singleFoodItem = getItem(position);
         textView.setText(singleFoodItem);
 
-        averageGrade.setText("Average score: " + db.getCategory(singleFoodItem).getAverageScore());
+        float averageScoreFloat = (float) db.getCategory(singleFoodItem).getAverageScore();
+
+        if (Float.isNaN(averageScoreFloat)) {
+            averageGrade.setText("No entries");
+        } else {
+            averageGrade.setText("Average score: " + averageScoreFloat);
+        }
 
         ratingBar.setRating((float)db.getCategory(singleFoodItem).getAverageScore());
 
