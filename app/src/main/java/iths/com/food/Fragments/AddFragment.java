@@ -85,23 +85,6 @@ public class AddFragment extends Fragment implements OnClickListener{
             mealImage = (ImageView) v.findViewById(R.id.meal_image);
         }
 
-        return v;
-    }
-
-    /**
-     * Get category names from database and populate Spinner.
-     */
-    private void setUpSpinner() {
-        String[] categoryNames = new String[categories.size()];
-        for(int i = 0; i < categories.size(); i++) {
-            categoryNames[i] = categories.get(i).getName();
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, categoryNames);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
         //TODO: Find proper id to avoid hardcoding
         heart = new HeartRating(getActivity().getApplicationContext(), getActivity());
         imageView = (ImageView) v.findViewById(R.id.edit_heart_health_1);
@@ -118,6 +101,7 @@ public class AddFragment extends Fragment implements OnClickListener{
 
         return v;
     }
+
 
     @Override
     public void onClick(View view) {
@@ -139,10 +123,6 @@ public class AddFragment extends Fragment implements OnClickListener{
         }
     }
 
-    public static void setOpenedFromMenu(boolean b) {
-        isOpenedFromMenu = b;
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
@@ -150,6 +130,25 @@ public class AddFragment extends Fragment implements OnClickListener{
                 camera.showImage(mealImage);
             }
         }
+    }
+
+
+    public static void setOpenedFromMenu(boolean b) {
+        isOpenedFromMenu = b;
+    }
+
+    /**
+     * Get category names from database and populate Spinner.
+     */
+    private void setUpSpinner() {
+        String[] categoryNames = new String[categories.size()];
+        for(int i = 0; i < categories.size(); i++) {
+            categoryNames[i] = categories.get(i).getName();
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_item, categoryNames);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
     public void saveMeal() {
