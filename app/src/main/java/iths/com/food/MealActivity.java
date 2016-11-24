@@ -300,8 +300,6 @@ public class MealActivity extends AppCompatActivity {
 
         //Gör ett intent som öppnar Meal List
 
-
-
     }
 
     /*  LÄGG TILL I MEAL LIST

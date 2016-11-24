@@ -8,15 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.MainActivity;
 import iths.com.food.Model.Category;
+import iths.com.food.Model.Meal;
 import iths.com.food.Model.MyCamera;
 import iths.com.food.R;
 
@@ -37,7 +43,16 @@ public class AddFragment extends Fragment {
     private EditText name;
     private EditText description;
     private MyCamera camera;
+    private int healthGrade;
+    private int tasteGrade;
     private static final String TAG = "TAG";
+    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveMeal();
+            Log.d(TAG,"Knappen klickades på!");
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,21 +65,19 @@ public class AddFragment extends Fragment {
             mealImage = (ImageView) v.findViewById(R.id.edit_meal_image);
             camera = new MyCamera(getActivity());
             camera.takePhoto();
-            //TODO: takePhoto() funkar inte, kraschar och visar ingen bild
             name = (EditText) v.findViewById(R.id.name);
             description = (EditText) v.findViewById(R.id.desc);
+            Button b = (Button) v.findViewById(R.id.save_changes_button);
+            b.setOnClickListener(saveButtonListener);
+            db = new DatabaseHelper(this.getActivity().getApplicationContext());
+            categories = db.getCategories();
+            spinner = (Spinner) v.findViewById(R.id.spinner);
+            setUpSpinner();
             isOpenedFromMenu = false;
         } else {
-
             v = inflater.inflate(R.layout.fragment_meal, container, false);
             mealImage = (ImageView) v.findViewById(R.id.meal_image);
         }
-
-        db = new DatabaseHelper(this.getActivity().getApplicationContext());
-        categories = db.getCategories();
-
-        spinner = (Spinner) v.findViewById(R.id.spinner);
-        setUpSpinner();
 
         return v;
     }
@@ -95,6 +108,37 @@ public class AddFragment extends Fragment {
             }
         }
     }
+
+    public void saveMeal() {
+
+        Meal meal = new Meal();
+
+        //TODO: Ta bort denna testgrej, ersätt med betyg från hjärtan
+        healthGrade = 0;
+        tasteGrade = 0;
+        meal.setHealthyScore(healthGrade);
+        meal.setTasteScore(tasteGrade);
+        meal.setName(name.getText().toString());
+        meal.setDescription(description.getText().toString());
+        meal.setCategory(spinner.getSelectedItem().toString());
+
+        Date dateTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+        meal.setDateTime(dateFormat.format(dateTime));
+        meal.setLatitude(0);
+        meal.setLongitude(0);
+        meal.setImagePath("insert ImagePath");
+
+        long id = db.insertMeal(meal);
+
+        Toast.makeText(getActivity(), "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
+
+        //TODO: ändra så att den öppnar typ MealListFragment
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new CategoryFragment()).commit();
+    }
+
+
 
 
 }
