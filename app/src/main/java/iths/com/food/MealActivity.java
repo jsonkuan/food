@@ -1,7 +1,6 @@
 package iths.com.food;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -14,28 +13,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import java.util.Date;
-import android.view.View;
+
 import android.widget.EditText;
-import android.widget.RatingBar;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.StringTokenizer;
-import java.util.jar.Attributes;
 
 import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Model.Category;
-import iths.com.food.Model.CategoryList;
 import iths.com.food.Model.Meal;
 
 public class MealActivity extends AppCompatActivity {
@@ -46,7 +35,7 @@ public class MealActivity extends AppCompatActivity {
     private static final String TAG = "TAG";
     private ImageView imageView;
     private static Uri photoFilePath;
-    private static boolean isOpenedFromCameraActivity;
+    private static boolean isOpenedFromMenu;
     private int healthGrade;
     private int tasteGrade;
     private double averageGrade;
@@ -55,8 +44,8 @@ public class MealActivity extends AppCompatActivity {
     EditText description;
     DatabaseHelper db;
     long id;
-    Spinner spinner;
-    ArrayList<Category> categories;
+//    Spinner spinner;
+//    ArrayList<Category> categories;
 
 
     @Override
@@ -64,13 +53,13 @@ public class MealActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("TEST", "Testar logfunktionen");
         db = new DatabaseHelper(getApplicationContext());
-        categories = db.getCategories();
+//PUTBACK        categories = db.getCategories();
         //setContentView(R.layout.activity_meal_edit);
-        if(isOpenedFromCameraActivity) {
-            isOpenedFromCameraActivity = false;
+        if(isOpenedFromMenu) {
+            isOpenedFromMenu = false;
             setContentView(R.layout.activity_meal_edit);
-            spinner = (Spinner) findViewById(R.id.spinner);
-            setUpSpinner();
+//            spinner = (Spinner) findViewById(R.id.spinner);
+//            setUpSpinner();
             imageView = (ImageView) findViewById(R.id.edit_meal_image);
             takePhoto(imageView);
             name = (EditText) findViewById(R.id.name);
@@ -86,24 +75,24 @@ public class MealActivity extends AppCompatActivity {
 
     public void makeEditable(View view) {
         setContentView(R.layout.activity_meal_edit);
-        setUpSpinner();
+       // setUpSpinner(); //PUT BACK
         setHearts(true);
     }
-    private void setUpSpinner() {
-        String[] categoryNames = new String[categories.size()];
-        for(int i = 0; i < categories.size(); i++) {
-            categoryNames[i] = categories.get(i).getName();
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-    }
+//    private void setUpSpinner() {
+//        String[] categoryNames = new String[categories.size()];
+//        for(int i = 0; i < categories.size(); i++) {
+//            categoryNames[i] = categories.get(i).getName();
+//        }
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames);
+//
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        spinner.setAdapter(adapter);
+//    }
 
     public static void setOpenedFromCameraActivity(boolean b) {
-        isOpenedFromCameraActivity = b;
+        isOpenedFromMenu = b;
     }
 
     @Override
@@ -147,9 +136,6 @@ public class MealActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.edit_meal_image);
         int imageViewHeight = imageView.getHeight();
         int imageViewWidth = imageView.getWidth();
-
-        Toast.makeText(this, "height: " + imageViewHeight, Toast.LENGTH_LONG).show();
-        Toast.makeText(this, "width: " + imageViewWidth, Toast.LENGTH_LONG).show();
 
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
@@ -299,7 +285,7 @@ public class MealActivity extends AppCompatActivity {
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-        meal.setCategory(spinner.getSelectedItem().toString());
+// PUT BACK       // meal.setCategory(spinner.getSelectedItem().toString());
 
         Date dateTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
@@ -313,8 +299,6 @@ public class MealActivity extends AppCompatActivity {
         Toast.makeText(this, "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
 
         //Gör ett intent som öppnar Meal List
-
-
 
     }
 
@@ -346,7 +330,7 @@ public class MealActivity extends AppCompatActivity {
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-        meal.setCategory(spinner.getSelectedItem().toString());
+//PUTBACK **** meal.setCategory(spinner.getSelectedItem().toString());
         meal.setImagePath("insert ImagePath");
 
         // Man kan inte ändra ID eller location??
