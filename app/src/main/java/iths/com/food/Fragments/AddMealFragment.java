@@ -35,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by asakwarnmark on 2016-11-23.
  */
 
-public class AddMealFragment extends Fragment implements OnClickListener{
+public class AddMealFragment extends Fragment{
 
     private HeartRating heart;
     private ArrayList<Category> categories;
@@ -55,6 +55,12 @@ public class AddMealFragment extends Fragment implements OnClickListener{
         public void onClick(View v) {
             saveMeal();
             Log.d(TAG,"Knappen klickades på!");
+        }
+    };
+    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            heart.fillHearts(v);
         }
     };
 
@@ -83,42 +89,21 @@ public class AddMealFragment extends Fragment implements OnClickListener{
             mealImage = (ImageView) v.findViewById(R.id.meal_image);
         }
 
-        //TODO: Find proper id to avoid hardcoding
         heart = new HeartRating(getActivity().getApplicationContext(), getActivity());
-        imageView = (ImageView) v.findViewById(R.id.edit_heart_health_1);
-        imageView.setOnClickListener(this);
 
-        imageView = (ImageView) v.findViewById(R.id.edit_heart_health_2);
-        imageView.setOnClickListener(this);
-
-        LinearLayout layout = (LinearLayout) v.findViewById(R.id.edit_taste_hearts);
-        layout.setOnClickListener(this);
-
-        LinearLayout layout2 = (LinearLayout) v.findViewById(R.id.edit_health_hearts);
-        layout2.setOnClickListener(this);
-
-        return v;
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.edit_heart_health_1:
-                heart.fillHearts(view);
-                break;
-            case R.id.edit_heart_health_2:
-                heart.fillHearts(view);
-                break;
-            case R.id.edit_health_hearts:
-                heart.fillHearts(view);
-                break;
-            case R.id.edit_taste_hearts:
-                heart.fillHearts(view);
-                break;
-            default:
-                System.out.println("WTF is going on?");
+        for(int i=1; i<=10; i++) {
+            //get the resource id number for health hearts
+            int resNr = getActivity().getResources().getIdentifier("edit_heart_health_" + i, "id",
+                    getActivity().getPackageName());
+            imageView = (ImageView) v.findViewById(resNr);
+            imageView.setOnClickListener(heartButtonListener);
+            //get the resource id number for taste hearts
+            resNr = getActivity().getResources().getIdentifier("edit_heart_taste_" + i, "id",
+                    getActivity().getPackageName());
+            imageView = (ImageView) v.findViewById(resNr);
+            imageView.setOnClickListener(heartButtonListener);
         }
+        return v;
     }
 
     @Override
@@ -129,7 +114,6 @@ public class AddMealFragment extends Fragment implements OnClickListener{
             }
         }
     }
-
 
     public static void setOpenedFromMenu(boolean b) {
         isOpenedFromMenu = b;
