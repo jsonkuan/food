@@ -191,7 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return getWritableDatabase().delete(DatabaseContract.MealEntry.TABLE, selection, selectionArgs);
     }
 
-    private Category getCategory(String categoryName){
+    public Category getCategory(String categoryName){
 
         ArrayList<Meal> meals = new ArrayList<>();
 

@@ -54,7 +54,6 @@ public class NewCategoryActivity extends AppCompatActivity {
     }
 
     public void saveButtonPressed(View view) {
-        //TODO: Save to database and update MealCategoryActivity
 
         EditText add_category_editText = (EditText) findViewById(R.id.add_category_editText);
         String categoryName = add_category_editText.getText().toString();
