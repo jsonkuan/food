@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.EditText;
@@ -23,7 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.MainActivity;
 import iths.com.food.Model.Category;
 import iths.com.food.Model.HeartRating;
 import iths.com.food.Model.Meal;
@@ -37,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by asakwarnmark on 2016-11-23.
  */
 
-public class AddFragment extends Fragment{
+public class AddMealFragment extends Fragment{
 
     private HeartRating heart;
     private ArrayList<Category> categories;
@@ -87,7 +85,7 @@ public class AddFragment extends Fragment{
             setUpSpinner();
             isOpenedFromMenu = false;
         } else {
-            v = inflater.inflate(R.layout.fragment_meal, container, false);
+            v = inflater.inflate(R.layout.fragment_add_meal, container, false);
             mealImage = (ImageView) v.findViewById(R.id.meal_image);
         }
 
@@ -139,9 +137,6 @@ public class AddFragment extends Fragment{
 
         Meal meal = new Meal();
 
-        //TODO: Ta bort denna testgrej, ersätt med betyg från hjärtan
-        healthGrade = 0;
-        tasteGrade = 0;
         meal.setHealthyScore(healthGrade);
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
@@ -157,6 +152,7 @@ public class AddFragment extends Fragment{
 
         long id = db.insertMeal(meal);
 
+        Toast.makeText(getActivity(), "Score: " + healthGrade, Toast.LENGTH_LONG).show();
         Toast.makeText(getActivity(), "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
 
         //TODO: ändra så att den öppnar typ MealListFragment

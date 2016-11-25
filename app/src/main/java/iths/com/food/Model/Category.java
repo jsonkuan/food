@@ -45,4 +45,7 @@ public class Category {
         averageScore = sum / meals.size();
     }
 
+    public Meal getMeal(int id) {
+        return meals.get(id);
+    }
 }

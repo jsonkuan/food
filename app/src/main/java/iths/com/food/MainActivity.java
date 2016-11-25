@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import iths.com.food.Fragments.AddFragment;
-import iths.com.food.Model.HeartRating;
+import iths.com.food.Fragments.AddMealFragment;
+import iths.com.food.Fragments.CategoryFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,12 +30,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_add:
-                                AddFragment.setOpenedFromMenu(true);
+                                AddMealFragment.setOpenedFromMenu(true);
                                 getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.container, new AddFragment()).commit();
+                                        .replace(R.id.container, new AddMealFragment()).commit();
                                 break;
                             case R.id.action_categories:
-
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.container, new CategoryFragment()).commit();
                                 break;
                             case R.id.action_map:
 
