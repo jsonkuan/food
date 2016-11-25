@@ -12,6 +12,7 @@
     android:paddingTop="@dimen/activity_vertical_margin">
 
     <EditText
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Meal name"
@@ -33,7 +34,7 @@
             android:id="@+id/edit_meal_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/testmeal" />
+            android:src="@drawable/testmeal" />
 
         <ImageView
             android:id="@+id/camera_icon"
@@ -47,6 +48,7 @@
     </RelativeLayout>
 
     <EditText
+        android:id="@+id/desc"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/colorAccent"
@@ -260,7 +262,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
-        android:onClick="saveChanges"/>
+        android:onClick="saveMeal"/>
 
 </LinearLayout>
 

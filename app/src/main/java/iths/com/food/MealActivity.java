@@ -1,7 +1,6 @@
 package iths.com.food;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -14,97 +13,86 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.util.Date;
 
+import android.widget.EditText;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Model.Meal;
+
 public class MealActivity extends AppCompatActivity {
 
-    private static final String SHARED_PREFS = "SHARED_PREFS";
-    private static final String HEALTH_GRADE = "HEALTH_GRADE";
-    private static final String TASTE_GRADE = "TASTE_GRADE";
-    private static final String SAVE_POSITION = "SAVE_POSITION";
+
     private boolean editable;
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final String TAG = "TAG";
     private ImageView imageView;
     private static Uri photoFilePath;
-    private static boolean isOpenedFromCameraActivity;
+    private static boolean isOpenedFromMenu;
     private int healthGrade;
     private int tasteGrade;
     private double averageGrade;
     private boolean savePosition;
+    EditText name;
+    EditText description;
+    DatabaseHelper db;
+    long id;
+//    Spinner spinner;
+//    ArrayList<Category> categories;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("TEST", "Testar logfunktionen");
-        setContentView(R.layout.activity_meal_edit);
-        if(isOpenedFromCameraActivity) {
-            isOpenedFromCameraActivity = false;
+        db = new DatabaseHelper(getApplicationContext());
+//PUTBACK        categories = db.getCategories();
+        //setContentView(R.layout.activity_meal_edit);
+        if(isOpenedFromMenu) {
+            isOpenedFromMenu = false;
             setContentView(R.layout.activity_meal_edit);
-            setUpSpinner();
+//            spinner = (Spinner) findViewById(R.id.spinner);
+//            setUpSpinner();
             imageView = (ImageView) findViewById(R.id.edit_meal_image);
             takePhoto(imageView);
+            name = (EditText) findViewById(R.id.name);
+            description = (EditText) findViewById(R.id.desc);
         } else {
             setContentView(R.layout.activity_meal);
             imageView = (ImageView) findViewById(R.id.meal_image);
-            getSavedData();
             setHearts(false);
+
         }
 
     }
 
-    private void getSavedData() {
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        healthGrade = prefs.getInt(HEALTH_GRADE, 3);
-        tasteGrade = prefs.getInt(TASTE_GRADE, 5);
-        savePosition = prefs.getBoolean(SAVE_POSITION, false);
-    }
-
     public void makeEditable(View view) {
         setContentView(R.layout.activity_meal_edit);
-        setUpSpinner();
+       // setUpSpinner(); //PUT BACK
         setHearts(true);
     }
-
-    public void saveChanges(View view) {
-        //getStuffFromScreenAndMakeMealObject();
-        //saveMealToDatabase();
-
-        //Tillfällig sparfunktion för att testa:
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(HEALTH_GRADE, healthGrade);
-        editor.putInt(TASTE_GRADE, tasteGrade);
-        editor.putBoolean(SAVE_POSITION, savePosition);
-        editor.commit();
-
-        setContentView(R.layout.activity_meal);
-        imageView = (ImageView) findViewById(R.id.meal_image);
-        getSavedData();
-        setHearts(false);
-        //setStuffOnScreenToNewMeal();
-    }
-
-    private void setUpSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.spinner_string_array, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(adapter);
-    }
+//    private void setUpSpinner() {
+//        String[] categoryNames = new String[categories.size()];
+//        for(int i = 0; i < categories.size(); i++) {
+//            categoryNames[i] = categories.get(i).getName();
+//        }
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoryNames);
+//
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        spinner.setAdapter(adapter);
+//    }
 
     public static void setOpenedFromCameraActivity(boolean b) {
-        isOpenedFromCameraActivity = b;
+        isOpenedFromMenu = b;
     }
 
     @Override
@@ -148,9 +136,6 @@ public class MealActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.edit_meal_image);
         int imageViewHeight = imageView.getHeight();
         int imageViewWidth = imageView.getWidth();
-
-        Toast.makeText(this, "height: " + imageViewHeight, Toast.LENGTH_LONG).show();
-        Toast.makeText(this, "width: " + imageViewWidth, Toast.LENGTH_LONG).show();
 
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
@@ -287,8 +272,75 @@ public class MealActivity extends AppCompatActivity {
         averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
         TextView averageGradeTV = (TextView) findViewById(R.id.average_number);
         averageGradeTV.setText(Double.toString(averageGrade));
+
+
     }
 
 
-    //TODO: Reusable view with editable and non-editable objects
+    public void saveMeal(View view) {
+
+        Meal meal = new Meal();
+
+        meal.setHealthyScore(healthGrade);
+        meal.setTasteScore(tasteGrade);
+        meal.setName(name.getText().toString());
+        meal.setDescription(description.getText().toString());
+// PUT BACK       // meal.setCategory(spinner.getSelectedItem().toString());
+
+        Date dateTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+        meal.setDateTime(dateFormat.format(dateTime));
+        meal.setLatitude(0);
+        meal.setLongitude(0);
+        meal.setImagePath("insert ImagePath");
+
+        long id = db.insertMeal(meal);
+
+        Toast.makeText(this, "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
+
+        //Gör ett intent som öppnar Meal List
+
+    }
+
+    /*  LÄGG TILL I MEAL LIST
+    public void deleteMeal(View view) {
+        String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        id = Long.valueOf(text);
+
+        int rows = db.deleteMeal(id);
+
+        if(rows > 0) {
+            Toast.makeText(getApplicationContext(), "Deleted "+rows+" row(s)", Toast.LENGTH_SHORT).show();
+        } else if (rows == 0) {
+            Toast.makeText(getApplicationContext(), "No rows deleted", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    } */
+
+    public void updateMeal(View view) {
+
+        //VI FÅR IN ID PÅ ANNAT SÄTT
+        //String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        //id = Long.valueOf(text);
+
+        Meal meal = db.getMeal(id);
+        meal.setHealthyScore(healthGrade);
+        meal.setTasteScore(tasteGrade);
+        meal.setName(name.getText().toString());
+        meal.setDescription(description.getText().toString());
+//PUTBACK **** meal.setCategory(spinner.getSelectedItem().toString());
+        meal.setImagePath("insert ImagePath");
+
+        // Man kan inte ändra ID eller location??
+
+        int rowsAffected = db.updateMeal(meal);
+
+        if (rowsAffected > 0) {
+            Toast.makeText(getApplicationContext(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }
