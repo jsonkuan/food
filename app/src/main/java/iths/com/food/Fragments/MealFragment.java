@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import iths.com.food.R;
 
 public class MealFragment extends Fragment {
 
+    public static final String MEAL_ID = "meal_id";
     DatabaseHelper db;
 
     @Override
@@ -46,8 +48,26 @@ public class MealFragment extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.fragmentMealList);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                         long chosenMeal = Long.valueOf(String.valueOf(adapterView.getItemAtPosition(i)));
+                        openMeal(chosenMeal);
+                    }
+                }
+        );
+
         db.close();
         return view;
+    }
+
+    public void openMeal(long id) {
+        AddMealFragment newFragment = new AddMealFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(MEAL_ID, id);
+        newFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 
 

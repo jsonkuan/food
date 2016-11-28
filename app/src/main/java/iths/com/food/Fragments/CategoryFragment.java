@@ -74,8 +74,8 @@ public class CategoryFragment extends Fragment implements OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //if (requestCode == NewCategoryActivity.REQUEST_CODE) {
-        String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
-        foodtypes.add(text);
+        //String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
+        //foodtypes.add(text);
         ((BaseAdapter) listAdapter).notifyDataSetChanged();
         //}
     }

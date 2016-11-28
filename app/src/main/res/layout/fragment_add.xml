@@ -44,7 +44,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_action_name"
-                android:onClick="takePhoto"/>
+                />
 
         </RelativeLayout>
 

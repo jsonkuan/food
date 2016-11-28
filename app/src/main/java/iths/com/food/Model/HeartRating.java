@@ -56,7 +56,7 @@ public class HeartRating {
         setAverageEditGrade();
     }
 
-    public void setHearts(boolean isEditScreen) {
+    public void setHearts(Context context, boolean isEditScreen, int healthGrade, int tasteGrade) {
 
         String edit = "";
 
@@ -65,7 +65,7 @@ public class HeartRating {
         }
 
         for(int i = 1; i <= 10; i++) {
-            int imgId = activity.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
+            int imgId = context.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
             ImageView heart = (ImageView) activity.findViewById(imgId);
             heart.setImageResource(R.drawable.empty_heart);
         }
