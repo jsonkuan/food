@@ -6,7 +6,9 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +26,8 @@
         <activity android:name=".MealListActivity" />
         <activity android:name=".MealActivity" />
         <activity android:name=".NewCategoryActivity" />
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD1T6WyYg0jFh5P-JSkvUsyfCQpuX2WZSo"/>
 
     </application>
 

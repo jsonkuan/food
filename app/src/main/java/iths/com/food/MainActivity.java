@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import iths.com.food.Fragments.AddMealFragment;
 import iths.com.food.Fragments.CategoryFragment;
+import iths.com.food.Fragments.MapViewFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
                                         .replace(R.id.container, new CategoryFragment()).commit();
                                 break;
                             case R.id.action_map:
-
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.container, new MapViewFragment()).commit();
                                 break;
                         }
                         return false;
