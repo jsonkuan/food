@@ -1,5 +1,6 @@
 package iths.com.food.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,14 +12,12 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Category;
-import iths.com.food.NewCategoryActivity;
 import iths.com.food.R;
 
 /**
@@ -34,7 +33,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        Context context = getActivity();
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
@@ -58,6 +57,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         );
 
         listView.setAdapter(adapter);
+        db.close();
         return v;
     }
 
@@ -94,13 +94,6 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         }
     }
 
-    //TODO: Refactor and move to model class
-//    public void addMeal(View view) {
-//        Intent intent = new Intent(this, MealActivity.class);
-//        MealActivity.setOpenedFromCameraActivity(true);
-//        startActivity(intent);
-//    }
-//
 
 
 }

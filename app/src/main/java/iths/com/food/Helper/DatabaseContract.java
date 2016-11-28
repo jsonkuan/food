@@ -32,13 +32,7 @@ final class DatabaseContract {
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
                     "VALUES ('Meat');" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Pork');" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Chicken');" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
                     "VALUES ('Veggie');" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Vegan');" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
                     "VALUES ('Fish')";
     //TODO: rada upp alla default kategories här

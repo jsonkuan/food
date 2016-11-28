@@ -11,9 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
-//import iths.com.food.MealAdapter;
 import iths.com.food.Helper.MealAdapter;
 import iths.com.food.Model.Category;
 import iths.com.food.Model.Meal;
@@ -48,9 +46,26 @@ public class MealFragment extends Fragment {
         ListView listView = (ListView) view.findViewById(R.id.fragmentMealList);
         listView.setAdapter(adapter);
 
-
+        db.close();
         return view;
     }
 
 
 }
+
+/*  LÄGG TILL I MEAL LIST
+    public void deleteMeal(View view) {
+        String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        id = Long.valueOf(text);
+
+        int rows = db.deleteMeal(id);
+
+        if(rows > 0) {
+            Toast.makeText(getApplicationContext(), "Deleted "+rows+" row(s)", Toast.LENGTH_SHORT).show();
+        } else if (rows == 0) {
+            Toast.makeText(getApplicationContext(), "No rows deleted", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    } */

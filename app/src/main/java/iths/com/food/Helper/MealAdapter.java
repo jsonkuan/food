@@ -34,7 +34,6 @@ public class MealAdapter extends ArrayAdapter<String> {
         super(context, R.layout.custom_row, mealNames);
     }
 
-    //TODO: REPLACE IMAGEICON WITH IMAGE THUMBNAIL   AND    FIX SCORE AND HEARTS
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -50,19 +49,10 @@ public class MealAdapter extends ArrayAdapter<String> {
 
 
         String singleFoodItem = getItem(position);
-        Toast.makeText(getContext(), singleFoodItem, Toast.LENGTH_SHORT).show();
         Long id = Long.valueOf(singleFoodItem);
         Meal meal = db.getMeal(id);
-        Log.d("HEJHEJ", "ID:t är: "+id);
         textView.setText(meal.getName());
 
-        /*float averageScoreFloat = (float) db.getCategory(singleFoodItem).getAverageScore();
-
-        if (Float.isNaN(averageScoreFloat)) {
-            averageScore.setText("Score: ---");
-        } else {
-            averageScore.setText("Score:  " + averageScoreFloat);
-        } */
         averageScore.setText("Score: "+meal.getTotalScore());
         ratingbar.setRating((float)meal.getTotalScore());
 
