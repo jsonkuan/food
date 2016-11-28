@@ -285,7 +285,7 @@ public class MealActivity extends AppCompatActivity {
         meal.setTasteScore(tasteGrade);
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
-// PUT BACK       // meal.setCategory(spinner.getSelectedItem().toString());
+// PUT BACK      meal.setCategory(spinner.getSelectedItem().toString());
 
         Date dateTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
@@ -297,6 +297,12 @@ public class MealActivity extends AppCompatActivity {
         long id = db.insertMeal(meal);
 
         Toast.makeText(this, "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Health: "+healthGrade, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Taste: "+tasteGrade, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Name: "+name.getText().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Date: "+dateFormat.format(dateTime), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Health: "+healthGrade, Toast.LENGTH_SHORT).show();
+        db.close();
 
         //Gör ett intent som öppnar Meal List
 

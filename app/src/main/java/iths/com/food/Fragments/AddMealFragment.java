@@ -134,11 +134,9 @@ public class AddMealFragment extends Fragment{
     }
 
     public void saveMeal() {
-
         Meal meal = new Meal();
-
-        meal.setHealthyScore(healthGrade);
-        meal.setTasteScore(tasteGrade);
+        meal.setHealthyScore(HeartRating.getHealthGrade());
+        meal.setTasteScore(HeartRating.getTasteGrade());
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
@@ -152,8 +150,12 @@ public class AddMealFragment extends Fragment{
 
         long id = db.insertMeal(meal);
 
-        Toast.makeText(getActivity(), "Score: " + healthGrade, Toast.LENGTH_LONG).show();
         Toast.makeText(getActivity(), "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Health: "+HeartRating.getHealthGrade(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Taste: "+HeartRating.getTasteGrade(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Name: "+name.getText().toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Date: "+dateFormat.format(dateTime), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "ID: "+id, Toast.LENGTH_SHORT).show();
 
         //TODO: ändra så att den öppnar typ MealListFragment
         getActivity().getSupportFragmentManager().beginTransaction()

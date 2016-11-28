@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.MealAdapter;
+//import iths.com.food.MealAdapter;
 import iths.com.food.R;
 
 /**
