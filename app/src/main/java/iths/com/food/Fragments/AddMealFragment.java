@@ -146,7 +146,8 @@ public class AddMealFragment extends Fragment{
         meal.setDateTime(dateFormat.format(dateTime));
         meal.setLatitude(0);
         meal.setLongitude(0);
-        meal.setImagePath("insert ImagePath");
+        String imagePath = camera.getPhotoFilePath().toString();
+        meal.setImagePath(imagePath);
 
         long id = db.insertMeal(meal);
 

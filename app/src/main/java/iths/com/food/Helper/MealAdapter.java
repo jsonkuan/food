@@ -1,6 +1,9 @@
 package iths.com.food.Helper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,7 +66,12 @@ public class MealAdapter extends ArrayAdapter<String> {
         averageScore.setText("Score: "+meal.getTotalScore());
         ratingbar.setRating((float)meal.getTotalScore());
 
-        imageView.setImageResource(getContext().getResources().getIdentifier("img" + (position + 1), "drawable", getContext().getPackageName()));
+
+        String imagePath = meal.getImagePath();
+        Uri imageUri = Uri.parse(imagePath);
+        Bitmap image = BitmapFactory.decodeFile(imageUri.getPath());
+
+        imageView.setImageBitmap(image);
 
         db.close();
 
