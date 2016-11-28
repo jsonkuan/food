@@ -14,6 +14,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_category_button"
+        android:text="Add category"
+        android:onClick="addCategoryButtonPressed"/>
+
     <ListView
         android:id="@+id/fragmentCategory"
         android:layout_width="match_parent"

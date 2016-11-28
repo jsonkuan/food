@@ -7,12 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import java.util.ArrayList;
-
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.MealAdapter;
+import iths.com.food.Helper.MealAdapter;
 import iths.com.food.R;
 
 /**

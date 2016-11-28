@@ -7,19 +7,33 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-
+import android.view.View;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import iths.com.food.Fragments.MealFragment;
 import iths.com.food.Fragments.AddMealFragment;
 import iths.com.food.Fragments.CategoryFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String PACKAGE_NAME;
+    Button addCategory;
+    int i = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         PACKAGE_NAME = getApplicationContext().getPackageName();
+
+        //open with CategoryFragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new CategoryFragment()).commit();
+
+
+
+
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -45,11 +59,26 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 });
+
+
+        /*addCategory = (Button) findViewById(R.id.add_category_button);
+        addCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new CategoryFragment()).commit();
+            }
+        });*/
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         fragment.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void addCategoryButtonPressed(View view) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new CategoryFragment()).commit();
     }
 }
