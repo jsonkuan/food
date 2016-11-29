@@ -13,5 +13,9 @@
     <string name="categories">Categories</string>
     <string name="map">Map</string>
     <string name="describe">Describe your meal</string>
+    <string name="my_new_meal">My new meal</string>
+    <string name="my_category">My category</string>
+    <string name="tasty">Tasty</string>
+    <string name="average_grade">Average grade:</string>
 
 </resources>

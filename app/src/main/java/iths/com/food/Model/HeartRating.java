@@ -23,7 +23,7 @@ public class HeartRating {
 
     public HeartRating(Context context, Activity activity) {
         this.context = context;
-        this. activity = activity;
+        this.activity = activity;
     }
 
     public void fillHearts(View view) {
