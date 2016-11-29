@@ -2,13 +2,19 @@ package iths.com.food.Fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -18,6 +24,11 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
+import iths.com.food.MainActivity;
+import iths.com.food.Model.Locations;
+import iths.com.food.Place;
 import iths.com.food.R;
 
 /**
@@ -26,12 +37,23 @@ import iths.com.food.R;
 
 public class MapViewFragment extends Fragment {
 
-    MapView mMapView;
+    ArrayList<Locations> locationsArrayList = new ArrayList<>();
+    private MapView mMapView;
     private GoogleMap googleMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
+        Locations location = new Locations(Place.GOTHENBURG);
+        Locations location2 = new Locations(Place.MALMO);
+        Locations location3 = new Locations(Place.STOCKHOLM);
+        Locations location4 = new Locations(Place.SKOOL);
+
+        locationsArrayList.add(location);
+        locationsArrayList.add(location2);
+        locationsArrayList.add(location3);
+        locationsArrayList.add(location4);
 
         mMapView = (MapView) rootView.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
@@ -47,10 +69,11 @@ public class MapViewFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
+                markLocations();
 
-                googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(62, 15))
-                        .title("Sweden"));
+                LatLng london = new LatLng(55.5, 15);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(5).build();
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                 // For showing a move to my location button
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -64,14 +87,6 @@ public class MapViewFragment extends Fragment {
                     return;
                 }
                 googleMap.setMyLocationEnabled(true);
-
-                // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
-
-                // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(100).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
 
@@ -100,5 +115,13 @@ public class MapViewFragment extends Fragment {
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    public void markLocations() {
+        for (Locations l: locationsArrayList) {
+            googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(l.getLat(), l.getLng()))
+                .title(l.getTitle()).snippet("Description here..."));
+        }
     }
 }
