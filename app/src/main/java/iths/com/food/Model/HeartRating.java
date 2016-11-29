@@ -17,8 +17,8 @@ public class HeartRating {
 
     private Activity activity;
     private Context context;
-    private int healthGrade;
-    private int tasteGrade;
+    private static int healthGrade;
+    private static int tasteGrade;
     private double averageGrade;
 
     public HeartRating(Context context, Activity activity) {
@@ -108,5 +108,12 @@ public class HeartRating {
     }
 
     public void fillHeart(View view) {
+    }
+
+    public static int getHealthGrade() {
+        return healthGrade;
+    }
+    public static int getTasteGrade() {
+        return tasteGrade;
     }
 }

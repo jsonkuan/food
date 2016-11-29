@@ -1,5 +1,6 @@
 package iths.com.food.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,6 @@ import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Helper.SwipeDismissListViewTouchListener;
 import iths.com.food.Model.Category;
-import iths.com.food.NewCategoryActivity;
 import iths.com.food.R;
 
 /**
@@ -26,6 +26,7 @@ import iths.com.food.R;
 
 public class CategoryFragment extends Fragment implements OnClickListener{
 
+    public static final String CHOSEN_CATEGORY = "category";
     public ArrayList<String> foodtypes;
     ListAdapter listAdapter;
     DatabaseHelper db;
@@ -35,7 +36,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        Context context = getActivity();
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
@@ -52,8 +53,8 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        String foodtypes = String.valueOf(adapterView.getItemAtPosition(i));
-                        showCategory();
+                        String chosenCategory = String.valueOf(adapterView.getItemAtPosition(i));
+                        showCategory(chosenCategory);
                     }
                 }
         );
@@ -95,15 +96,19 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                 }
         );
         listView.setOnTouchListener(touchListener);
+        db.close();
         return v;
     }
 
-    private void showCategory() {
+    private void showCategory(String category) {
         MealFragment newFragment = new MealFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CHOSEN_CATEGORY, category);
+        newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 
-    //TODO: Change NewCategoryActivity to Fragment
+    /*TODO: Change NewCategoryActivity to Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -111,8 +116,8 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
         foodtypes.add(text);
         ((BaseAdapter) listAdapter).notifyDataSetChanged();
-        //}
-    }
+        //
+    }*/
 
     @Override
     public void onClick(View view) {
@@ -128,13 +133,6 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         }
     }
 
-    //TODO: Refactor and move to model class
-//    public void addMeal(View view) {
-//        Intent intent = new Intent(this, MealActivity.class);
-//        MealActivity.setOpenedFromCameraActivity(true);
-//        startActivity(intent);
-//    }
-//
 
 
 }

@@ -9,12 +9,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
 import iths.com.food.R;
+import iths.com.food.Helper.DatabaseHelper;
+
 
 /**
  * Created by jas0n on 2016-11-15.
@@ -24,8 +23,12 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
     DatabaseHelper db;
 
+
     public CategoryAdapter(Context context, ArrayList<String> foodtypes) {
         super(context, R.layout.custom_row, foodtypes);
+        DatabaseHelper db = new DatabaseHelper(getContext());
+
+
     }
 
     @NonNull
@@ -38,6 +41,7 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
         TextView textView = (TextView) customView.findViewById(R.id.categoryName);
         ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
+
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
 
@@ -47,6 +51,7 @@ public class CategoryAdapter extends ArrayAdapter<String> {
         float averageScoreFloat = (float) db.getCategory(singleFoodItem).getAverageScore();
 
         if (Float.isNaN(averageScoreFloat)) {
+
             averageScore.setText("Avg. ---");
         } else {
             averageScore.setText("Avg. " + averageScoreFloat);
@@ -56,6 +61,8 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
         // TODO: sätt rätt bild
         imageView.setImageResource(getContext().getResources().getIdentifier("img" + db.getCategory(singleFoodItem).getIconId(), "drawable", getContext().getPackageName()));
+
+        db.close();
 
         return customView;
 
