@@ -10,13 +10,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import java.util.ArrayList;
-
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.SwipeDismissListViewTouchListener;
 import iths.com.food.Model.Category;
 import iths.com.food.R;
 
@@ -30,6 +30,9 @@ public class CategoryFragment extends Fragment implements OnClickListener{
     public ArrayList<String> foodtypes;
     ListAdapter listAdapter;
     DatabaseHelper db;
+    CategoryAdapter adapter;
+    //Button addCategory;
+    //int i = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
             foodtypes.add(categories.get(i).getName());
         }
 
-        CategoryAdapter adapter = new CategoryAdapter(getActivity(), foodtypes);
+        adapter = new CategoryAdapter(getActivity(), foodtypes);
         ListView listView = (ListView) v.findViewById(R.id.fragmentCategory);
 
         listView.setOnItemClickListener(
@@ -56,7 +59,43 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                 }
         );
 
+        //(adapter)
         listView.setAdapter(adapter);
+
+
+
+        // button addCategory
+        /*addCategory = (Button) v.findViewById(R.id.add_category_button);
+        addCategory.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                foodtypes.add("Hamburgare "+i);
+                i++;
+                ((BaseAdapter) adapter).notifyDataSetChanged();
+            }
+        });*/
+
+
+
+        // Delete with swipe
+        SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
+                listView,
+                new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void  onDismiss(ListView listView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            foodtypes.remove(position);
+                            ((BaseAdapter) adapter).notifyDataSetChanged();
+                        }
+                    }
+                }
+        );
+        listView.setOnTouchListener(touchListener);
         db.close();
         return v;
     }
@@ -69,7 +108,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 
-    //TODO: Change NewCategoryActivity to Fragment
+    /*TODO: Change NewCategoryActivity to Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -77,8 +116,8 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         //String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
         //foodtypes.add(text);
         ((BaseAdapter) listAdapter).notifyDataSetChanged();
-        //}
-    }
+        //
+    }*/
 
     @Override
     public void onClick(View view) {

@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import java.util.ArrayList;
+import iths.com.food.Helper.CategoryAdapter;
+import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.MealAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;

@@ -209,6 +209,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     public Category getCategory(String categoryName){
 
+        int iconID = 0;
+
         ArrayList<Meal> meals = new ArrayList<>();
 
         String[] projection = {DatabaseContract.MealEntry.COLUMN_ID};
@@ -242,7 +244,38 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
                 cursor.close();
         }
 
-        return new Category(categoryName, meals);
+        String[] projection2 = {DatabaseContract.CategoryEntry.COLUMN_ICON_ID};
+
+        String selection2 = DatabaseContract.MealEntry.COLUMN_CATEGORY + " = ?";
+        String[] selectionArgs2 = {categoryName };
+
+        Cursor cursor2 = null;
+        try {
+            cursor2 = getReadableDatabase().query(
+                    DatabaseContract.CategoryEntry.TABLE,         // The table to query
+                    projection2,                               // The columns to return
+                    selection2,                                // The columns for the WHERE clause
+                    selectionArgs2,                            // The values for the WHERE clause
+                    null,                                     // don't group the rows
+                    null,                                     // don't filter by row groups
+                    null                                 // The sort order
+            );
+
+            while (cursor2.moveToNext()) {
+
+                iconID = cursor2.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_ICON_ID);
+
+            }
+        }
+        catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+        }
+        finally {
+            if(cursor2 != null)
+                cursor2.close();
+        }
+
+        return new Category(categoryName, meals, iconID);
     }
 
 }
