@@ -13,7 +13,7 @@ public interface IDatabaseHelper {
 
     public long insertMeal(Meal meal);
 
-    public long insertCategory(String name);
+    public long insertCategory(String name, int iconID);
 
     public Meal getMeal(long id);
 

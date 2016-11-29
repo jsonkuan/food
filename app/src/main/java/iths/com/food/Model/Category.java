@@ -25,7 +25,7 @@ public class Category {
     // 2. int iconId,
     public Category(String name, ArrayList<Meal> meals, int iconId) {
         this.name = name;
-        //this.iconId = iconId;
+
         this.meals = meals;
         this.iconId = iconId;
 
@@ -59,5 +59,9 @@ public class Category {
 
     public Meal getMeal(int id) {
         return meals.get(id);
+    }
+
+    public int getIconId() {
+        return iconId;
     }
 }

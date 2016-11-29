@@ -57,7 +57,7 @@ public class NewCategoryActivity extends AppCompatActivity {
 
         EditText add_category_editText = (EditText) findViewById(R.id.add_category_editText);
         String categoryName = add_category_editText.getText().toString();
-        db.insertCategory(categoryName);
+        db.insertCategory(categoryName, 1);
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EDIT_TEXT_KEY, categoryName);
         setResult(REQUEST_CODE, resultIntent);

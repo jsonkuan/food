@@ -18,6 +18,7 @@ import iths.com.food.Fragments.MealFragment;
 import iths.com.food.Fragments.AddMealFragment;
 import iths.com.food.Fragments.CategoryFragment;
 import iths.com.food.Fragments.NewCategoryFragment;
+import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Category;
 
 import static iths.com.food.Fragments.NewCategoryFragment.mViewPager;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public static String PACKAGE_NAME;
     Button addCategory;
     int i = 1;
+    DatabaseHelper db;
 
 
     @Override
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         EditText etCategoryName = (EditText) findViewById(R.id.add_category_editText);
         String categoryName = etCategoryName.getText().toString();
+        db = new DatabaseHelper(this);
 
         if (categoryName.length() == 0) {
             Context context = getApplicationContext();
@@ -111,11 +114,9 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("MainActivity: " + iconId);
 
 
-            Category newCategory = new Category (categoryName, null, iconId);
+            db.insertCategory(categoryName, iconId);
 
 
-            // TODO: add Category and update DB
-            //addCategory(newCategory);
 
 
             // go back to CategoryList:
