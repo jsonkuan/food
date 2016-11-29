@@ -28,9 +28,10 @@ final class DatabaseContract {
                     MealEntry.COLUMN_IMAGE_PATH + " TEXT," +
                     MealEntry.COLUMN_LATITUDE + " DOUBLE);" +
             "CREATE TABLE " + CategoryEntry.TABLE + " (" +
-                CategoryEntry.COLUMN_NAME + " TEXT);" +
+                    CategoryEntry.COLUMN_ICON_ID + " INTEGER," +
+                    CategoryEntry.COLUMN_NAME + " TEXT);" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Meat');" +
+                    "VALUES ('Meat') + ("+CategoryEntry.COLUMN_ICON_ID + ") " + "VALUES ('1');" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
                     "VALUES ('Veggie');" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
@@ -60,5 +61,6 @@ final class DatabaseContract {
     static class CategoryEntry implements BaseColumns{
         static final String TABLE = "category";
         static final String COLUMN_NAME = "name";
+        static final String COLUMN_ICON_ID = "icon_id";
     }
 }

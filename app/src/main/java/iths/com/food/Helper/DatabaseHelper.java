@@ -55,10 +55,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return getWritableDatabase().insert(DatabaseContract.MealEntry.TABLE, null, values);
     }
 
-    public long insertCategory(String name){
+    public long insertCategory(String name, int iconID){
 
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.CategoryEntry.COLUMN_NAME, name);
+        values.put(DatabaseContract.CategoryEntry.COLUMN_ICON_ID, iconID);
 
         return getWritableDatabase().insert(DatabaseContract.CategoryEntry.TABLE, null, values);
     }
