@@ -31,7 +31,7 @@ final class DatabaseContract {
                     CategoryEntry.COLUMN_ICON_ID + " INTEGER," +
                     CategoryEntry.COLUMN_NAME + " TEXT);" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Meat') + ("+CategoryEntry.COLUMN_ICON_ID + ") " + "VALUES ('1');" +
+                    "VALUES ('Meat');" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
                     "VALUES ('Veggie');" +
             "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +

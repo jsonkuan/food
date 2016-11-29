@@ -95,36 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.container, new NewCategoryFragment()).commit();
     }
 
-    public void saveButtonPressed(View view) {
 
-        EditText etCategoryName = (EditText) findViewById(R.id.add_category_editText);
-        String categoryName = etCategoryName.getText().toString();
-        db = new DatabaseHelper(this);
-
-        if (categoryName.length() == 0) {
-            Context context = getApplicationContext();
-            CharSequence text = "Enter category name!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        } else {
-            int iconId = mViewPager.getCurrentItem();
-
-            System.out.println("MainActivity: " + iconId);
-
-
-            db.insertCategory(categoryName, iconId);
-
-
-
-
-            // go back to CategoryList:
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new CategoryFragment()).commit();
-        }
-
-    }
 }
 
 

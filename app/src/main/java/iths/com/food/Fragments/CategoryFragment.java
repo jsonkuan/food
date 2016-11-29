@@ -36,10 +36,13 @@ public class CategoryFragment extends Fragment implements OnClickListener{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
         Context context = getActivity();
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
+        //context.deleteDatabase("food.db");
         ArrayList<Category> categories = db.getCategories();
         foodtypes = new ArrayList<>(categories.size());
         for (int i = 0; i < categories.size(); i++) {
@@ -89,8 +92,8 @@ public class CategoryFragment extends Fragment implements OnClickListener{
                     @Override
                     public void  onDismiss(ListView listView, int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
-                            foodtypes.remove(position);
-                            ((BaseAdapter) adapter).notifyDataSetChanged();
+                            db.deleteCategory(foodtypes.get(position));
+                            (adapter).notifyDataSetChanged();
                         }
                     }
                 }

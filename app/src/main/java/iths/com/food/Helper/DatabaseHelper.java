@@ -61,6 +61,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         values.put(DatabaseContract.CategoryEntry.COLUMN_NAME, name);
         values.put(DatabaseContract.CategoryEntry.COLUMN_ICON_ID, iconID);
 
+        Log.d(TAG, "inserted Category: succesful");
+
         return getWritableDatabase().insert(DatabaseContract.CategoryEntry.TABLE, null, values);
     }
 

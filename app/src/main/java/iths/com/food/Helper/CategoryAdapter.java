@@ -30,7 +30,6 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
 
     }
-
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
