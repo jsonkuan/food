@@ -1,5 +1,6 @@
 package iths.com.food;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,9 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import iths.com.food.Fragments.MealFragment;
 import iths.com.food.Fragments.AddMealFragment;
 import iths.com.food.Fragments.CategoryFragment;
+import iths.com.food.Fragments.NewCategoryFragment;
+import iths.com.food.Model.Category;
+
+import static iths.com.food.Fragments.NewCategoryFragment.mViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,7 +86,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addCategoryButtonPressed(View view) {
+
+
+        // go back to AddCategoryFragment:
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new CategoryFragment()).commit();
+                .replace(R.id.container, new NewCategoryFragment()).commit();
+    }
+
+    public void saveButtonPressed(View view) {
+
+        EditText etCategoryName = (EditText) findViewById(R.id.add_category_editText);
+        String categoryName = etCategoryName.getText().toString();
+
+        if (categoryName.length() == 0) {
+            Context context = getApplicationContext();
+            CharSequence text = "Enter category name!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } else {
+            int iconId = mViewPager.getCurrentItem();
+
+            System.out.println("MainActivity: " + iconId);
+            //Category newCategory = new Category (categoryName, iconId);
+
+
+            // TODO: add Category and update DB
+            //addCategory(newCategory);
+
+
+            // go back to CategoryList:
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, new NewCategoryFragment()).commit();
+        }
+
     }
 }
+
+
+
+
+
+
+
+
+
