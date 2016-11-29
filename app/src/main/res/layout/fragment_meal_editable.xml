@@ -43,8 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_action_name"
-                />
+                android:src="@drawable/ic_action_name" />
 
         </RelativeLayout>
 
@@ -266,9 +265,8 @@
         <Button
             android:id="@+id/save_changes_button"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:text="Save"
-            android:onClick="saveMeal"/>
+            android:layout_height="wrap_content"
+            android:text="Save" />
 
     </LinearLayout>
 

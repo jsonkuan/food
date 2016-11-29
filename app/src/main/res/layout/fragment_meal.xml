@@ -12,7 +12,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="iths.com.food.MealActivity">
+    tools:context="iths.com.food.MainActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,15 +22,14 @@
             android:id="@+id/meal_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Testmåltid"
+            android:text="@string/my_new_meal"
             android:textSize="32sp"/>
 
         <Button
             android:id="@+id/edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="edit"
-            android:onClick="makeEditable"/>
+            android:text="edit" />
 
     </LinearLayout>
 
@@ -38,7 +37,7 @@
         android:id="@+id/category_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pizza"/>
+        android:text="@string/my_category"/>
 
     <ImageView
         android:id="@+id/meal_image"
@@ -50,7 +49,7 @@
         android:id="@+id/meal_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Asgod mat!"/>
+        android:text="@string/tasty"/>
 
     <TextView
         android:id="@+id/taste_text"
@@ -225,13 +224,12 @@
         android:id="@+id/average_grade_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Snittbetyg:" />
+        android:text="@string/average_grade" />
 
     <TextView
         android:id="@+id/average_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
         android:textSize="32sp"/>
 
 </LinearLayout>

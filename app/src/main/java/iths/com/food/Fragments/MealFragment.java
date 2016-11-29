@@ -41,25 +41,28 @@ public class MealFragment extends Fragment{
 
     private static final String MAKE_EDITABLE = "make_editable";
     private static final String MEAL_ID = "meal_id";
-    View v;
+    private static boolean isOpenedFromMenu;
+
     private HeartRating heart;
     private ArrayList<Category> categories;
-    private Spinner spinner;
     private DatabaseHelper db;
-    private static boolean isOpenedFromMenu;
-    private ImageView imageView;
-    private ImageView mealImage;
-    private EditText name;
-    private TextView nameText;
-    private EditText description;
-    private TextView descriptionText;
-    private TextView categoryText;
-    private TextView averageNumber;
     private MyCamera camera;
-    private int healthGrade;
-    private int tasteGrade;
-    private static final String TAG = "TAG";
+
+    private View layoutView;
+    private ImageView mealImage, heartImage, cameraIcon;
+    private EditText nameEdit, descriptionEdit;
+    private TextView nameText, descriptionText, categoryText, averageNumber;
+    private Spinner spinner;
+    private Button saveButton, editButton;
+
     private long id;
+    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            camera = new MyCamera(getActivity());
+            camera.takePhoto();
+        }
+    };
     private View.OnClickListener saveButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -90,132 +93,56 @@ public class MealFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
+        layoutView = inflater.inflate(R.layout.fragment_meal_editable, container, false);
+
+        db = new DatabaseHelper(getActivity());
+        categories = db.getCategories();
+
+        spinner = (Spinner) layoutView.findViewById(R.id.spinner);
+        nameEdit = (EditText) layoutView.findViewById(R.id.name);
+        descriptionEdit = (EditText) layoutView.findViewById(R.id.desc);
+        saveButton = (Button) layoutView.findViewById(R.id.save_changes_button);
+        cameraIcon = (ImageView) layoutView.findViewById(R.id.camera_icon);
+
+        cameraIcon.setOnClickListener(cameraButtonListener);
 
         Bundle bundle = getArguments();
 
         if(isOpenedFromMenu) {
-            v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
-            mealImage = (ImageView) v.findViewById(R.id.edit_meal_image);
+            mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
+
             camera = new MyCamera(getActivity());
             camera.takePhoto();
-            name = (EditText) v.findViewById(R.id.name);
-            description = (EditText) v.findViewById(R.id.desc);
-            Button b = (Button) v.findViewById(R.id.save_changes_button);
-            b.setOnClickListener(saveButtonListener);
-            db = new DatabaseHelper(this.getActivity().getApplicationContext());
-            categories = db.getCategories();
-            spinner = (Spinner) v.findViewById(R.id.spinner);
+
+            saveButton.setOnClickListener(saveButtonListener);
             setUpSpinner();
+            setHeartClickListeners();
             isOpenedFromMenu = false;
-            ImageView heartImage;
-            for(int i=1; i<=10; i++) {
-                //get the resource id number for health hearts
-                int resNr = getActivity().getResources().getIdentifier("edit_heart_health_" + i, "id",
-                        getActivity().getPackageName());
-                heartImage = (ImageView) v.findViewById(resNr);
-                heartImage.setOnClickListener(heartButtonListener);
-                //get the resource id number for taste hearts
-                resNr = getActivity().getResources().getIdentifier("edit_heart_taste_" + i, "id",
-                        getActivity().getPackageName());
-                heartImage = (ImageView) v.findViewById(resNr);
-                heartImage.setOnClickListener(heartButtonListener);
-            }
         } else if (bundle.getBoolean(MAKE_EDITABLE)) {
-            v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
-            mealImage = (ImageView) v.findViewById(R.id.edit_meal_image);
-            name = (EditText) v.findViewById(R.id.name);
-            description = (EditText) v.findViewById(R.id.desc);
-            Button b = (Button) v.findViewById(R.id.save_changes_button);
-            b.setOnClickListener(updateButtonListener);
-            db = new DatabaseHelper(this.getActivity().getApplicationContext());
-            categories = db.getCategories();
-            spinner = (Spinner) v.findViewById(R.id.spinner);
+            mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
+            saveButton.setOnClickListener(updateButtonListener);
             setUpSpinner();
-            isOpenedFromMenu = false;
-            ImageView heartImage;
-            for (int i = 1; i <= 10; i++) {
-                //get the resource id number for health hearts
-                int resNr = getActivity().getResources().getIdentifier("edit_heart_health_" + i, "id",
-                        getActivity().getPackageName());
-                heartImage = (ImageView) v.findViewById(resNr);
-                heartImage.setOnClickListener(heartButtonListener);
-                //get the resource id number for taste hearts
-                resNr = getActivity().getResources().getIdentifier("edit_heart_taste_" + i, "id",
-                        getActivity().getPackageName());
-                heartImage = (ImageView) v.findViewById(resNr);
-                heartImage.setOnClickListener(heartButtonListener);
-
-
-            }
+            setHeartClickListeners();
             displayEditableMeal(bundle.getLong(MEAL_ID));
+            //isOpenedFromMenu = false;
         }
         else {
-            db = new DatabaseHelper(getActivity());
-            v = inflater.inflate(R.layout.fragment_meal, container, false);
-            mealImage = (ImageView) v.findViewById(R.id.meal_image);
-            Button b = (Button) v.findViewById(R.id.edit_button);
-            b.setOnClickListener(editButtonListener);
+            layoutView = inflater.inflate(R.layout.fragment_meal, container, false);
+            mealImage = (ImageView) layoutView.findViewById(R.id.meal_image);
+            editButton = (Button) layoutView.findViewById(R.id.edit_button);
+            editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
         }
-
         heart = new HeartRating(getActivity().getApplicationContext(), getActivity());
-
         bundle = this.getArguments();
         if(bundle == null || bundle.getBoolean(MAKE_EDITABLE)) {
         } else {
-            Long id = bundle.getLong(MealListFragment.MEAL_ID);
+            long id = bundle.getLong(MealListFragment.MEAL_ID);
             displayMeal(id);
         }
 
-
-
-
-        return v;
+        return layoutView;
     }
-
-    private void displayEditableMeal(long id) {
-        Meal meal = db.getMeal(id);
-        name.setText(meal.getName());
-        description.setText(meal.getDescription());
-
-        Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
-        mealImage.setImageBitmap(image);
-
-        ArrayList<Category> categories = db.getCategories();
-        int position = 0;
-        for(int i = 0; i < categories.size(); i++) {
-            if (meal.getCategory().equals(categories.get(i).getName())) {
-                position = i;
-            }
-        }
-
-        spinner.setSelection(position);
-
-    }
-
-    private void displayMeal(Long id) {
-        Meal meal = db.getMeal(id);
-        nameText = (TextView)v.findViewById(R.id.meal_name_text);
-        descriptionText = (TextView)v.findViewById(R.id.meal_description);
-        imageView = (ImageView) v.findViewById(R.id.meal_image);
-        categoryText = (TextView)v.findViewById(R.id.category_text);
-        averageNumber = (TextView) v.findViewById(R.id.average_number);
-
-
-        nameText.setText(meal.getName());
-        descriptionText.setText(meal.getDescription());
-        Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
-        imageView.setImageBitmap(image);
-        categoryText.setText(meal.getCategory());
-        averageNumber.setText(""+meal.getTotalScore());
-
-        //heart.setHearts(getContext(), false, meal.getHealthyScore(), meal.getTasteScore());
-
-
-        }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -224,6 +151,69 @@ public class MealFragment extends Fragment{
                 camera.showImage(mealImage);
             }
         }
+    }
+
+    /**
+     * Save a new meal to the database.
+     */
+    public void saveMeal() {
+        Meal meal = new Meal();
+        meal.setHealthyScore(HeartRating.getHealthGrade());
+        meal.setTasteScore(HeartRating.getTasteGrade());
+        meal.setName(nameEdit.getText().toString());
+        meal.setDescription(descriptionEdit.getText().toString());
+        meal.setCategory(spinner.getSelectedItem().toString());
+
+        Date dateTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+        meal.setDateTime(dateFormat.format(dateTime));
+        meal.setLatitude(0);
+        meal.setLongitude(0);
+        String imagePath = camera.getPhotoFilePath().toString();
+        meal.setImagePath(imagePath);
+
+        long id = db.insertMeal(meal);
+
+        db.close();
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(container, new CategoryFragment()).commit();
+    }
+
+    /**
+     * Save changes to a meal to the database.
+     * @param id The database id of the meal that is updated.
+     */
+    public void updateMeal(long id) {
+
+        Meal meal = db.getMeal(id);
+        meal.setHealthyScore(HeartRating.getHealthGrade());
+        meal.setTasteScore(HeartRating.getTasteGrade());
+        meal.setName(nameEdit.getText().toString());
+        meal.setDescription(descriptionEdit.getText().toString());
+        meal.setCategory(spinner.getSelectedItem().toString());
+        //String imagePath = camera.getPhotoFilePath().toString();
+        //meal.setImagePath(imagePath);
+
+
+        int rowsAffected = db.updateMeal(meal);
+
+        if (rowsAffected > 0) {
+            Toast.makeText(getActivity(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Change the screen so that you can edit your meal.
+     * @param id The database id of the meal.
+     */
+    public void makeEditable(long id) {
+        MealFragment newFragment = new MealFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(MAKE_EDITABLE, true);
+        bundle.putLong(MEAL_ID, id);
+        newFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 
     public static void setOpenedFromMenu(boolean b) {
@@ -244,57 +234,69 @@ public class MealFragment extends Fragment{
         spinner.setAdapter(adapter);
     }
 
-    public void saveMeal() {
-        Meal meal = new Meal();
-        meal.setHealthyScore(HeartRating.getHealthGrade());
-        meal.setTasteScore(HeartRating.getTasteGrade());
-        meal.setName(name.getText().toString());
-        meal.setDescription(description.getText().toString());
-        meal.setCategory(spinner.getSelectedItem().toString());
+    /**
+     * Show meal details on the screen: nameEdit, descriptionEdit, category, grade.
+     * @param id The database id of the meal.
+     */
+    private void displayMeal(Long id) {
+        Meal meal = db.getMeal(id);
+        nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
+        descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
+        mealImage = (ImageView) layoutView.findViewById(R.id.meal_image);
+        categoryText = (TextView) layoutView.findViewById(R.id.category_text);
+        averageNumber = (TextView) layoutView.findViewById(R.id.average_number);
 
-        Date dateTime = Calendar.getInstance().getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
-        meal.setDateTime(dateFormat.format(dateTime));
-        meal.setLatitude(0);
-        meal.setLongitude(0);
-        String imagePath = camera.getPhotoFilePath().toString();
-        meal.setImagePath(imagePath);
 
-        long id = db.insertMeal(meal);
+        nameText.setText(meal.getName());
+        descriptionText.setText(meal.getDescription());
+        Uri filePathUri = Uri.parse(meal.getImagePath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        mealImage.setImageBitmap(image);
+        categoryText.setText(meal.getCategory());
+        averageNumber.setText(""+meal.getTotalScore());
 
-        db.close();
-
-        //TODO: ändra så att den öppnar typ MealListFragment
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(container, new CategoryFragment()).commit();
+        //heart.setHearts(getContext(), false, meal.getHealthyScore(), meal.getTasteScore());
     }
 
-    public void updateMeal(long id) {
-
+    /**
+     * Show the meal with editable fields so that the user can change the details of
+     * an existing meal.
+     * @param id The database id of the meal.
+     */
+    private void displayEditableMeal(long id) {
         Meal meal = db.getMeal(id);
-        meal.setHealthyScore(HeartRating.getHealthGrade());
-        meal.setTasteScore(HeartRating.getTasteGrade());
-        meal.setName(name.getText().toString());
-        meal.setDescription(description.getText().toString());
-        meal.setCategory(spinner.getSelectedItem().toString());
-        //String imagePath = camera.getPhotoFilePath().toString();
-        //meal.setImagePath(imagePath);
+        nameEdit.setText(meal.getName());
+        descriptionEdit.setText(meal.getDescription());
 
+        Uri filePathUri = Uri.parse(meal.getImagePath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        mealImage.setImageBitmap(image);
 
-        int rowsAffected = db.updateMeal(meal);
-
-        if (rowsAffected > 0) {
-            Toast.makeText(getActivity(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
+        ArrayList<Category> categories = db.getCategories();
+        int position = 0;
+        for(int i = 0; i < categories.size(); i++) {
+            if (meal.getCategory().equals(categories.get(i).getName())) {
+                position = i;
+            }
         }
 
+        spinner.setSelection(position);
     }
-    public void makeEditable(long id) {
-        MealFragment newFragment = new MealFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(MAKE_EDITABLE, true);
-        bundle.putLong(MEAL_ID, id);
-        newFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+
+    /**
+     * Set up click listeners for the rating hearts.
+     */
+    private void setHeartClickListeners() {
+        for (int i = 1; i <= 10; i++) {
+            int resNr = getActivity().getResources().getIdentifier("edit_heart_health_" + i, "id",
+                    getActivity().getPackageName());
+            heartImage = (ImageView) layoutView.findViewById(resNr);
+            heartImage.setOnClickListener(heartButtonListener);
+            resNr = getActivity().getResources().getIdentifier("edit_heart_taste_" + i, "id",
+                    getActivity().getPackageName());
+            heartImage = (ImageView) layoutView.findViewById(resNr);
+            heartImage.setOnClickListener(heartButtonListener);
+        }
     }
 }
 
