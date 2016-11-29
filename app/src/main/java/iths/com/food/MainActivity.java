@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import iths.com.food.Fragments.AddMealFragment;
+import iths.com.food.Fragments.MealFragment;
 import iths.com.food.Fragments.CategoryFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_add:
-                                AddMealFragment.setOpenedFromMenu(true);
+                                MealFragment.setOpenedFromMenu(true);
                                 getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.container, new AddMealFragment()).commit();
+                                        .replace(R.id.container, new MealFragment()).commit();
                                 break;
                             case R.id.action_categories:
                                 getSupportFragmentManager().beginTransaction()
