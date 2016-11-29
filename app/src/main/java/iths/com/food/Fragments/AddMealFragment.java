@@ -134,11 +134,9 @@ public class AddMealFragment extends Fragment{
     }
 
     public void saveMeal() {
-
         Meal meal = new Meal();
-
-        meal.setHealthyScore(healthGrade);
-        meal.setTasteScore(tasteGrade);
+        meal.setHealthyScore(HeartRating.getHealthGrade());
+        meal.setTasteScore(HeartRating.getTasteGrade());
         meal.setName(name.getText().toString());
         meal.setDescription(description.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
@@ -148,15 +146,41 @@ public class AddMealFragment extends Fragment{
         meal.setDateTime(dateFormat.format(dateTime));
         meal.setLatitude(0);
         meal.setLongitude(0);
-        meal.setImagePath("insert ImagePath");
+        String imagePath = camera.getPhotoFilePath().toString();
+        meal.setImagePath(imagePath);
 
         long id = db.insertMeal(meal);
 
-        Toast.makeText(getActivity(), "Score: " + healthGrade, Toast.LENGTH_LONG).show();
-        Toast.makeText(getActivity(), "Saved to "+meal.getCategory(), Toast.LENGTH_SHORT).show();
+        db.close();
 
         //TODO: ändra så att den öppnar typ MealListFragment
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, new CategoryFragment()).commit();
     }
+
+    public void updateMeal(View view) {
+
+        //VI FÅR IN ID PÅ ANNAT SÄTT
+        //String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
+        //id = Long.valueOf(text);
+        Long id = 3L;
+        Meal meal = db.getMeal(id);
+        meal.setHealthyScore(healthGrade);
+        meal.setTasteScore(tasteGrade);
+        meal.setName(name.getText().toString());
+        meal.setDescription(description.getText().toString());
+//PUTBACK **** meal.setCategory(spinner.getSelectedItem().toString());
+        meal.setImagePath("insert ImagePath");
+
+        // Man kan inte ändra ID eller location??
+
+        int rowsAffected = db.updateMeal(meal);
+
+        if (rowsAffected > 0) {
+            Toast.makeText(getActivity(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
+
+
