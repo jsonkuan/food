@@ -62,7 +62,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
     }
 
     private void showCategory(String category) {
-        MealFragment newFragment = new MealFragment();
+        MealListFragment newFragment = new MealListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(CHOSEN_CATEGORY, category);
         newFragment.setArguments(bundle);
@@ -74,8 +74,8 @@ public class CategoryFragment extends Fragment implements OnClickListener{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //if (requestCode == NewCategoryActivity.REQUEST_CODE) {
-        String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
-        foodtypes.add(text);
+        //String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
+        //foodtypes.add(text);
         ((BaseAdapter) listAdapter).notifyDataSetChanged();
         //}
     }
