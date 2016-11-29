@@ -109,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
             int iconId = mViewPager.getCurrentItem();
 
             System.out.println("MainActivity: " + iconId);
-            //Category newCategory = new Category (categoryName, iconId);
+
+
+            Category newCategory = new Category (categoryName, null, iconId);
 
 
             // TODO: add Category and update DB
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
             // go back to CategoryList:
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new NewCategoryFragment()).commit();
+                    .replace(R.id.container, new CategoryFragment()).commit();
         }
 
     }

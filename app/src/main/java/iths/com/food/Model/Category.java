@@ -23,10 +23,11 @@ public class Category {
     }*/
 
     // 2. int iconId,
-    public Category(String name, ArrayList<Meal> meals) {
+    public Category(String name, ArrayList<Meal> meals, int iconId) {
         this.name = name;
         //this.iconId = iconId;
         this.meals = meals;
+        this.iconId = iconId;
 
         calculateAverageScore();
     }

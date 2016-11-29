@@ -29,14 +29,13 @@ public class NewCategoryFragment extends Fragment {
 
 
 
-    //@Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_add_category, container, false);
 
 
         addCategoryName = (EditText) v.findViewById(R.id.add_category_editText);
         mViewPager = (ViewPager) v.findViewById(R.id.viewPageAndroid);
-        //Context context = getActivity().getApplicationContext();
         adapterView = new ImageAdapter(getActivity());
         mViewPager.setAdapter(adapterView);
 
