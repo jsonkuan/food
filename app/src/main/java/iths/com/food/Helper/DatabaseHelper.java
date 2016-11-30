@@ -57,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     public long insertCategory(String name, int iconID){
 
+        Log.d(TAG, "iconID when created: "+iconID);
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.CategoryEntry.COLUMN_NAME, name);
         values.put(DatabaseContract.CategoryEntry.COLUMN_ICON_ID, iconID);
@@ -248,7 +249,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
         String[] projection2 = {DatabaseContract.CategoryEntry.COLUMN_ICON_ID};
 
-        String selection2 = DatabaseContract.MealEntry.COLUMN_CATEGORY + " = ?";
+        String selection2 = DatabaseContract.CategoryEntry.COLUMN_NAME + " = ?";
         String[] selectionArgs2 = {categoryName };
 
         Cursor cursor2 = null;
@@ -265,7 +266,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
             while (cursor2.moveToNext()) {
 
-                iconID = cursor2.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_ICON_ID);
+                iconID = cursor2.getInt(cursor2.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_ICON_ID));
 
             }
         }
@@ -275,6 +276,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         finally {
             if(cursor2 != null)
                 cursor2.close();
+        }
+
+        if(categoryName.equals("Godis")) {
+            Log.d(TAG, "Icon ID from database: "+iconID);
         }
 
         return new Category(categoryName, meals, iconID);

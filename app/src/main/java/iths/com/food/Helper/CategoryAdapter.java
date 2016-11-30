@@ -58,8 +58,7 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
         ratingbar.setRating(averageScoreFloat);
 
-        // TODO: sätt rätt bild
-        imageView.setImageResource(getContext().getResources().getIdentifier("img" + db.getCategory(singleFoodItem).getIconId(), "drawable", getContext().getPackageName()));
+        imageView.setImageResource(getContext().getResources().getIdentifier("img" + (db.getCategory(singleFoodItem).getIconId() + 1), "drawable", getContext().getPackageName()));
 
         db.close();
 

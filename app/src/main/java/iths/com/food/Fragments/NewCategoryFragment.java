@@ -79,7 +79,7 @@ public class NewCategoryFragment extends Fragment {
 
             db.insertCategory(categoryName, iconId);
 
-            Toast.makeText(getActivity(), db.getCategories().get(3).getName(), Toast.LENGTH_SHORT);
+            //Toast.makeText(getActivity(), db.getCategories().get(3).getName(), Toast.LENGTH_SHORT);
 
 
 

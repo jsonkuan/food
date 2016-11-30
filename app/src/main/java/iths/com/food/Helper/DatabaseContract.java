@@ -27,18 +27,19 @@ final class DatabaseContract {
                     MealEntry.COLUMN_LONGITUDE + " DOUBLE," +
                     MealEntry.COLUMN_IMAGE_PATH + " TEXT," +
                     MealEntry.COLUMN_LATITUDE + " DOUBLE);" +
-            "CREATE TABLE " + CategoryEntry.TABLE + " (" +
-                    CategoryEntry.COLUMN_ICON_ID + " INTEGER," +
-                    CategoryEntry.COLUMN_NAME + " TEXT);" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+            "CREATE TABLE " + CategoryEntry.TABLE + " ( " +
+                    CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " +
+                    CategoryEntry.COLUMN_ICON_ID + " INTEGER);" +
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
                     "VALUES ('Meat');" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
                     "VALUES ('Veggie');" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Fish')";
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+                    "VALUES ('Fish')";;
+
     //TODO: rada upp alla default kategories här
 
-
+String create = "CREATE TABLE " + CategoryEntry.TABLE + " ( " + CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " + CategoryEntry.COLUMN_ICON_ID + " INTEGER);";
     // Prevents instantiating of this class
     private DatabaseContract() {}
 
@@ -64,3 +65,16 @@ final class DatabaseContract {
         static final String COLUMN_ICON_ID = "icon_id";
     }
 }
+
+/*
+"CREATE TABLE " + CategoryEntry.TABLE + " (" +
+        CategoryEntry.COLUMN_ICON_ID + " INTEGER," +
+        CategoryEntry.COLUMN_NAME + " TEXT);" +
+        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+        "VALUES ('Meat');" +
+        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+        "VALUES ('Veggie');" +
+        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+        "VALUES ('Fish')";
+
+        */

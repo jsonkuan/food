@@ -13,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
@@ -31,6 +33,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
     ListAdapter listAdapter;
     DatabaseHelper db;
     CategoryAdapter adapter;
+    boolean deleteDB = true;
     //Button addCategory;
     //int i = 1;
 
@@ -42,7 +45,11 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
-        //context.deleteDatabase("food.db");
+        /*if(deleteDB) {
+            context.deleteDatabase("food.db");
+            deleteDB = false;
+            Toast.makeText(getActivity(), "Database deleted", Toast.LENGTH_SHORT).show();
+        }*/
         ArrayList<Category> categories = db.getCategories();
         foodtypes = new ArrayList<>(categories.size());
         for (int i = 0; i < categories.size(); i++) {
