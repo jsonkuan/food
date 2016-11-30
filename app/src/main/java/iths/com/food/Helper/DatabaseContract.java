@@ -30,12 +30,12 @@ final class DatabaseContract {
             "CREATE TABLE " + CategoryEntry.TABLE + " ( " +
                     CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " +
                     CategoryEntry.COLUMN_ICON_ID + " INTEGER);" +
-                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Meat');" +
-                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Veggie');" +
-                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Fish')";;
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
+                    "VALUES ('Meat','16');" +
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
+                    "VALUES ('Veggie','17');" +
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
+                    "VALUES ('Fish','3');";;
 
     //TODO: rada upp alla default kategories här
 

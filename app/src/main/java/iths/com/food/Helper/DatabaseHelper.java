@@ -57,12 +57,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     public long insertCategory(String name, int iconID){
 
-        Log.d(TAG, "iconID when created: "+iconID);
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.CategoryEntry.COLUMN_NAME, name);
         values.put(DatabaseContract.CategoryEntry.COLUMN_ICON_ID, iconID);
-
-        Log.d(TAG, "inserted Category: succesful");
 
         return getWritableDatabase().insert(DatabaseContract.CategoryEntry.TABLE, null, values);
     }
@@ -276,10 +273,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         finally {
             if(cursor2 != null)
                 cursor2.close();
-        }
-
-        if(categoryName.equals("Godis")) {
-            Log.d(TAG, "Icon ID from database: "+iconID);
         }
 
         return new Category(categoryName, meals, iconID);
