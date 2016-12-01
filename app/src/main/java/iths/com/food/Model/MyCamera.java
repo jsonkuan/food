@@ -122,4 +122,8 @@ public class MyCamera {
 
     }
 
+    public Uri getPhotoFilePath() {
+        return photoFilePath;
+    }
+
 }

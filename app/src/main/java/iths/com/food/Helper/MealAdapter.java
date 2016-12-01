@@ -1,7 +1,11 @@
 package iths.com.food.Helper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import iths.com.food.Model.Meal;
 import iths.com.food.R;
 
 /**
@@ -24,11 +30,10 @@ public class MealAdapter extends ArrayAdapter<String> {
 
     DatabaseHelper db;
 
-    public MealAdapter(Context context, ArrayList<String> foodtypes) {
-        super(context, R.layout.custom_row, foodtypes);
+    public MealAdapter(Context context, ArrayList<String> mealNames) {
+        super(context, R.layout.custom_row, mealNames);
     }
 
-    //TODO: REPLACE IMAGEICON WITH IMAGE THUMBNAIL   AND    FIX SCORE AND HEARTS
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -42,20 +47,23 @@ public class MealAdapter extends ArrayAdapter<String> {
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
 
+
         String singleFoodItem = getItem(position);
-        textView.setText(singleFoodItem);
+        Long id = Long.valueOf(singleFoodItem);
+        Meal meal = db.getMeal(id);
+        textView.setText(meal.getName());
 
-        float averageScoreFloat = (float) db.getCategory(singleFoodItem).getAverageScore();
+        averageScore.setText("Score: "+meal.getTotalScore());
+        ratingbar.setRating((float)meal.getTotalScore());
 
-        if (Float.isNaN(averageScoreFloat)) {
-            averageScore.setText("Score: ---");
-        } else {
-            averageScore.setText("Score:  " + averageScoreFloat);
-        }
 
-        ratingbar.setRating(averageScoreFloat);
+        String imagePath = meal.getImagePath();
+        Uri imageUri = Uri.parse(imagePath);
+        Bitmap image = BitmapFactory.decodeFile(imageUri.getPath());
 
-        imageView.setImageResource(getContext().getResources().getIdentifier("img" + (position + 1), "drawable", getContext().getPackageName()));
+        imageView.setImageBitmap(image);
+
+        db.close();
 
         return customView;
 

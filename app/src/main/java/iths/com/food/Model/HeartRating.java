@@ -17,13 +17,13 @@ public class HeartRating {
 
     private Activity activity;
     private Context context;
-    private int healthGrade;
-    private int tasteGrade;
+    private static int healthGrade;
+    private static int tasteGrade;
     private double averageGrade;
 
     public HeartRating(Context context, Activity activity) {
         this.context = context;
-        this. activity = activity;
+        this.activity = activity;
     }
 
     public void fillHearts(View view) {
@@ -56,7 +56,7 @@ public class HeartRating {
         setAverageEditGrade();
     }
 
-    public void setHearts(boolean isEditScreen) {
+    public void setHearts(Context context, boolean isEditScreen, int healthGrade, int tasteGrade) {
 
         String edit = "";
 
@@ -65,7 +65,7 @@ public class HeartRating {
         }
 
         for(int i = 1; i <= 10; i++) {
-            int imgId = activity.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
+            int imgId = context.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
             ImageView heart = (ImageView) activity.findViewById(imgId);
             heart.setImageResource(R.drawable.empty_heart);
         }
@@ -108,5 +108,12 @@ public class HeartRating {
     }
 
     public void fillHeart(View view) {
+    }
+
+    public static int getHealthGrade() {
+        return healthGrade;
+    }
+    public static int getTasteGrade() {
+        return tasteGrade;
     }
 }

@@ -191,6 +191,21 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         return getWritableDatabase().delete(DatabaseContract.MealEntry.TABLE, selection, selectionArgs);
     }
 
+    public void deleteCategory(String categoryName){
+        // SQL-query for deleting all meals belonging to this category
+        String deleteMealsSQL = "DELETE FROM " + DatabaseContract.MealEntry.TABLE +
+                                " WHERE " + DatabaseContract.MealEntry.COLUMN_CATEGORY + "='" + categoryName + "'";
+        // execute query
+        getWritableDatabase().execSQL(deleteMealsSQL);
+
+        // SQL-query for deleting the category
+        String deleteCategorySQL = "DELETE FROM " + DatabaseContract.CategoryEntry.TABLE +
+                " WHERE " + DatabaseContract.CategoryEntry.COLUMN_NAME + "='" + categoryName + "'";
+
+        // execute query
+        getWritableDatabase().execSQL(deleteCategorySQL);
+    }
+
     public Category getCategory(String categoryName){
 
         ArrayList<Meal> meals = new ArrayList<>();
