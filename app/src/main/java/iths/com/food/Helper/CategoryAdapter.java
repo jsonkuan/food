@@ -24,8 +24,8 @@ public class CategoryAdapter extends ArrayAdapter<String> {
     DatabaseHelper db;
 
 
-    public CategoryAdapter(Context context, ArrayList<String> foodtypes) {
-        super(context, R.layout.custom_row, foodtypes);
+    public CategoryAdapter(Context context, ArrayList<String> categories) {
+        super(context, R.layout.custom_row, categories);
         DatabaseHelper db = new DatabaseHelper(getContext());
 
 
@@ -40,7 +40,6 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
         TextView textView = (TextView) customView.findViewById(R.id.categoryName);
         ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
-
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
 
