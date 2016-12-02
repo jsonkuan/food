@@ -28,7 +28,7 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 public class MyCamera {
 
     public static final int CAMERA_REQUEST_CODE = 1;
-    private static final String TAG = "TAG";
+    private static final String TAG = "LOGTAG";
     private Uri photoFilePath;
     Context context;
 
@@ -75,20 +75,25 @@ public class MyCamera {
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
 
-        BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
+        BitmapFactory.decodeFile(photoFilePath.toString(), opt);
+        Log.d(TAG, "getPath: " + photoFilePath.getPath());
+        Log.d(TAG, "toString: " + photoFilePath.toString());
 
         int scaleFactor = 1;
 
+        Log.d(TAG, "outheight: " + opt.outHeight);
+        Log.d(TAG, "outwidth: " + opt.outWidth);
+
         try {
             scaleFactor = Math.min(opt.outHeight / imageViewHeight, opt.outWidth / imageViewWidth);
+            Log.d(TAG, "Funkade att skala. scaleFactor: " + scaleFactor);
         } catch(Exception e) {
             Log.d(TAG, "Funkade inte att skala");
         }
 
-        opt = new BitmapFactory.Options();
+        //opt = new BitmapFactory.Options();
         opt.inSampleSize = scaleFactor;
-
-        Bitmap image = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
+        Bitmap image = BitmapFactory.decodeFile(photoFilePath.toString(), opt);
 
         ExifInterface exif;
         int orientation = 167;
@@ -96,7 +101,7 @@ public class MyCamera {
         try {
             exif = new ExifInterface(photoFilePath.getPath());
             orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-            Log.d("ORIENTATION", orientation + "");
+            Log.d(TAG, "orientation: " +orientation);
         } catch (Exception e) {
             Log.d(TAG, "Error with photo file path");
         }
@@ -115,10 +120,6 @@ public class MyCamera {
     }
 
     public void savePhoto() {
-
-    }
-
-    public void createThumbnail() {
 
     }
 

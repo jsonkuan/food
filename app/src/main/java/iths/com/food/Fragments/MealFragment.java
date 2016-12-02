@@ -263,7 +263,7 @@ public class MealFragment extends Fragment{
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
 
-        //heart.setHearts(getContext(), false, meal.getHealthyScore(), meal.getTasteScore());
+        heart.setHearts(getContext(), false, meal.getHealthyScore(), meal.getTasteScore());
     }
 
     /**
@@ -289,6 +289,7 @@ public class MealFragment extends Fragment{
         }
 
         spinner.setSelection(position);
+        heart.setHearts(getActivity(), true, meal.getHealthyScore(), meal.getTasteScore());
     }
 
     /**

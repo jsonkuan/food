@@ -67,23 +67,21 @@ public class HeartRating {
         for(int i = 1; i <= 10; i++) {
             int imgId = context.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
             ImageView heart = (ImageView) activity.findViewById(imgId);
-            heart.setImageResource(R.drawable.empty_heart);
-        }
-        for(int i = 1; i <= healthGrade; i++) {
-            int imgId = context.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
-            ImageView heart = (ImageView) activity.findViewById(imgId);
-            heart.setImageResource(R.drawable.filled_heart);
+            if(i <= healthGrade) {
+                heart.setImageResource(R.drawable.filled_heart);
+            } else {
+                heart.setImageResource(R.drawable.empty_heart);
+            }
         }
 
         for(int i = 1; i <= 10; i++) {
             int imgId = context.getResources().getIdentifier(edit + "heart_taste_" + i, "id", PACKAGE_NAME);
             ImageView heart = (ImageView) activity.findViewById(imgId);
-            heart.setImageResource(R.drawable.empty_heart);
-        }
-        for(int i = 1; i <= tasteGrade; i++) {
-            int imgId = context.getResources().getIdentifier(edit + "heart_taste_" + i, "id", PACKAGE_NAME);
-            ImageView heart = (ImageView) activity.findViewById(imgId);
-            heart.setImageResource(R.drawable.filled_heart);
+            if(i <= tasteGrade) {
+                heart.setImageResource(R.drawable.filled_heart);
+            } else {
+                heart.setImageResource(R.drawable.empty_heart);
+            }
         }
 
         if(isEditScreen) {
@@ -105,9 +103,6 @@ public class HeartRating {
         averageGradeTV.setText(Double.toString(averageGrade));
 
 
-    }
-
-    public void fillHeart(View view) {
     }
 
     public static int getHealthGrade() {
