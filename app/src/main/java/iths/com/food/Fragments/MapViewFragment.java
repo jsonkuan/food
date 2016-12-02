@@ -45,26 +45,34 @@ public class MapViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
 
+        /**
+         * //TODO: Replace with actual locations and store in DB
+         *  CLASS: Locations - Takes Place as arg
+         *  ENUM: Place - Stores a hardcoded Location, Latitude and Longitude ex. GOTHENBURG (57.7, 11.97)
+         */
         Locations location = new Locations(Place.GOTHENBURG);
         Locations location2 = new Locations(Place.MALMO);
         Locations location3 = new Locations(Place.STOCKHOLM);
         Locations location4 = new Locations(Place.SKOOL);
-
         locationsArrayList.add(location);
         locationsArrayList.add(location2);
         locationsArrayList.add(location3);
         locationsArrayList.add(location4);
 
+        /**
+         * Creates the frame to display the GoogleMap
+         */
         mMapView = (MapView) rootView.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume(); // needed to get the map to display immediately
-
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        /**
+         *  Configures the map with the start position & camera zoom.
+         */
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
@@ -75,6 +83,9 @@ public class MapViewFragment extends Fragment {
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(5).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+                /**
+                 * Obligatory code block for handling permissions
+                 */
                 // For showing a move to my location button
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
@@ -117,6 +128,9 @@ public class MapViewFragment extends Fragment {
         mMapView.onLowMemory();
     }
 
+    /**
+     * Places map markers on each Locations in ArrayList<Locations> locationsArrayList = new ArrayList<>();
+     */
     public void markLocations() {
         for (Locations l: locationsArrayList) {
             googleMap.addMarker(new MarkerOptions()
