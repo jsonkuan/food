@@ -72,14 +72,13 @@ public class NewCategoryFragment extends Fragment {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         } else {
-            int iconId = mViewPager.getCurrentItem();
+            int iconId = mViewPager.getCurrentItem() + 1;
 
             System.out.println("MainActivity: " + iconId);
-
+            Toast.makeText(getActivity(), "Category Saved", Toast.LENGTH_SHORT);
 
             db.insertCategory(categoryName, iconId);
 
-            //Toast.makeText(getActivity(), db.getCategories().get(3).getName(), Toast.LENGTH_SHORT);
 
 
 

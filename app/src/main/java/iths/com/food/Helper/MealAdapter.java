@@ -30,8 +30,8 @@ public class MealAdapter extends ArrayAdapter<String> {
 
     DatabaseHelper db;
 
-    public MealAdapter(Context context, ArrayList<String> mealNames) {
-        super(context, R.layout.custom_row, mealNames);
+    public MealAdapter(Context context, ArrayList<String> mealIds) {
+        super(context, R.layout.custom_row, mealIds);
     }
 
     @NonNull
@@ -48,8 +48,8 @@ public class MealAdapter extends ArrayAdapter<String> {
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
 
 
-        String singleFoodItem = getItem(position);
-        Long id = Long.valueOf(singleFoodItem);
+        String mealID = getItem(position);
+        Long id = Long.valueOf(mealID);
         Meal meal = db.getMeal(id);
         textView.setText(meal.getName());
 

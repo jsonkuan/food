@@ -43,10 +43,10 @@ public class CategoryAdapter extends ArrayAdapter<String> {
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
 
-        String singleFoodItem = getItem(position);
-        textView.setText(singleFoodItem);
+        String categoryName = getItem(position);
+        textView.setText(categoryName);
 
-        float averageScoreFloat = (float) db.getCategory(singleFoodItem).getAverageScore();
+        float averageScoreFloat = (float) db.getCategory(categoryName).getAverageScore();
 
         if (Float.isNaN(averageScoreFloat)) {
 
@@ -57,7 +57,7 @@ public class CategoryAdapter extends ArrayAdapter<String> {
 
         ratingbar.setRating(averageScoreFloat);
 
-        imageView.setImageResource(getContext().getResources().getIdentifier("img" + (db.getCategory(singleFoodItem).getIconId() + 1), "drawable", getContext().getPackageName()));
+        imageView.setImageResource(getContext().getResources().getIdentifier("img" + db.getCategory(categoryName).getIconId(), "drawable", getContext().getPackageName()));
 
         db.close();
 

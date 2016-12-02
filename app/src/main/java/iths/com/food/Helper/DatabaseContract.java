@@ -31,11 +31,11 @@ final class DatabaseContract {
                     CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " +
                     CategoryEntry.COLUMN_ICON_ID + " INTEGER);" +
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
-                    "VALUES ('Meat','16');" +
+                    "VALUES ('Meat','17');" +
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
-                    "VALUES ('Veggie','17');" +
+                    "VALUES ('Veggie','18');" +
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
-                    "VALUES ('Fish','3');";;
+                    "VALUES ('Fish','4');";;
 
     //TODO: rada upp alla default kategories här
 
