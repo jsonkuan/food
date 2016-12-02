@@ -260,7 +260,7 @@ public class AddMealFragment extends Fragment{
         meal.setCategory(spinner.getSelectedItem().toString());
 
         Date dateTime = Calendar.getInstance().getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         meal.setDateTime(dateFormat.format(dateTime));
         meal.setLatitude(0);
         meal.setLongitude(0);
