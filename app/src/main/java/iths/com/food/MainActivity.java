@@ -21,10 +21,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         PACKAGE_NAME = getApplicationContext().getPackageName();
 
+        /*
         // Move this intent to meal fragment when it works
         Intent intent = new Intent(this, ShareOnFacebookActivity.class);
         startActivity(intent);
         // -->
+        */
+
+        // START FRAGMENT !!!
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new CategoryFragment()).commit();
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);

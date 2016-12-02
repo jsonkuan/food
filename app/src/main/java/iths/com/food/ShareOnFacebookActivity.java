@@ -21,15 +21,24 @@ import com.facebook.share.model.SharePhotoContent;
 import java.util.Arrays;
 import java.util.List;
 
+import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Model.Meal;
+
 public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
     private LoginManager manager;
+    private DatabaseHelper db;
+    private Meal meal;
+    private long current_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_on_facebook);
+
+        Intent intent = getIntent();
+        current_id = intent.getLongExtra("id",0);
 
         this.shareOnFacebook();
 
@@ -37,11 +46,14 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private void publishImage(){
 
-        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ekorre);
+        db = new DatabaseHelper(this);
+        meal = db.getMeal(current_id);
+
+        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
-                .setCaption("Testar att lägga upp ett inlägg med hjälp av en app.")
+                .setCaption(meal.getName()+" - "+meal.getDescription())
                 .build();
 
         SharePhotoContent content = new SharePhotoContent.Builder()

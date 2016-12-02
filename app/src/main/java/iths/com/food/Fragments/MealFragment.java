@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.share.ShareApi;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Category;
@@ -28,8 +41,10 @@ import iths.com.food.Model.HeartRating;
 import iths.com.food.Model.Meal;
 import iths.com.food.Model.MyCamera;
 import iths.com.food.R;
+import iths.com.food.ShareOnFacebookActivity;
 
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static iths.com.food.R.id.container;
 
 
@@ -54,8 +69,32 @@ public class MealFragment extends Fragment{
     private TextView nameText, descriptionText, categoryText, averageNumber;
     private Spinner spinner;
     private Button saveButton, editButton;
+    private Button shareOnFacebookButton;
 
     private long id;
+    private long current_id = 0;
+
+
+    private View.OnClickListener shareOnFBListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(current_id!=0){
+
+                /*
+                Log.d("test", "Trying to publish2: "+current_id);
+                shareOnFacebook();
+                */
+
+                Intent intent = new Intent(getActivity(), ShareOnFacebookActivity.class);
+
+                intent.putExtra("id",current_id);
+
+                startActivity(intent);
+
+            }
+        }
+    };
+
     private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -89,6 +128,9 @@ public class MealFragment extends Fragment{
             updateMeal(id);
         }
     };
+
+    private CallbackManager callbackManager;
+    private LoginManager manager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -132,6 +174,8 @@ public class MealFragment extends Fragment{
             editButton = (Button) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
+            shareOnFacebookButton = (Button) layoutView.findViewById(R.id.shareOnFacebookButton);
+            shareOnFacebookButton.setOnClickListener(shareOnFBListener);
         }
         heart = new HeartRating(getActivity().getApplicationContext(), getActivity());
         bundle = this.getArguments();
@@ -146,10 +190,21 @@ public class MealFragment extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        Log.d("test", "Trying to publish3: "+current_id);
+
+        Log.d("test", "Trying to publish4: "+current_id);
+
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 camera.showImage(mealImage);
             }
+        } else {
+
+            Log.d("test", "Trying to publish (else): "+current_id);
+            super.onActivityResult(requestCode, resultCode, intent);
+            callbackManager.onActivityResult(requestCode, resultCode, intent);
+
         }
     }
 
@@ -239,6 +294,9 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal.
      */
     private void displayMeal(Long id) {
+
+        this.current_id = id;
+
         Meal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
         descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
@@ -298,6 +356,76 @@ public class MealFragment extends Fragment{
             heartImage.setOnClickListener(heartButtonListener);
         }
     }
+
+    private void publishImage(){
+
+        Meal meal = db.getMeal(current_id);
+
+        Log.d("test", "Is about to be published: "+current_id);
+
+        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
+
+        SharePhoto photo = new SharePhoto.Builder()
+                .setBitmap(image)
+                .setCaption(meal.getName()+" - "+meal.getDescription())
+                .build();
+
+        SharePhotoContent content = new SharePhotoContent.Builder()
+                .addPhoto(photo)
+                .build();
+
+        ShareApi.share(content, null);
+
+        Log.d("test", "Has been published: "+current_id);
+
+    }
+
+    /*
+    @Override
+    private void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+    */
+
+    public void shareOnFacebook() {
+
+        Log.d("test","Share on facebook!");
+
+        FacebookSdk.sdkInitialize(getContext());
+
+        callbackManager = CallbackManager.Factory.create();
+        Log.d("test", "Trying to publish5: "+current_id);
+
+        List<String> permissionNeeds = Arrays.asList("publish_actions");
+        Log.d("test", "Trying to publish6: "+current_id);
+
+        manager = LoginManager.getInstance();
+        Log.d("test", "Trying to publish7: "+current_id);
+        manager.logInWithPublishPermissions(this, permissionNeeds);
+        Log.d("test", "Trying to publish8: "+current_id);
+        manager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d("test", "Trying to publish: "+current_id);
+                publishImage();
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d("test", "cancel");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d("test", error.getCause().toString());
+                Log.d("test", "Trying to publish: "+current_id);
+            }
+        });
+
+    }
+
+
 }
 
 
