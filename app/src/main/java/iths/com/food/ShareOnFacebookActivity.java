@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -24,6 +25,8 @@ import java.util.List;
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Meal;
 
+import static java.security.AccessController.getContext;
+
 public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
@@ -31,6 +34,8 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
     private DatabaseHelper db;
     private Meal meal;
     private long current_id;
+
+    private TextView fbShareStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,8 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         meal = db.getMeal(current_id);
 
-        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
+        //Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
+        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ekorre);
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
@@ -61,6 +67,9 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
                 .build();
 
         ShareApi.share(content, null);
+
+        fbShareStatus = (TextView) findViewById(R.id.fb_share_status);
+        fbShareStatus.setText(meal.getName()+" is now shared on facebook.");
 
     }
 
@@ -101,4 +110,10 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
 
     }
 
+    public void fb_go_back_btn(View view) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
 }
