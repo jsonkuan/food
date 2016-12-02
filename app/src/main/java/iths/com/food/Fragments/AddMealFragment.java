@@ -3,31 +3,24 @@ package iths.com.food.Fragments;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.zip.Inflater;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Category;
@@ -97,12 +90,12 @@ public class AddMealFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_add, container, false);
+        v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
 
         Bundle bundle = getArguments();
 
         if(isOpenedFromMenu) {
-            v = inflater.inflate(R.layout.fragment_add, container, false);
+            v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
             mealImage = (ImageView) v.findViewById(R.id.edit_meal_image);
             camera = new MyCamera(getActivity());
             camera.takePhoto();
@@ -129,7 +122,7 @@ public class AddMealFragment extends Fragment{
                 heartImage.setOnClickListener(heartButtonListener);
             }
         } else if (bundle.getBoolean(MAKE_EDITABLE)) {
-            v = inflater.inflate(R.layout.fragment_add, container, false);
+            v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
             mealImage = (ImageView) v.findViewById(R.id.edit_meal_image);
             name = (EditText) v.findViewById(R.id.name);
             description = (EditText) v.findViewById(R.id.desc);
@@ -159,7 +152,7 @@ public class AddMealFragment extends Fragment{
         }
         else {
             db = new DatabaseHelper(getActivity());
-            v = inflater.inflate(R.layout.fragment_add_meal, container, false);
+            v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
             mealImage = (ImageView) v.findViewById(R.id.meal_image);
             Button b = (Button) v.findViewById(R.id.edit_button);
             b.setOnClickListener(editButtonListener);

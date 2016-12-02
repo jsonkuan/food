@@ -23,17 +23,17 @@ public class NewCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_category);
+        setContentView(R.layout.fragment_add_category);
         addCategoryName = (EditText) findViewById(R.id.add_category_editText);
         Button saveButton = (Button) findViewById(R.id.save_button);
 
-
+/*
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+        }*/
     }
 
     @Override

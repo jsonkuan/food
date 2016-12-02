@@ -5,9 +5,5 @@
     <item
         android:id="@+id/add_category_item"
         android:icon="@drawable/ic_add_black_24dp_hdpi"
-        android:title="@string/add_category"
         app:showAsAction="ifRoom"/>
-
-
-
 </menu>

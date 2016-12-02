@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -26,7 +30,7 @@ import iths.com.food.R;
  * Created by asakwarnmark on 2016-11-23.
  */
 
-public class CategoryFragment extends Fragment implements OnClickListener{
+public class CategoryFragment extends Fragment {
 
     public static final String CHOSEN_CATEGORY = "category";
     public ArrayList<String> foodtypes;
@@ -41,8 +45,15 @@ public class CategoryFragment extends Fragment implements OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
+
         Context context = getActivity();
         View v = inflater.inflate(R.layout.fragment_category, container, false);
+
+        setHasOptionsMenu(true);
+        Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        myToolbar.setTitle("FoodFlash!");
+        myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
         /*if(deleteDB) {
@@ -58,7 +69,7 @@ public class CategoryFragment extends Fragment implements OnClickListener{
 
         adapter = new CategoryAdapter(getActivity(), foodtypes);
         ListView listView = (ListView) v.findViewById(R.id.fragmentCategory);
-
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -128,21 +139,29 @@ public class CategoryFragment extends Fragment implements OnClickListener{
         ((BaseAdapter) listAdapter).notifyDataSetChanged();
         //
     }*/
-
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.edit_heart_health_2:
-
-                break;
-            case R.id.edit_health_hearts:
-
-                break;
-            default:
-                System.out.println("WTF is going on?");
-        }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu,inflater);
+        inflater.inflate(R.menu.meal_category_menu, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_category_item:
+                //TODO: Change layout to AddCategoryFragment
+                System.out.println("It Works");
+                break;
+            default:
+                    System.out.println("error");
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ((BaseAdapter) listAdapter).notifyDataSetChanged();
+    }
 
 }

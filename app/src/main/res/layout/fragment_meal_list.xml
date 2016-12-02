@@ -6,24 +6,16 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/category_toolbar"
+        android:id="@+id/meallist_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/holo_orange_light"
         android:elevation="4dp"
-        android:title="CATEGORY"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_category_button"
-        android:text="Add category"
-        android:onClick="addCategoryButtonPressed"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <ListView
-        android:id="@+id/fragmentCategory"
+        android:id="@+id/fragmentMealList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp" >
