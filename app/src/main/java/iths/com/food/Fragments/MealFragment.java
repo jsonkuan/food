@@ -141,7 +141,7 @@ public class MealFragment extends Fragment{
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
         }
-        heart = new HeartRating(getActivity().getApplicationContext(), getActivity());
+        heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
         bundle = this.getArguments();
         if(bundle == null || bundle.getBoolean(MAKE_EDITABLE)) {
         } else {
@@ -263,7 +263,7 @@ public class MealFragment extends Fragment{
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
 
-        //heart.setHearts(getContext(), false, meal.getHealthyScore(), meal.getTasteScore());
+        heart.setHearts(false, meal.getHealthyScore(), meal.getTasteScore());
     }
 
     /**
@@ -289,6 +289,7 @@ public class MealFragment extends Fragment{
         }
 
         spinner.setSelection(position);
+        heart.setHearts(true, meal.getHealthyScore(), meal.getTasteScore());
     }
 
     /**
