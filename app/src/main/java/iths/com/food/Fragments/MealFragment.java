@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,6 +103,12 @@ public class MealFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         layoutView = inflater.inflate(R.layout.fragment_meal_editable, container, false);
+
+        setHasOptionsMenu(true);
+        Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        myToolbar.setTitle("FoodFlash!");
+        myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(getActivity());
         categories = db.getCategories();

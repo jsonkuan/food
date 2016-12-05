@@ -86,15 +86,6 @@ public class MainActivity extends AppCompatActivity {
         fragment.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void addCategoryButtonPressed(View view) {
-
-
-        // go back to AddCategoryFragment:
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new NewCategoryFragment()).commit();
-    }
-
-
 }
 
 
