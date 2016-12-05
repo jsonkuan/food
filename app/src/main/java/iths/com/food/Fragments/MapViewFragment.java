@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,15 +36,27 @@ import iths.com.food.R;
  * Created by jas0n on 2016-11-28.
  */
 
-public class MapViewFragment extends Fragment {
+public class MapViewFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     ArrayList<Locations> locationsArrayList = new ArrayList<>();
     private MapView mMapView;
     private GoogleMap googleMap;
+    GoogleApiClient mGoogleApiClient;
+    public Location mLastLocation;
+    public static final String TAG = "GPS_TEST";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
 
         /**
          * //TODO: Replace with actual locations and store in DB
@@ -102,6 +115,18 @@ public class MapViewFragment extends Fragment {
         });
 
         return rootView;
+
+
+    }
+
+    public void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    public void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
@@ -128,14 +153,47 @@ public class MapViewFragment extends Fragment {
         mMapView.onLowMemory();
     }
 
+
     /**
      * Places map markers on each Locations in ArrayList<Locations> locationsArrayList = new ArrayList<>();
      */
     public void markLocations() {
-        for (Locations l: locationsArrayList) {
+        for (Locations l : locationsArrayList) {
             googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(l.getLat(), l.getLng()))
-                .title(l.getTitle()).snippet("Description here..."));
+                    .position(new LatLng(l.getLat(), l.getLng()))
+                    .title(l.getTitle()).snippet("Description here..."));
         }
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            Log.d(TAG, ""+mLastLocation.getLongitude());
+            Log.d(TAG, ""+mLastLocation.getLatitude());
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+    public Location getLocation() {
+        return mLastLocation;
     }
 }

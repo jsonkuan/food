@@ -33,7 +33,7 @@ import iths.com.food.Fragments.CategoryFragment;
 import iths.com.food.Fragments.MapViewFragment;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity  {
 
     public static String PACKAGE_NAME;
     Button addCategory;
@@ -49,13 +49,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
         PACKAGE_NAME = getApplicationContext().getPackageName();
 
-        if (mGoogleApiClient == null) {
+       /* if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-        }
+        }*/
 
         //open with CategoryFragment
         getSupportFragmentManager().beginTransaction()
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, new NewCategoryFragment()).commit();
     }
-    protected void onStart() {
+    /*protected void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
     }
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
+    } */
 }
 
 
