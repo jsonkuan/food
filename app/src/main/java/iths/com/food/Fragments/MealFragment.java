@@ -152,7 +152,7 @@ public class MealFragment extends Fragment{
         if(bundle == null || bundle.getBoolean(MAKE_EDITABLE)) {
         } else {
             long id = bundle.getLong(MealListFragment.MEAL_ID);
-            //displayMeal(id);
+            displayMeal(id);
         }
 
         return layoutView;

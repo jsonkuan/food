@@ -122,7 +122,7 @@ public class CategoryFragment extends Fragment {
     }
 
     private void showCategory(String category) {
-        MealFragment newFragment = new MealFragment();
+        MealListFragment newFragment = new MealListFragment();
         Bundle bundle = new Bundle();
         bundle.putString(CHOSEN_CATEGORY, category);
         newFragment.setArguments(bundle);
