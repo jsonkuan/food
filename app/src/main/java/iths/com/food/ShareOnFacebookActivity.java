@@ -3,6 +3,7 @@ package iths.com.food;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,8 +55,11 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         meal = db.getMeal(current_id);
 
-        //Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ekorre);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
+
+        Uri filePathUri = Uri.parse(meal.getImagePath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
