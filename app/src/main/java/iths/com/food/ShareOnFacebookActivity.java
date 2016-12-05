@@ -114,7 +114,7 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
 
     }
 
-    public void fb_go_back_btn(View view) {
+    public void fbGoBack(View view) {
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

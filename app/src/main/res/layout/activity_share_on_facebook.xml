@@ -24,6 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/back_to_categories"
-        android:onClick="fb_go_back_btn"/>
+        android:onClick="fbGoBack"/>
 
 </LinearLayout>
