@@ -2,7 +2,12 @@ package iths.com.food.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,6 +34,13 @@ public class MealListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meal_list, container, false);
+
+        setHasOptionsMenu(true);
+        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.meallist_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        myToolbar.setTitle("FoodFlash!");
+        myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(getActivity());
 
@@ -60,6 +72,18 @@ public class MealListFragment extends Fragment {
         db.close();
         return view;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //TODO: Implement back button
+                break;
+            default: super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void openMeal(long id) {
         MealFragment newFragment = new MealFragment();

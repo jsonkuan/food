@@ -6,9 +6,18 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
+import iths.com.food.Helper.CategoryAdapter;
+import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.MealAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -40,7 +49,7 @@ import static iths.com.food.R.id.container;
 public class MealFragment extends Fragment{
 
     private static final String MAKE_EDITABLE = "make_editable";
-    private static final String MEAL_ID = "meal_id";
+    public static final String MEAL_ID = "meal_id";
     private static boolean isOpenedFromMenu;
 
     private HeartRating heart;
@@ -94,6 +103,12 @@ public class MealFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         layoutView = inflater.inflate(R.layout.fragment_meal_editable, container, false);
+
+        setHasOptionsMenu(true);
+        Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        myToolbar.setTitle("FoodFlash!");
+        myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(getActivity());
         categories = db.getCategories();
