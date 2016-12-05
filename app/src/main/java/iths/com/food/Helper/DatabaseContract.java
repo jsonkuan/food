@@ -27,17 +27,19 @@ final class DatabaseContract {
                     MealEntry.COLUMN_LONGITUDE + " DOUBLE," +
                     MealEntry.COLUMN_IMAGE_PATH + " TEXT," +
                     MealEntry.COLUMN_LATITUDE + " DOUBLE);" +
-            "CREATE TABLE " + CategoryEntry.TABLE + " (" +
-                CategoryEntry.COLUMN_NAME + " TEXT);" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Meat');" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Veggie');" +
-            "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-                    "VALUES ('Fish')";
+            "CREATE TABLE " + CategoryEntry.TABLE + " ( " +
+                    CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " +
+                    CategoryEntry.COLUMN_ICON_ID + " INTEGER);" +
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
+                    "VALUES ('Meat','17');" +
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
+                    "VALUES ('Veggie','18');" +
+                    "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
+                    "VALUES ('Fish','4');";;
+
     //TODO: rada upp alla default kategories här
 
-
+String create = "CREATE TABLE " + CategoryEntry.TABLE + " ( " + CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " + CategoryEntry.COLUMN_ICON_ID + " INTEGER);";
     // Prevents instantiating of this class
     private DatabaseContract() {}
 
@@ -60,5 +62,19 @@ final class DatabaseContract {
     static class CategoryEntry implements BaseColumns{
         static final String TABLE = "category";
         static final String COLUMN_NAME = "name";
+        static final String COLUMN_ICON_ID = "icon_id";
     }
 }
+
+/*
+"CREATE TABLE " + CategoryEntry.TABLE + " (" +
+        CategoryEntry.COLUMN_ICON_ID + " INTEGER," +
+        CategoryEntry.COLUMN_NAME + " TEXT);" +
+        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+        "VALUES ('Meat');" +
+        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+        "VALUES ('Veggie');" +
+        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
+        "VALUES ('Fish')";
+
+        */
