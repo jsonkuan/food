@@ -3,10 +3,12 @@ package iths.com.food;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -21,15 +23,28 @@ import com.facebook.share.model.SharePhotoContent;
 import java.util.Arrays;
 import java.util.List;
 
+import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Model.Meal;
+
+import static java.security.AccessController.getContext;
+
 public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
     private LoginManager manager;
+    private DatabaseHelper db;
+    private Meal meal;
+    private long current_id;
+
+    private TextView fbShareStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_on_facebook);
+
+        Intent intent = getIntent();
+        current_id = intent.getLongExtra("id",0);
 
         this.shareOnFacebook();
 
@@ -37,11 +52,18 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private void publishImage(){
 
-        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.ekorre);
+        db = new DatabaseHelper(this);
+        meal = db.getMeal(current_id);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
+
+        Uri filePathUri = Uri.parse(meal.getImagePath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
-                .setCaption("Testar att lägga upp ett inlägg med hjälp av en app.")
+                .setCaption(meal.getName()+" - "+meal.getDescription())
                 .build();
 
         SharePhotoContent content = new SharePhotoContent.Builder()
@@ -49,6 +71,9 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
                 .build();
 
         ShareApi.share(content, null);
+
+        fbShareStatus = (TextView) findViewById(R.id.fb_share_status);
+        fbShareStatus.setText(meal.getName()+" is now shared on facebook.");
 
     }
 
@@ -89,4 +114,10 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
 
     }
 
+    public void fbGoBack(View view) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
 }
