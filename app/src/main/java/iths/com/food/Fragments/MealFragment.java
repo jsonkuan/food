@@ -6,34 +6,21 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-import com.facebook.share.ShareApi;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Model.Category;
@@ -44,7 +31,6 @@ import iths.com.food.R;
 import iths.com.food.ShareOnFacebookActivity;
 
 import static android.app.Activity.RESULT_OK;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static iths.com.food.R.id.container;
 
 
@@ -73,64 +59,6 @@ public class MealFragment extends Fragment{
 
     private long id;
     private long current_id = 0;
-
-
-    private View.OnClickListener shareOnFBListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(current_id!=0){
-
-                /*
-                Log.d("test", "Trying to publish2: "+current_id);
-                shareOnFacebook();
-                */
-
-                Intent intent = new Intent(getActivity(), ShareOnFacebookActivity.class);
-
-                intent.putExtra("id",current_id);
-
-                startActivity(intent);
-
-            }
-        }
-    };
-
-    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            camera = new MyCamera(getActivity());
-            camera.takePhoto();
-        }
-    };
-    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            saveMeal();
-        }
-    };
-    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            heart.fillHearts(v);
-        }
-    };
-    private View.OnClickListener editButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            makeEditable(id);
-        }
-    };
-    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Bundle bundle = getArguments();
-            long id = bundle.getLong(MEAL_ID);
-            updateMeal(id);
-        }
-    };
-
-    private CallbackManager callbackManager;
-    private LoginManager manager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -166,7 +94,6 @@ public class MealFragment extends Fragment{
             setUpSpinner();
             setHeartClickListeners();
             displayEditableMeal(bundle.getLong(MEAL_ID));
-            //isOpenedFromMenu = false;
         }
         else {
             layoutView = inflater.inflate(R.layout.fragment_meal, container, false);
@@ -191,20 +118,10 @@ public class MealFragment extends Fragment{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-        Log.d("test", "Trying to publish3: "+current_id);
-
-        Log.d("test", "Trying to publish4: "+current_id);
-
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 camera.showImage(mealImage);
             }
-        } else {
-
-            Log.d("test", "Trying to publish (else): "+current_id);
-            super.onActivityResult(requestCode, resultCode, intent);
-            callbackManager.onActivityResult(requestCode, resultCode, intent);
-
         }
     }
 
@@ -247,9 +164,6 @@ public class MealFragment extends Fragment{
         meal.setName(nameEdit.getText().toString());
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
-        //String imagePath = camera.getPhotoFilePath().toString();
-        //meal.setImagePath(imagePath);
-
 
         int rowsAffected = db.updateMeal(meal);
 
@@ -312,8 +226,6 @@ public class MealFragment extends Fragment{
         mealImage.setImageBitmap(image);
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
-
-        //heart.setHearts(getContext(), false, meal.getHealthyScore(), meal.getTasteScore());
     }
 
     /**
@@ -357,75 +269,50 @@ public class MealFragment extends Fragment{
         }
     }
 
-    private void publishImage(){
 
-        Meal meal = db.getMeal(current_id);
-
-        Log.d("test", "Is about to be published: "+current_id);
-
-        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
-
-        SharePhoto photo = new SharePhoto.Builder()
-                .setBitmap(image)
-                .setCaption(meal.getName()+" - "+meal.getDescription())
-                .build();
-
-        SharePhotoContent content = new SharePhotoContent.Builder()
-                .addPhoto(photo)
-                .build();
-
-        ShareApi.share(content, null);
-
-        Log.d("test", "Has been published: "+current_id);
-
-    }
-
-    /*
-    @Override
-    private void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-    */
-
-    public void shareOnFacebook() {
-
-        Log.d("test","Share on facebook!");
-
-        FacebookSdk.sdkInitialize(getContext());
-
-        callbackManager = CallbackManager.Factory.create();
-        Log.d("test", "Trying to publish5: "+current_id);
-
-        List<String> permissionNeeds = Arrays.asList("publish_actions");
-        Log.d("test", "Trying to publish6: "+current_id);
-
-        manager = LoginManager.getInstance();
-        Log.d("test", "Trying to publish7: "+current_id);
-        manager.logInWithPublishPermissions(this, permissionNeeds);
-        Log.d("test", "Trying to publish8: "+current_id);
-        manager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d("test", "Trying to publish: "+current_id);
-                publishImage();
+    private View.OnClickListener shareOnFBListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(current_id!=0){
+                Intent intent = new Intent(getActivity(), ShareOnFacebookActivity.class);
+                intent.putExtra("id",current_id);
+                startActivity(intent);
             }
-
-            @Override
-            public void onCancel() {
-                Log.d("test", "cancel");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.d("test", error.getCause().toString());
-                Log.d("test", "Trying to publish: "+current_id);
-            }
-        });
-
-    }
-
-
+        }
+    };
+    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            camera = new MyCamera(getActivity());
+            camera.takePhoto();
+        }
+    };
+    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveMeal();
+        }
+    };
+    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            heart.fillHearts(v);
+        }
+    };
+    private View.OnClickListener editButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            makeEditable(id);
+        }
+    };
+    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Bundle bundle = getArguments();
+            long id = bundle.getLong(MEAL_ID);
+            updateMeal(id);
+        }
+    };
 }
 
 
