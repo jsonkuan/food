@@ -18,6 +18,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.google.android.gms.location.LocationServices;
+
+import iths.com.food.Helper.GPSHelper;
+import iths.com.food.Model.Locations;
 
 import java.util.ArrayList;
 import iths.com.food.Helper.CategoryAdapter;
@@ -38,13 +42,14 @@ public class CategoryFragment extends Fragment {
     DatabaseHelper db;
     CategoryAdapter adapter;
     boolean deleteDB = true;
+    GPSHelper gps;
     //Button addCategory;
     //int i = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //TESTA ATT SKRIVA UT KOORDINATER!!
+        gps = new GPSHelper(getActivity());
 
         Context context = getActivity();
         View v = inflater.inflate(R.layout.fragment_category, container, false);
@@ -151,6 +156,7 @@ public class CategoryFragment extends Fragment {
             case R.id.add_category_item:
                 //TODO: Change layout to AddCategoryFragment
                 System.out.println("It Works");
+                Toast.makeText(getActivity(), ""+gps.getLatitude(),Toast.LENGTH_SHORT).show();
                 break;
             default:
                     System.out.println("error");

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -27,6 +28,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
+import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.GPSHelper;
 import iths.com.food.MainActivity;
 import iths.com.food.Model.Locations;
 import iths.com.food.Place;
@@ -36,7 +39,7 @@ import iths.com.food.R;
  * Created by jas0n on 2016-11-28.
  */
 
-public class MapViewFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapViewFragment extends Fragment {
 
     ArrayList<Locations> locationsArrayList = new ArrayList<>();
     private MapView mMapView;
@@ -44,19 +47,14 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
     GoogleApiClient mGoogleApiClient;
     public Location mLastLocation;
     public static final String TAG = "GPS_TEST";
+    GPSHelper gps;
+    DatabaseHelper db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-
+        gps = new GPSHelper(getActivity());
+        db = new DatabaseHelper(getActivity());
 
         /**
          * //TODO: Replace with actual locations and store in DB
@@ -67,10 +65,15 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
         Locations location2 = new Locations(Place.MALMO);
         Locations location3 = new Locations(Place.STOCKHOLM);
         Locations location4 = new Locations(Place.SKOOL);
+        //Locations foodLocation = new Locations("foodLocation");
+
+        //Place food = new Place(db.getMeal(0).getLatitude(),db.getMeal(0).getLongitude());
+
         locationsArrayList.add(location);
         locationsArrayList.add(location2);
         locationsArrayList.add(location3);
         locationsArrayList.add(location4);
+        //locationsArrayList.add(foodLocation);
 
         /**
          * Creates the frame to display the GoogleMap
@@ -116,18 +119,8 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
 
         return rootView;
 
-
     }
 
-    public void onStart() {
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
-
-    public void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
 
     @Override
     public void onResume() {
@@ -165,35 +158,5 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
         }
     }
 
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            Log.d(TAG, ""+mLastLocation.getLongitude());
-            Log.d(TAG, ""+mLastLocation.getLatitude());
-        }
-    }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-    public Location getLocation() {
-        return mLastLocation;
-    }
 }

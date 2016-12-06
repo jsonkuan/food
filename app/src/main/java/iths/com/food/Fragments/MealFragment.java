@@ -17,6 +17,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.GPSHelper;
 import iths.com.food.Helper.MealAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -54,6 +55,7 @@ public class MealFragment extends Fragment{
     private HeartRating heart;
     private ArrayList<Category> categories;
     private DatabaseHelper db;
+    private GPSHelper gps;
     private MyCamera camera;
 
     private View layoutView;
@@ -110,6 +112,7 @@ public class MealFragment extends Fragment{
         myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(getActivity());
+        gps = new GPSHelper(getActivity());
         categories = db.getCategories();
 
         spinner = (Spinner) layoutView.findViewById(R.id.spinner);
@@ -181,8 +184,10 @@ public class MealFragment extends Fragment{
         Date dateTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
         meal.setDateTime(dateFormat.format(dateTime));
-        meal.setLatitude(0);
-        meal.setLongitude(0);
+        meal.setLatitude(gps.getLatitude());
+        Toast.makeText(getActivity(),"Latitude set to "+gps.getLatitude(), Toast.LENGTH_SHORT).show();
+        meal.setLongitude(gps.getLongitude());
+        Toast.makeText(getActivity(),"Longitude set to "+gps.getLongitude(), Toast.LENGTH_SHORT).show();
         String imagePath = camera.getPhotoFilePath().toString();
         meal.setImagePath(imagePath);
 
