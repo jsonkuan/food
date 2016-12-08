@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.DialogHandler;
 import iths.com.food.Helper.SwipeDismissListViewTouchListener;
 import iths.com.food.Model.Category;
 import iths.com.food.Model.MyCamera;
@@ -114,8 +116,9 @@ public class CategoryFragment extends Fragment {
                         @Override
                         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                             for (int position : reverseSortedPositions) {
-                                db.deleteCategory(foodtypes.get(position));
-                                (adapter).notifyDataSetChanged();
+                                doSwipe(position);
+
+
                             }
                         }
                     }
@@ -125,6 +128,51 @@ public class CategoryFragment extends Fragment {
             db.close();
             return v;
         }
+
+
+
+
+    public void doSwipe(int position) {
+        DialogHandler appdialog = new DialogHandler();
+
+        int numMeals = db.getCategory(adapter
+                .getItem(position))
+                .getMeals().size();
+
+        appdialog.Confirm(getActivity(), "Are you sure you want to delete?", "There is " + numMeals+ " meals in this category.",
+                "Cancel", "OK", okPressed(position), cancelPressed());
+    }
+    public Runnable okPressed(int position){
+        final int finalPsition = position;
+        return new Runnable() {
+            public void run() {
+                db.deleteCategory(foodtypes.get(finalPsition));
+                CategoryFragment newFragment = new CategoryFragment();
+                getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+            }
+        };
+    }
+    public Runnable cancelPressed(){
+        return new Runnable() {
+            public void run() {
+            }
+        };
+    }
+
+
+
+/*
+db.deleteCategory(foodtypes.get(position));
+        CategoryFragment newFragment = new CategoryFragment();
+        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+*/
+
+
+
+
+
+
+
 
 
         @Override

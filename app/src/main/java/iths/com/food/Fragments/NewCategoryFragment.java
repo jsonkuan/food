@@ -78,6 +78,8 @@ public class NewCategoryFragment extends Fragment {
             Toast.makeText(getActivity(), "Category Saved", Toast.LENGTH_SHORT);
 
             db.insertCategory(categoryName, iconId);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, new CategoryFragment()).commit();
 
 
 
