@@ -85,10 +85,9 @@ public class MyCamera {
             Log.d(TAG, "Funkade inte att skala");
         }
 
+        Log.d(TAG, "scaleFactor: " + scaleFactor);
         opt = new BitmapFactory.Options();
         opt.inSampleSize = scaleFactor;
-
-        Bitmap image = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
 
         Bitmap rotatedBitmap = rotatePhoto(photoFilePath.getPath());
 

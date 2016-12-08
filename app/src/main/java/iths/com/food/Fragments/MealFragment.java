@@ -135,6 +135,7 @@ public class MealFragment extends Fragment{
             saveButton.setOnClickListener(saveButtonListener);
             setUpSpinner();
             setHeartClickListeners();
+            Log.d(TAG, "Log point 1");
             isOpenedFromMenu = false;
         } else if (bundle.getBoolean(MAKE_EDITABLE)) {
             mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
@@ -153,6 +154,7 @@ public class MealFragment extends Fragment{
         }
         heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
         bundle = this.getArguments();
+        Log.d(TAG, "Log point 2");
         if(bundle == null || bundle.getBoolean(MAKE_EDITABLE)) {
         } else {
             long id = bundle.getLong(MealListFragment.MEAL_ID);
@@ -188,7 +190,8 @@ public class MealFragment extends Fragment{
         meal.setDateTime(dateFormat.format(dateTime));
         meal.setLatitude(0);
         meal.setLongitude(0);
-        String imagePath = camera.getPhotoFilePath().toString();
+        String imagePath = camera.getPhotoFilePath().getPath();
+        Log.d(TAG, "imagePath = " + imagePath);
         meal.setImagePath(imagePath);
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
@@ -213,9 +216,10 @@ public class MealFragment extends Fragment{
         meal.setName(nameEdit.getText().toString());
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
-        //String imagePath = camera.getPhotoFilePath().toString();
-        //meal.setImagePath(imagePath);
+        String imagePath = camera.getPhotoFilePath().getPath();
+        meal.setImagePath(imagePath);
 
+        Log.d(TAG, "imagePath = " + imagePath);
 
         int rowsAffected = db.updateMeal(meal);
         db.close();
@@ -262,6 +266,7 @@ public class MealFragment extends Fragment{
      */
     private void displayMeal(Long id) {
         DatabaseHelper db = new DatabaseHelper(getActivity());
+
         Meal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
         descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
@@ -272,6 +277,7 @@ public class MealFragment extends Fragment{
 
         nameText.setText(meal.getName());
         descriptionText.setText(meal.getDescription());
+        Log.d(TAG, "Right before setting image");
         Uri filePathUri = Uri.parse(meal.getImagePath());
         Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
         mealImage.setImageBitmap(image);
