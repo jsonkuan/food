@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Helper.SwipeDismissListViewTouchListener;
 import iths.com.food.Model.Category;
+import iths.com.food.Model.MyCamera;
 import iths.com.food.R;
 
 /**
@@ -40,15 +42,13 @@ public class CategoryFragment extends Fragment {
     CategoryAdapter adapter;
     boolean deleteDB = true;
     GPSHelper gps;
-    //Button addCategory;
-    //int i = 1;
+    private Button newCategoryButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         gps = new GPSHelper(getActivity());
 
-        Context context = getActivity();
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         setHasOptionsMenu(true);
@@ -58,6 +58,7 @@ public class CategoryFragment extends Fragment {
         myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
+
         /*if(deleteDB) {
             context.deleteDatabase("food.db");
             deleteDB = false;
@@ -82,25 +83,6 @@ public class CategoryFragment extends Fragment {
                 }
         );
 
-        //(adapter)
-        listView.setAdapter(adapter);
-
-
-
-        // button addCategory
-        /*addCategory = (Button) v.findViewById(R.id.add_category_button);
-        addCategory.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                foodtypes.add("Hamburgare "+i);
-                i++;
-                ((BaseAdapter) adapter).notifyDataSetChanged();
-            }
-        });*/
-
-
-
-        // Delete with swipe
         SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
                 listView,
                 new SwipeDismissListViewTouchListener.DismissCallbacks() {
@@ -110,7 +92,7 @@ public class CategoryFragment extends Fragment {
                     }
 
                     @Override
-                    public void  onDismiss(ListView listView, int[] reverseSortedPositions) {
+                    public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
                             db.deleteCategory(foodtypes.get(position));
                             (adapter).notifyDataSetChanged();
@@ -123,27 +105,9 @@ public class CategoryFragment extends Fragment {
         return v;
     }
 
-    private void showCategory(String category) {
-        MealListFragment newFragment = new MealListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(CHOSEN_CATEGORY, category);
-        newFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-    }
-
-    /*TODO: Change NewCategoryActivity to Fragment
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //if (requestCode == NewCategoryActivity.REQUEST_CODE) {
-        //String text = data.getStringExtra(NewCategoryActivity.EDIT_TEXT_KEY);
-        //foodtypes.add(text);
-        ((BaseAdapter) listAdapter).notifyDataSetChanged();
-        //
-    }*/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.meal_category_menu, menu);
     }
 
@@ -153,18 +117,24 @@ public class CategoryFragment extends Fragment {
             case R.id.add_category_item:
                 //TODO: Change layout to AddCategoryFragment
                 System.out.println("It Works");
-                Toast.makeText(getActivity(), ""+gps.getLatitude(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "" + gps.getLatitude(), Toast.LENGTH_SHORT).show();
                 break;
             default:
-                    System.out.println("error");
+                System.out.println("error");
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
-
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult ( int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         ((BaseAdapter) listAdapter).notifyDataSetChanged();
     }
-
+    private void showCategory(String category) {
+        MealListFragment newFragment = new MealListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CHOSEN_CATEGORY, category);
+        newFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+    }
 }
+

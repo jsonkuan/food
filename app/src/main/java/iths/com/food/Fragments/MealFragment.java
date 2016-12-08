@@ -11,32 +11,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import java.util.ArrayList;
-import iths.com.food.Helper.CategoryAdapter;
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.GPSHelper;
-import iths.com.food.Helper.MealAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.GPSHelper;
 import iths.com.food.Model.Category;
 import iths.com.food.Model.HeartRating;
 import iths.com.food.Model.Meal;
 import iths.com.food.Model.MyCamera;
 import iths.com.food.R;
+import iths.com.food.ShareOnFacebookActivity;
 
 import static android.app.Activity.RESULT_OK;
 import static iths.com.food.R.id.container;
@@ -64,41 +58,10 @@ public class MealFragment extends Fragment{
     private TextView nameText, descriptionText, categoryText, averageNumber;
     private Spinner spinner;
     private Button saveButton, editButton;
+    private Button shareOnFacebookButton;
 
     private long id;
-    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            camera = new MyCamera(getActivity());
-            camera.takePhoto();
-        }
-    };
-    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            saveMeal();
-        }
-    };
-    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            heart.fillHearts(v);
-        }
-    };
-    private View.OnClickListener editButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            makeEditable(id);
-        }
-    };
-    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Bundle bundle = getArguments();
-            long id = bundle.getLong(MEAL_ID);
-            updateMeal(id);
-        }
-    };
+    private long current_id = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -141,7 +104,6 @@ public class MealFragment extends Fragment{
             setUpSpinner();
             setHeartClickListeners();
             displayEditableMeal(bundle.getLong(MEAL_ID));
-            //isOpenedFromMenu = false;
         }
         else {
             layoutView = inflater.inflate(R.layout.fragment_meal, container, false);
@@ -149,6 +111,8 @@ public class MealFragment extends Fragment{
             editButton = (Button) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
+            shareOnFacebookButton = (Button) layoutView.findViewById(R.id.shareOnFacebookButton);
+            shareOnFacebookButton.setOnClickListener(shareOnFBListener);
         }
         heart = new HeartRating(getActivity().getApplicationContext(), getActivity());
         bundle = this.getArguments();
@@ -163,6 +127,7 @@ public class MealFragment extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 camera.showImage(mealImage);
@@ -251,6 +216,9 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal.
      */
     private void displayMeal(Long id) {
+
+        this.current_id = id;
+
         Meal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
         descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
@@ -266,8 +234,6 @@ public class MealFragment extends Fragment{
         mealImage.setImageBitmap(image);
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
-
-        //heart.setHearts(getContext(), false, meal.getHealthyScore(), meal.getTasteScore());
     }
 
     /**
@@ -310,6 +276,51 @@ public class MealFragment extends Fragment{
             heartImage.setOnClickListener(heartButtonListener);
         }
     }
+
+
+    private View.OnClickListener shareOnFBListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(current_id!=0){
+                Intent intent = new Intent(getActivity(), ShareOnFacebookActivity.class);
+                intent.putExtra("id",current_id);
+                startActivity(intent);
+            }
+        }
+    };
+    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            camera = new MyCamera(getActivity());
+            camera.takePhoto();
+        }
+    };
+    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveMeal();
+        }
+    };
+    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            heart.fillHearts(v);
+        }
+    };
+    private View.OnClickListener editButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            makeEditable(id);
+        }
+    };
+    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Bundle bundle = getArguments();
+            long id = bundle.getLong(MEAL_ID);
+            updateMeal(id);
+        }
+    };
 }
 
 

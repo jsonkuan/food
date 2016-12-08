@@ -49,21 +49,8 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         PACKAGE_NAME = getApplicationContext().getPackageName();
 
-       /* if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }*/
-
-        //open with CategoryFragment
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, new CategoryFragment()).commit();
-
-
-
-
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
                 findViewById(R.id.bottom_navigation);
@@ -90,16 +77,6 @@ public class MainActivity extends AppCompatActivity  {
                         return false;
                     }
                 });
-
-
-        /*addCategory = (Button) findViewById(R.id.add_category_button);
-        addCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new CategoryFragment()).commit();
-            }
-        });*/
     }
 
     @Override

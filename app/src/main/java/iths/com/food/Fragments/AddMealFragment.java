@@ -56,8 +56,6 @@ public class AddMealFragment extends Fragment{
     private TextView categoryText;
     private TextView averageNumber;
     private MyCamera camera;
-    private int healthGrade;
-    private int tasteGrade;
     private static final String TAG = "TAG";
     private long id;
     private View.OnClickListener saveButtonListener = new View.OnClickListener() {
@@ -95,7 +93,7 @@ public class AddMealFragment extends Fragment{
         Bundle bundle = getArguments();
 
         if(isOpenedFromMenu) {
-            v = inflater.inflate(R.layout.fragment_meal_editable, container, false);
+            v = inflater.inflate(R.layout.fragment_meal, container, false);
             mealImage = (ImageView) v.findViewById(R.id.edit_meal_image);
             camera = new MyCamera(getActivity());
             camera.takePhoto();
