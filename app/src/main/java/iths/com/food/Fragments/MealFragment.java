@@ -185,13 +185,11 @@ public class MealFragment extends Fragment{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
         meal.setDateTime(dateFormat.format(dateTime));
         meal.setLatitude(gps.getLatitude());
-        Toast.makeText(getActivity(),"Latitude set to "+gps.getLatitude(), Toast.LENGTH_SHORT).show();
         meal.setLongitude(gps.getLongitude());
-        Toast.makeText(getActivity(),"Longitude set to "+gps.getLongitude(), Toast.LENGTH_SHORT).show();
         String imagePath = camera.getPhotoFilePath().toString();
         meal.setImagePath(imagePath);
 
-        long id = db.insertMeal(meal);
+        db.insertMeal(meal);
 
         db.close();
 
@@ -211,15 +209,10 @@ public class MealFragment extends Fragment{
         meal.setName(nameEdit.getText().toString());
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
-        //String imagePath = camera.getPhotoFilePath().toString();
-        //meal.setImagePath(imagePath);
 
+        db.updateMeal(meal);
+        db.close();
 
-        int rowsAffected = db.updateMeal(meal);
-
-        if (rowsAffected > 0) {
-            Toast.makeText(getActivity(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**
