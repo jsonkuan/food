@@ -75,7 +75,7 @@ public class MealFragment extends Fragment{
         layoutView = inflater.inflate(R.layout.fragment_meal_editable, container, false);
 
         setHasOptionsMenu(true);
-        Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_toolbar);
+        Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_editable_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         myToolbar.setTitle("FoodFlash!");
         myToolbar.setLogo(R.drawable.empty_heart);

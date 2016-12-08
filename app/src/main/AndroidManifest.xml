@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ShareOnFacebookActivity"></activity>
+        <activity android:name=".ShareOnFacebookActivity" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

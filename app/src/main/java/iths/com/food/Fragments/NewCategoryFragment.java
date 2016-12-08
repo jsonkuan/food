@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +20,9 @@ import iths.com.food.R;
 
 public class NewCategoryFragment extends Fragment {
 
-    private ViewPager mViewPager;
-    EditText addCategoryName;
-    ImageAdapter adapterView;
     DatabaseHelper db;
     ViewGroup v;
+    private ViewPager mViewPager;
     private View.OnClickListener saveButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -32,18 +32,24 @@ public class NewCategoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        v = (ViewGroup) inflater.inflate(R.layout.fragment_add_category, container, false);
+        v = (ViewGroup) inflater.inflate(R.layout.fragment_new_category, container, false);
 
         Button b = (Button) v.findViewById(R.id.save_button);
         b.setOnClickListener(saveButtonListener);
 
-        addCategoryName = (EditText) v.findViewById(R.id.add_category_editText);
+        setHasOptionsMenu(true);
+        Toolbar myToolbar = (Toolbar) v.findViewById(R.id.new_category_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        myToolbar.setTitle("Add Category");
+        myToolbar.setLogo(R.drawable.empty_heart);
+
+        ImageAdapter adapterView = new ImageAdapter(getActivity());
         mViewPager = (ViewPager) v.findViewById(R.id.viewPageAndroid);
-        adapterView = new ImageAdapter(getActivity());
         mViewPager.setAdapter(adapterView);
 
         return v;
     }
+
     public void saveButtonPressed() {
 
         db = new DatabaseHelper(getActivity());
