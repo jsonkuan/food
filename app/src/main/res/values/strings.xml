@@ -13,5 +13,13 @@
     <string name="categories">Categories</string>
     <string name="map">Map</string>
     <string name="describe">Describe your meal</string>
+    <string name="my_new_meal">My new meal</string>
+    <string name="my_category">My category</string>
+    <string name="tasty">Tasty</string>
+    <string name="average_grade">Average grade:</string>
+
+    <string name="facebook_app_id">557438107789061</string>
+    <string name="loading_facebook">Loading facebook...</string>
+    <string name="back_to_categories">Back to categories</string>
 
 </resources>

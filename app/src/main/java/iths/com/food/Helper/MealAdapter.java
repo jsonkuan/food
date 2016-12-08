@@ -30,8 +30,8 @@ public class MealAdapter extends ArrayAdapter<String> {
 
     DatabaseHelper db;
 
-    public MealAdapter(Context context, ArrayList<String> mealNames) {
-        super(context, R.layout.custom_row, mealNames);
+    public MealAdapter(Context context, ArrayList<String> mealIds) {
+        super(context, R.layout.custom_row, mealIds);
     }
 
     @NonNull
@@ -46,12 +46,14 @@ public class MealAdapter extends ArrayAdapter<String> {
         ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
+        TextView dateUploaded = (TextView) customView.findViewById(R.id.date_of_meal);
 
 
-        String singleFoodItem = getItem(position);
-        Long id = Long.valueOf(singleFoodItem);
+        String mealID = getItem(position);
+        Long id = Long.valueOf(mealID);
         Meal meal = db.getMeal(id);
         textView.setText(meal.getName());
+        dateUploaded.setText(meal.getDateTime());
 
         averageScore.setText("Score: "+meal.getTotalScore());
         ratingbar.setRating((float)meal.getTotalScore());
