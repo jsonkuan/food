@@ -2,7 +2,6 @@ package iths.com.food.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +17,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.google.android.gms.location.LocationServices;
 
 import iths.com.food.Helper.GPSHelper;
-import iths.com.food.Model.Locations;
 
 import java.util.ArrayList;
 import iths.com.food.Helper.CategoryAdapter;
