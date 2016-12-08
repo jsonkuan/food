@@ -90,11 +90,19 @@ public class MyCamera {
 
         Bitmap image = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
 
+        Bitmap rotatedBitmap = rotatePhoto(photoFilePath.getPath());
+
+        imageView.setImageBitmap(rotatedBitmap);
+    }
+
+    public static Bitmap rotatePhoto(String filePath) {
+        Bitmap image = BitmapFactory.decodeFile(filePath);
+
         ExifInterface exif;
         int orientation = 167;
 
         try {
-            exif = new ExifInterface(photoFilePath.getPath());
+            exif = new ExifInterface(filePath);
             orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
             Log.d("ORIENTATION", orientation + "");
         } catch (Exception e) {
@@ -111,15 +119,7 @@ public class MyCamera {
         }
         Bitmap rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
 
-        imageView.setImageBitmap(rotatedBitmap);
-    }
-
-    public void savePhoto() {
-
-    }
-
-    public void createThumbnail() {
-
+        return rotatedBitmap;
     }
 
     public Uri getPhotoFilePath() {

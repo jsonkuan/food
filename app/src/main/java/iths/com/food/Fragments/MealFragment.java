@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,11 +52,11 @@ public class MealFragment extends Fragment{
 
     private static final String MAKE_EDITABLE = "make_editable";
     public static final String MEAL_ID = "meal_id";
+    private static final String TAG = "LOGTAG";
     private static boolean isOpenedFromMenu;
 
     private HeartRating heart;
     private ArrayList<Category> categories;
-    private DatabaseHelper db;
     private MyCamera camera;
 
     private View layoutView;
@@ -110,7 +112,8 @@ public class MealFragment extends Fragment{
         myToolbar.setTitle("FoodFlash!");
         myToolbar.setLogo(R.drawable.empty_heart);
 
-        db = new DatabaseHelper(getActivity());
+
+        DatabaseHelper db = new DatabaseHelper(getActivity());
         categories = db.getCategories();
 
         spinner = (Spinner) layoutView.findViewById(R.id.spinner);
@@ -156,6 +159,7 @@ public class MealFragment extends Fragment{
             displayMeal(id);
         }
 
+        db.close();
         return layoutView;
     }
 
@@ -187,6 +191,7 @@ public class MealFragment extends Fragment{
         String imagePath = camera.getPhotoFilePath().toString();
         meal.setImagePath(imagePath);
 
+        DatabaseHelper db = new DatabaseHelper(getActivity());
         long id = db.insertMeal(meal);
 
         db.close();
@@ -201,6 +206,7 @@ public class MealFragment extends Fragment{
      */
     public void updateMeal(long id) {
 
+        DatabaseHelper db = new DatabaseHelper(getActivity());
         Meal meal = db.getMeal(id);
         meal.setHealthyScore(HeartRating.getHealthGrade());
         meal.setTasteScore(HeartRating.getTasteGrade());
@@ -212,10 +218,10 @@ public class MealFragment extends Fragment{
 
 
         int rowsAffected = db.updateMeal(meal);
+        db.close();
 
-        if (rowsAffected > 0) {
-            Toast.makeText(getActivity(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
-        }
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(container, new CategoryFragment()).commit();
     }
 
     /**
@@ -223,6 +229,7 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal.
      */
     public void makeEditable(long id) {
+        Log.d(TAG, "making stuff editable");
         MealFragment newFragment = new MealFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(MAKE_EDITABLE, true);
@@ -254,6 +261,7 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal.
      */
     private void displayMeal(Long id) {
+        DatabaseHelper db = new DatabaseHelper(getActivity());
         Meal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
         descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
@@ -265,12 +273,13 @@ public class MealFragment extends Fragment{
         nameText.setText(meal.getName());
         descriptionText.setText(meal.getDescription());
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
         mealImage.setImageBitmap(image);
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
 
         heart.setHearts(false, meal.getHealthyScore(), meal.getTasteScore());
+        db.close();
     }
 
     /**
@@ -279,12 +288,13 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal.
      */
     private void displayEditableMeal(long id) {
+        DatabaseHelper db = new DatabaseHelper(getActivity());
         Meal meal = db.getMeal(id);
         nameEdit.setText(meal.getName());
         descriptionEdit.setText(meal.getDescription());
 
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
         mealImage.setImageBitmap(image);
 
         ArrayList<Category> categories = db.getCategories();
@@ -296,7 +306,9 @@ public class MealFragment extends Fragment{
         }
 
         spinner.setSelection(position);
+        HeartRating heart = new HeartRating(layoutView, getContext(), getActivity());
         heart.setHearts(true, meal.getHealthyScore(), meal.getTasteScore());
+        db.close();
     }
 
     /**

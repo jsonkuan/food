@@ -20,6 +20,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 import iths.com.food.Model.Meal;
+import iths.com.food.Model.MyCamera;
 import iths.com.food.R;
 
 /**
@@ -61,7 +62,7 @@ public class MealAdapter extends ArrayAdapter<String> {
 
         String imagePath = meal.getImagePath();
         Uri imageUri = Uri.parse(imagePath);
-        Bitmap image = BitmapFactory.decodeFile(imageUri.getPath());
+        Bitmap image = MyCamera.rotatePhoto(imageUri.getPath());
 
         imageView.setImageBitmap(image);
 
