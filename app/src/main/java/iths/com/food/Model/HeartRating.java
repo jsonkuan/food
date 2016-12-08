@@ -26,13 +26,21 @@ public class HeartRating {
         this.activity = activity;
     }
 
+    public static int getHealthGrade() {
+        return healthGrade;
+    }
+
+    public static int getTasteGrade() {
+        return tasteGrade;
+    }
+
     public void fillHearts(View view) {
         ImageView iv = (ImageView) view;
         ViewGroup viewParent = (ViewGroup) iv.getParent();
-        int resid = view.getId();
-        String idStr = context.getResources().getResourceEntryName(resid);
-        String healthOrTaste;
+        int resourceID = view.getId();
         int heartNr;
+        String idStr = context.getResources().getResourceEntryName(resourceID);
+        String healthOrTaste;
 
         if( (viewParent).getId() == R.id.edit_health_hearts) {
             healthOrTaste = "edit_heart_health_";
@@ -57,9 +65,7 @@ public class HeartRating {
     }
 
     public void setHearts(Context context, boolean isEditScreen, int healthGrade, int tasteGrade) {
-
         String edit = "";
-
         if(isEditScreen) {
             edit = "edit_";
         }
@@ -103,17 +109,5 @@ public class HeartRating {
         averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
         TextView averageGradeTV = (TextView) activity.findViewById(R.id.average_number);
         averageGradeTV.setText(Double.toString(averageGrade));
-
-
-    }
-
-    public void fillHeart(View view) {
-    }
-
-    public static int getHealthGrade() {
-        return healthGrade;
-    }
-    public static int getTasteGrade() {
-        return tasteGrade;
     }
 }

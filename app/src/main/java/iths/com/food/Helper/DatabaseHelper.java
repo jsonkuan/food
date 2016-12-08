@@ -5,18 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import iths.com.food.Fragments.MapViewFragment;
 import iths.com.food.Model.Category;
-import iths.com.food.Model.CategoryList;
 import iths.com.food.Model.Meal;
 
 /**
  * Created by Hristijan on 2016-11-15.
+ *
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
@@ -29,14 +27,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // run the SQL script for creating necessary entries
-        // run the SQL statements one by one, due to limitation in execSQL()
         for (String sql: DatabaseContract.SQL_CREATE_SCRIPT.split(";")) {
             db.execSQL(sql);
         }
     }
 
-    // Do nothing here yet
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
@@ -53,12 +48,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         values.put(DatabaseContract.MealEntry.COLUMN_LATITUDE, meal.getLatitude());
         values.put(DatabaseContract.MealEntry.COLUMN_IMAGE_PATH, meal.getImagePath());
 
-
         return getWritableDatabase().insert(DatabaseContract.MealEntry.TABLE, null, values);
     }
 
     public long insertCategory(String name, int iconID){
-
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.CategoryEntry.COLUMN_NAME, name);
         values.put(DatabaseContract.CategoryEntry.COLUMN_ICON_ID, iconID);
@@ -67,7 +60,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     }
 
     public Meal getMeal(long id){
-
         String[] projection = {
                 DatabaseContract.MealEntry.COLUMN_NAME,
                 DatabaseContract.MealEntry.COLUMN_CATEGORY,
@@ -80,12 +72,9 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
                 DatabaseContract.MealEntry.COLUMN_IMAGE_PATH
         };
 
-
         String selection = DatabaseContract.MealEntry.COLUMN_ID + " = ?";
         String[] selectionArgs = { String.valueOf(id) };
-
         String sortOrder = DatabaseContract.MealEntry.COLUMN_TASTE_SCORE + " DESC";
-
         Meal meal = new Meal();
         Cursor cursor = null;
         try {
@@ -125,16 +114,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     }
 
     public ArrayList<Category> getCategories(){
-
         ArrayList<Category> categories = new ArrayList<>();
-
         String[] projection = {
                 DatabaseContract.CategoryEntry.COLUMN_NAME
         };
 
-
         Cursor cursor = null;
-
         try {
             cursor = getReadableDatabase().query(
                     DatabaseContract.CategoryEntry.TABLE,         // The table to query
@@ -147,7 +132,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
             );
 
             while (cursor.moveToNext()) {
-
                 String categoryName = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_NAME));
                 Category category = getCategory(categoryName);
                 categories.add(category);
@@ -165,7 +149,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
     }
 
     public int updateMeal(Meal meal){
-
         ContentValues values = new ContentValues();
         values.put(DatabaseContract.MealEntry.COLUMN_NAME, meal.getName());
         values.put(DatabaseContract.MealEntry.COLUMN_CATEGORY, meal.getCategory());
@@ -177,20 +160,16 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         String selection = DatabaseContract.MealEntry.COLUMN_ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(meal.getId()) };
 
-        int count = getWritableDatabase().update(
+        return getWritableDatabase().update(
                 DatabaseContract.MealEntry.TABLE,
                 values,
                 selection,
                 selectionArgs);
-        return count;
     }
 
     public int deleteMeal(long id){
-
         String selection = DatabaseContract.MealEntry.COLUMN_ID + " LIKE ?";
-
         String[] selectionArgs = { String.valueOf(id) };
-
         return getWritableDatabase().delete(DatabaseContract.MealEntry.TABLE, selection, selectionArgs);
     }
 
@@ -198,27 +177,20 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         // SQL-query for deleting all meals belonging to this category
         String deleteMealsSQL = "DELETE FROM " + DatabaseContract.MealEntry.TABLE +
                                 " WHERE " + DatabaseContract.MealEntry.COLUMN_CATEGORY + "='" + categoryName + "'";
-
         getWritableDatabase().execSQL(deleteMealsSQL);
 
         // SQL-query for deleting the category
         String deleteCategorySQL = "DELETE FROM " + DatabaseContract.CategoryEntry.TABLE +
                 " WHERE " + DatabaseContract.CategoryEntry.COLUMN_NAME + "='" + categoryName + "'";
-
         getWritableDatabase().execSQL(deleteCategorySQL);
     }
 
     public Category getCategory(String categoryName){
-
         int iconID = 0;
-
         ArrayList<Meal> meals = new ArrayList<>();
-
         String[] projection = {DatabaseContract.MealEntry.COLUMN_ID};
-
         String selection = DatabaseContract.MealEntry.COLUMN_CATEGORY + " = ?";
         String[] selectionArgs = {categoryName };
-
         Cursor cursor = null;
         try {
             cursor = getReadableDatabase().query(
@@ -232,7 +204,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
             );
 
             while (cursor.moveToNext()) {
-
                 Meal meal = getMeal(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseContract.MealEntry.COLUMN_ID)));
                 meals.add(meal);
             }
@@ -246,7 +217,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         }
 
         String[] projection2 = {DatabaseContract.CategoryEntry.COLUMN_ICON_ID};
-
         String selection2 = DatabaseContract.CategoryEntry.COLUMN_NAME + " = ?";
         String[] selectionArgs2 = {categoryName };
 
@@ -263,9 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
             );
 
             while (cursor2.moveToNext()) {
-
                 iconID = cursor2.getInt(cursor2.getColumnIndexOrThrow(DatabaseContract.CategoryEntry.COLUMN_ICON_ID));
-
             }
         }
         catch (Exception e) {
@@ -275,8 +243,6 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
             if(cursor2 != null)
                 cursor2.close();
         }
-
         return new Category(categoryName, meals, iconID);
     }
-
 }

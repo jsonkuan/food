@@ -1,6 +1,5 @@
 package iths.com.food.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,23 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import iths.com.food.Helper.GPSHelper;
 
 import java.util.ArrayList;
+
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.GPSHelper;
 import iths.com.food.Helper.SwipeDismissListViewTouchListener;
 import iths.com.food.Model.Category;
-import iths.com.food.Model.MyCamera;
 import iths.com.food.R;
 
 /**
  * Created by asakwarnmark on 2016-11-23.
+ *
  */
 
 public class CategoryFragment extends Fragment {
@@ -40,15 +37,13 @@ public class CategoryFragment extends Fragment {
     ListAdapter listAdapter;
     DatabaseHelper db;
     CategoryAdapter adapter;
-    boolean deleteDB = true;
+    //boolean deleteDB = true;    // UNCOMMENT this code block to reset the database in the emulator
     GPSHelper gps;
-    private Button newCategoryButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         gps = new GPSHelper(getActivity());
-
         View v = inflater.inflate(R.layout.fragment_category, container, false);
 
         setHasOptionsMenu(true);
@@ -58,7 +53,9 @@ public class CategoryFragment extends Fragment {
         myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
-
+        /**
+         * UNCOMMENT this code block to reset the database in the emulator
+         */
         /*if(deleteDB) {
             context.deleteDatabase("food.db");
             deleteDB = false;
@@ -115,9 +112,8 @@ public class CategoryFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_category_item:
-                //TODO: Change layout to AddCategoryFragment
-                System.out.println("It Works");
-                Toast.makeText(getActivity(), "" + gps.getLatitude(), Toast.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new NewCategoryFragment()).commit();
                 break;
             default:
                 System.out.println("error");
@@ -137,4 +133,3 @@ public class CategoryFragment extends Fragment {
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 }
-

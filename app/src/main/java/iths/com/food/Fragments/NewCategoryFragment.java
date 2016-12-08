@@ -4,9 +4,7 @@ package iths.com.food.Fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +14,11 @@ import android.widget.Toast;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Helper.ImageAdapter;
-import iths.com.food.Model.Category;
 import iths.com.food.R;
-
-
-
-
 
 public class NewCategoryFragment extends Fragment {
 
-
-    public static ViewPager mViewPager;
+    private ViewPager mViewPager;
     EditText addCategoryName;
     ImageAdapter adapterView;
     DatabaseHelper db;
@@ -37,8 +29,6 @@ public class NewCategoryFragment extends Fragment {
             saveButtonPressed();
         }
     };
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,9 +41,6 @@ public class NewCategoryFragment extends Fragment {
         mViewPager = (ViewPager) v.findViewById(R.id.viewPageAndroid);
         adapterView = new ImageAdapter(getActivity());
         mViewPager.setAdapter(adapterView);
-
-
-
 
         return v;
     }
@@ -68,24 +55,13 @@ public class NewCategoryFragment extends Fragment {
             Context context = getActivity();
             CharSequence text = "Enter category name!";
             int duration = Toast.LENGTH_SHORT;
-
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         } else {
             int iconId = mViewPager.getCurrentItem() + 1;
-
-            System.out.println("MainActivity: " + iconId);
-            Toast.makeText(getActivity(), "Category Saved", Toast.LENGTH_SHORT);
-
+            Toast.makeText(getActivity(), "Category Saved", Toast.LENGTH_SHORT).show();
             db.insertCategory(categoryName, iconId);
-
-
-
-
-
-
         }
-
     }
 }
 
