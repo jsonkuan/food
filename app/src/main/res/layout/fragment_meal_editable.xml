@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="60dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
-        >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/meal_toolbar"
@@ -24,248 +15,265 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        <EditText
-            android:id="@+id/name"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Meal name"
-            android:textSize="32sp" />
+            android:layout_height="match_parent"
+            android:paddingBottom="60dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+            >
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </Spinner>
-
-        <RelativeLayout
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_gravity="center_horizontal">
-
-            <ImageView
-                android:id="@+id/edit_meal_image"
+            <EditText
+                android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/testmeal"
-                android:scaleType="centerCrop"
-                android:layout_centerInParent="true"/>
+                android:layout_height="wrap_content"
+                android:hint="Meal name"
+                android:textSize="32sp" />
 
-            <ImageView
-                android:id="@+id/camera_icon"
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Spinner>
+
+            <RelativeLayout
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:id="@+id/edit_meal_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/testmeal"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"/>
+
+                <ImageView
+                    android:id="@+id/camera_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_action_name" />
+
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/colorAccent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="top"
+                android:textAlignment="gravity"
+                android:padding="16dp"
+                android:hint="@string/describe"/>
+
+            <TextView
+                android:id="@+id/taste_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/ic_action_name" />
+                android:text="@string/taste"/>
 
-        </RelativeLayout>
-
-
-        <EditText
-            android:id="@+id/desc"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/colorAccent"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="top"
-            android:textAlignment="gravity"
-            android:padding="16dp"
-            android:hint="@string/describe"/>
-
-        <TextView
-            android:id="@+id/taste_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/taste"/>
-
-        <LinearLayout
-            android:id="@+id/edit_taste_hearts"
-            android:clickable="true"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher">
-
-            <ImageView
-                android:id="@+id/edit_heart_taste_1"
+            <LinearLayout
+                android:id="@+id/edit_taste_hearts"
                 android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher">
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_2"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                <ImageView
+                    android:id="@+id/edit_heart_taste_1"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_3"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                <ImageView
+                    android:id="@+id/edit_heart_taste_2"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_4"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                <ImageView
+                    android:id="@+id/edit_heart_taste_3"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_5"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart"/>
+                <ImageView
+                    android:id="@+id/edit_heart_taste_4"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_6"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                <ImageView
+                    android:id="@+id/edit_heart_taste_5"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart"/>
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_7"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                <ImageView
+                    android:id="@+id/edit_heart_taste_6"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_8"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                <ImageView
+                    android:id="@+id/edit_heart_taste_7"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_9"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                <ImageView
+                    android:id="@+id/edit_heart_taste_8"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
 
-            <ImageView
-                android:id="@+id/edit_heart_taste_10"
+                <ImageView
+                    android:id="@+id/edit_heart_taste_9"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_taste_10"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/healthy_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/healthy"/>
+
+            <LinearLayout
+                android:id="@+id/edit_health_hearts"
                 android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_1"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_2"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_3"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_4"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_5"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_6"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_7"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_8"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_9"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+                <ImageView
+                    android:id="@+id/edit_heart_health_10"
+                    android:clickable="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/empty_heart" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/average_grade_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total grade:" />
+
+            <TextView
+                android:id="@+id/edit_average_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="32sp"/>
+
+
+
+            <!--TODO: change to wrap_content! -->
+            <Button
+                android:id="@+id/save_changes_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/healthy_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/healthy"/>
+    </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/edit_health_hearts"
-            android:clickable="true"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/edit_heart_health_1"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_2"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_3"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_4"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_5"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_6"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_7"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_8"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_9"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-            <ImageView
-                android:id="@+id/edit_heart_health_10"
-                android:clickable="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/empty_heart" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/average_grade_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total grade:" />
-
-        <TextView
-            android:id="@+id/edit_average_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="32sp"/>
-
-
-
-        <!--TODO: change to wrap_content! -->
-        <Button
-            android:id="@+id/save_changes_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

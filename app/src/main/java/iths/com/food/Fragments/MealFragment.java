@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -51,6 +54,7 @@ import static iths.com.food.R.id.container;
 
 public class MealFragment extends Fragment{
 
+    public static final String CHOSEN_CATEGORY = "category";
     private static final String MAKE_EDITABLE = "make_editable";
     public static final String MEAL_ID = "meal_id";
     private static boolean isOpenedFromMenu;
@@ -70,6 +74,7 @@ public class MealFragment extends Fragment{
 
     private long id;
     private long current_id = 0;
+    private String current_category = "Fish";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,6 +84,7 @@ public class MealFragment extends Fragment{
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         myToolbar.setTitle("FoodFlash!");
         myToolbar.setLogo(R.drawable.empty_heart);
 
@@ -118,6 +124,7 @@ public class MealFragment extends Fragment{
             editButton = (Button) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
+            current_id = id;
             shareOnFacebookButton = (Button) layoutView.findViewById(R.id.shareOnFacebookButton);
             shareOnFacebookButton.setOnClickListener(shareOnFBListener);
         }
@@ -130,6 +137,20 @@ public class MealFragment extends Fragment{
         }
 
         return layoutView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //TODO: Implement back button
+
+                Log.d("test","Go to Meal Editable Fragment");
+
+                break;
+            default: super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
