@@ -28,12 +28,16 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 public class MyCamera {
 
     public static final int CAMERA_REQUEST_CODE = 1;
-    private static final String TAG = "TAG";
+    private static final String TAG = "ERROR";
     private Uri photoFilePath;
-    Context context;
+    private Context context;
 
     public MyCamera(Context context) {
         this.context = context;
+    }
+
+    public Uri getPhotoFilePath() {
+        return photoFilePath;
     }
 
     public void takePhoto() {
@@ -43,29 +47,7 @@ public class MyCamera {
             photoFilePath = Uri.fromFile(photo);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoFilePath);
             ((Activity) context).startActivityForResult(intent, CAMERA_REQUEST_CODE);
-
         }
-    }
-
-    private File createFile() {
-        Log.d(TAG, "In createFile()");
-        File dir = getDirectory();
-        Log.d(TAG, "Got directory");
-        File file = new File(dir, "iths" + (new Date().getTime()) + ".jpg");
-        Log.d(TAG, "Created photo file: " + file.toString());
-        return file;
-    }
-
-    private File getDirectory() {
-        Log.d(TAG, "In getDirectory");
-        File photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File ithsDir = new File(photoDir, "ithsPics");
-        if(!ithsDir.exists()) {
-            if(!ithsDir.mkdirs()) {
-                Log.d(TAG, "Could not create directory" + ithsDir.toString());
-            }
-        }
-        return ithsDir;
     }
 
     public void showImage(ImageView imageView) {
@@ -78,17 +60,14 @@ public class MyCamera {
         BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
 
         int scaleFactor = 1;
-
         try {
             scaleFactor = Math.min(opt.outHeight / imageViewHeight, opt.outWidth / imageViewWidth);
         } catch(Exception e) {
-            Log.d(TAG, "Funkade inte att skala");
+            Log.d(TAG, "Could now scale image.");
         }
 
         opt = new BitmapFactory.Options();
         opt.inSampleSize = scaleFactor;
-
-        Bitmap image = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
 
         ExifInterface exif;
         int orientation = 167;
@@ -109,21 +88,27 @@ public class MyCamera {
         } else if(orientation == 3) {
             matrix.postRotate(180);
         }
-        Bitmap rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
 
+        Bitmap image = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
+        Bitmap rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
         imageView.setImageBitmap(rotatedBitmap);
     }
 
-    public void savePhoto() {
-
+    private File createFile() {
+        File dir = getDirectory();
+        return new File(dir, "iths" + (new Date().getTime()) + ".jpg");
     }
 
-    public void createThumbnail() {
-
+    private File getDirectory() {
+        File photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File ithsDir = new File(photoDir, "ithsPics");
+        if(!ithsDir.exists()) {
+            if(!ithsDir.mkdirs()) {
+                Log.d(TAG, "Could not create directory" + ithsDir.toString());
+            }
+        }
+        return ithsDir;
     }
 
-    public Uri getPhotoFilePath() {
-        return photoFilePath;
-    }
 
 }

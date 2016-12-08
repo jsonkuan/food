@@ -5,14 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import iths.com.food.Fragments.MapViewFragment;
 import iths.com.food.Model.Category;
-import iths.com.food.Model.CategoryList;
 import iths.com.food.Model.Meal;
 
 /**
