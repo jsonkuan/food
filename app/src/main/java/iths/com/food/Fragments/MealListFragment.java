@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +22,7 @@ import iths.com.food.R;
 
 /**
  * Created by jas0n on 2016-11-25.
+ *
  */
 
 public class MealListFragment extends Fragment {
@@ -84,7 +83,6 @@ public class MealListFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-
     public void openMeal(long id) {
         MealFragment newFragment = new MealFragment();
         Bundle bundle = new Bundle();
@@ -92,23 +90,5 @@ public class MealListFragment extends Fragment {
         newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
-
-
 }
 
-/*  LÄGG TILL I MEAL LIST
-    public void deleteMeal(View view) {
-        String text = ((EditText) findViewById(R.id.idOfMeal)).getText().toString();
-        id = Long.valueOf(text);
-
-        int rows = db.deleteMeal(id);
-
-        if(rows > 0) {
-            Toast.makeText(getApplicationContext(), "Deleted "+rows+" row(s)", Toast.LENGTH_SHORT).show();
-        } else if (rows == 0) {
-            Toast.makeText(getApplicationContext(), "No rows deleted", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    } */

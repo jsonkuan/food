@@ -61,7 +61,7 @@ public class Category {
         Collections.sort(meals, new Comparator<Meal>() {
             @Override
             public int compare(Meal m1, Meal m2) {
-                return m2.getDateTime().compareTo(m1.getDateTime());
+                return m1.getDateTime().compareTo(m2.getDateTime());
             }
         });
     }

@@ -1,34 +1,20 @@
 package iths.com.food;
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-import iths.com.food.Fragments.MealFragment;
-import iths.com.food.Fragments.AddMealFragment;
+
 import iths.com.food.Fragments.CategoryFragment;
-import iths.com.food.Fragments.NewCategoryFragment;
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Model.Category;
+import iths.com.food.Fragments.MapViewFragment;
+import iths.com.food.Fragments.MealFragment;
 
-import static iths.com.food.Fragments.NewCategoryFragment.mViewPager;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     public static String PACKAGE_NAME;
-    Button addCategory;
-    int i = 1;
-    DatabaseHelper db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
                                         .replace(R.id.container, new CategoryFragment()).commit();
                                 break;
                             case R.id.action_map:
-
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.container, new MapViewFragment()).commit();
                                 break;
                         }
                         return false;
@@ -70,14 +57,4 @@ public class MainActivity extends AppCompatActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         fragment.onActivityResult(requestCode, resultCode, data);
     }
-
 }
-
-
-
-
-
-
-
-
-
