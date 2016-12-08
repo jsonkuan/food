@@ -17,6 +17,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
@@ -62,6 +64,10 @@ public class CategoryFragment extends Fragment {
             Toast.makeText(getActivity(), "Database deleted", Toast.LENGTH_SHORT).show();
         }*/
         ArrayList<Category> categories = db.getCategories();
+
+        //sort categories by score, highest first
+        sortCategories(categories);
+
         foodtypes = new ArrayList<>(categories.size());
         for (int i = 0; i < categories.size(); i++) {
             foodtypes.add(categories.get(i).getName());
@@ -118,7 +124,9 @@ public class CategoryFragment extends Fragment {
             default:
                 System.out.println("error");
         }
+
         return true;
+
     }
     @Override
     public void onActivityResult ( int requestCode, int resultCode, Intent data){
@@ -131,5 +139,18 @@ public class CategoryFragment extends Fragment {
         bundle.putString(CHOSEN_CATEGORY, category);
         newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+    }
+
+    public void sortCategories(ArrayList<Category> categories){
+        Collections.sort(categories, new Comparator<Category>() {
+            @Override
+            public int compare(Category c1, Category c2) {
+                if (c1.getAverageScore() > c2.getAverageScore())
+                    return -1;
+                else if (c1.getAverageScore() < c2.getAverageScore())
+                    return 1;
+                else return 0;
+            }
+        });
     }
 }

@@ -1,22 +1,35 @@
 package iths.com.food.Model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Hristijan on 2016-11-16.
  */
 
 public class Category {
-    private ArrayList<Meal> meals;
     private String name;
-    private double averageScore = 0;
+    private ArrayList<Meal> meals;
     private int iconId;
+
+    public Category(String name, int iconId){
+        this.name = name;
+        this.iconId = iconId;
+    }
 
     public Category(String name, ArrayList<Meal> meals, int iconId) {
         this.name = name;
         this.meals = meals;
         this.iconId = iconId;
-        calculateAverageScore();
+
+        sortMeals();
+    }
+
+    public void addMeal(Meal meal){
+        meals.add(meal);
+
+        sortMeals();
     }
 
     public String getName() {
@@ -24,25 +37,32 @@ public class Category {
     }
 
     public double getAverageScore() {
-        calculateAverageScore();
-        return averageScore;
+        double sum = 0;
+        for (Meal meal: meals) {
+            sum += meal.getTotalScore();
+        }
+
+        return sum / meals.size();
     }
 
     public ArrayList<Meal> getMeals() {
         return meals;
     }
 
-    private void calculateAverageScore() {
-        double sum = 0;
-        if (this.meals != null) {
-            for (Meal meal : meals) {
-                sum += meal.getTotalScore();
-            }
-            averageScore = sum / meals.size();
-        }
+    public Meal getMeal(int id) {
+        return meals.get(id);
     }
 
     public int getIconId() {
         return iconId;
+    }
+
+    private void sortMeals() {
+        Collections.sort(meals, new Comparator<Meal>() {
+            @Override
+            public int compare(Meal m1, Meal m2) {
+                return m1.getDateTime().compareTo(m2.getDateTime());
+            }
+        });
     }
 }
