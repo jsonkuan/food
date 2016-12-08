@@ -9,7 +9,7 @@
         android:id="@+id/category_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/babyBlue"
         android:elevation="4dp"
         android:title="CATEGORY"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"

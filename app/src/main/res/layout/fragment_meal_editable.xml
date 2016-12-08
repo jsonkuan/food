@@ -8,17 +8,14 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="60dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
-        >
+        android:paddingBottom="60dp">
+
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/meal_toolbar"
+        android:id="@+id/meal_editable_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/babyBlue"
         android:elevation="4dp"
         android:title="CATEGORY"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -256,8 +253,6 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textSize="32sp"/>
-
-
 
         <!--TODO: change to wrap_content! -->
         <Button

@@ -9,59 +9,50 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+
 import iths.com.food.R;
-import iths.com.food.Helper.DatabaseHelper;
 
 
 /**
  * Created by jas0n on 2016-11-15.
+ *
  */
 
 public class CategoryAdapter extends ArrayAdapter<String> {
 
-    DatabaseHelper db;
-
-
     public CategoryAdapter(Context context, ArrayList<String> categories) {
         super(context, R.layout.custom_row, categories);
-        DatabaseHelper db = new DatabaseHelper(getContext());
-
-
     }
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflator = LayoutInflater.from(getContext());
-        View customView = inflator.inflate(R.layout.custom_row, parent, false);
-
-        db = new DatabaseHelper(getContext());
-
-        TextView textView = (TextView) customView.findViewById(R.id.categoryName);
-        ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
-        TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
-        RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View customView = inflater.inflate(R.layout.custom_row, parent, false);
 
         String categoryName = getItem(position);
+        TextView textView = (TextView) customView.findViewById(R.id.categoryName);
         textView.setText(categoryName);
 
+        DatabaseHelper db = new DatabaseHelper(getContext());
         float averageScoreFloat = (float) db.getCategory(categoryName).getAverageScore();
 
+        TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
         if (Float.isNaN(averageScoreFloat)) {
-
-            averageScore.setText("Avg. ---");
+            averageScore.setText(R.string.average_score_null);
         } else {
-            averageScore.setText("Avg. " + averageScoreFloat);
+            averageScore.setText(String.format("Avg. %s", averageScoreFloat));
         }
 
+        RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
         ratingbar.setRating(averageScoreFloat);
 
+        ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
         imageView.setImageResource(getContext().getResources().getIdentifier("img" + db.getCategory(categoryName).getIconId(), "drawable", getContext().getPackageName()));
 
         db.close();
 
         return customView;
-
     }
 }

@@ -35,11 +35,9 @@ final class DatabaseContract {
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
                     "VALUES ('Veggie','18');" +
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
-                    "VALUES ('Fish','4');";;
+                    "VALUES ('Fish','4');";
 
-    //TODO: rada upp alla default kategories här
 
-String create = "CREATE TABLE " + CategoryEntry.TABLE + " ( " + CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " + CategoryEntry.COLUMN_ICON_ID + " INTEGER);";
     // Prevents instantiating of this class
     private DatabaseContract() {}
 
@@ -65,16 +63,3 @@ String create = "CREATE TABLE " + CategoryEntry.TABLE + " ( " + CategoryEntry.CO
         static final String COLUMN_ICON_ID = "icon_id";
     }
 }
-
-/*
-"CREATE TABLE " + CategoryEntry.TABLE + " (" +
-        CategoryEntry.COLUMN_ICON_ID + " INTEGER," +
-        CategoryEntry.COLUMN_NAME + " TEXT);" +
-        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-        "VALUES ('Meat');" +
-        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-        "VALUES ('Veggie');" +
-        "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ") " +
-        "VALUES ('Fish')";
-
-        */

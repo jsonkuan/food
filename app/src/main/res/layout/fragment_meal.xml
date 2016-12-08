@@ -3,19 +3,19 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_meal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="iths.com.food.MainActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/activity_meal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="60dp"
+        android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/meal_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/babyBlue"
         android:elevation="4dp"
         android:title="CATEGORY"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -50,7 +50,9 @@
         android:id="@+id/meal_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@drawable/testmeal" />
+        android:src="@drawable/testmeal"
+        android:scaleType="centerCrop"
+        android:layout_centerInParent="true"/>
 
     <TextView
         android:id="@+id/meal_description"
@@ -238,6 +240,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="32sp"/>
+
+    <Button
+        android:id="@+id/shareOnFacebookButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share on Facebook"/>
 
 </LinearLayout>
 </ScrollView>
