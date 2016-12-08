@@ -1,3 +1,4 @@
+
 package iths.com.food.Fragments;
 
 import android.content.Intent;
@@ -67,6 +68,7 @@ public class AddMealFragment extends Fragment{
     private int tasteGrade;
     private static final String TAG = "TAG";
     private long id;
+    /*
     private View.OnClickListener saveButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -93,7 +95,7 @@ public class AddMealFragment extends Fragment{
             updateMeal(id);
         }
     };
-
+/*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -240,6 +242,7 @@ public class AddMealFragment extends Fragment{
     /**
      * Get category names from database and populate Spinner.
      */
+    /*
     private void setUpSpinner() {
         String[] categoryNames = new String[categories.size()];
         for(int i = 0; i < categories.size(); i++) {
@@ -303,6 +306,6 @@ public class AddMealFragment extends Fragment{
         newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
+    */
 }
-
 

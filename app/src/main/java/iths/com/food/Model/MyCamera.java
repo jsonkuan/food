@@ -85,16 +85,25 @@ public class MyCamera {
             Log.d(TAG, "Funkade inte att skala");
         }
 
+        Log.d(TAG, "scaleFactor: " + scaleFactor);
         opt = new BitmapFactory.Options();
         opt.inSampleSize = scaleFactor;
 
-        Bitmap image = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
+        Bitmap rotatedBitmap = rotateImage(photoFilePath.getPath());
+
+        imageView.setImageBitmap(rotatedBitmap);
+    }
+
+    public static Bitmap rotateImage(String filePath) {
+        Log.d(TAG, "About to decodeFile");
+        Bitmap image = BitmapFactory.decodeFile(filePath);
+        Log.d(TAG, "Is image null? " + (image == null));
 
         ExifInterface exif;
         int orientation = 167;
 
         try {
-            exif = new ExifInterface(photoFilePath.getPath());
+            exif = new ExifInterface(filePath);
             orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
             Log.d("ORIENTATION", orientation + "");
         } catch (Exception e) {
@@ -110,8 +119,7 @@ public class MyCamera {
             matrix.postRotate(180);
         }
         Bitmap rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-
-        imageView.setImageBitmap(rotatedBitmap);
+        return rotatedBitmap;
     }
 
     public void savePhoto() {
