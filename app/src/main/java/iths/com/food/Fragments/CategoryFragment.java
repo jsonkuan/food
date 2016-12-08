@@ -19,6 +19,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import iths.com.food.Helper.GPSHelper;
+
 import java.util.ArrayList;
 import iths.com.food.Helper.CategoryAdapter;
 import iths.com.food.Helper.DatabaseHelper;
@@ -39,121 +41,100 @@ public class CategoryFragment extends Fragment {
     DatabaseHelper db;
     CategoryAdapter adapter;
     boolean deleteDB = true;
-    //Button addCategory;
-    //int i = 1;
+    GPSHelper gps;
     private Button newCategoryButton;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        gps = new GPSHelper(getActivity());
 
+        View v = inflater.inflate(R.layout.fragment_category, container, false);
 
-            Context context = getActivity();
+        setHasOptionsMenu(true);
+        Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        myToolbar.setTitle("FoodFlash!");
+        myToolbar.setLogo(R.drawable.empty_heart);
 
-            View v = inflater.inflate(R.layout.fragment_category, container, false);
+        db = new DatabaseHelper(this.getActivity().getApplicationContext());
 
-            setHasOptionsMenu(true);
-            Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
-            ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-            myToolbar.setTitle("FoodFlash!");
-            myToolbar.setLogo(R.drawable.empty_heart);
-
-
-
-                    db = new DatabaseHelper(this.getActivity().getApplicationContext());
         /*if(deleteDB) {
             context.deleteDatabase("food.db");
             deleteDB = false;
             Toast.makeText(getActivity(), "Database deleted", Toast.LENGTH_SHORT).show();
         }*/
-            ArrayList<Category> categories = db.getCategories();
-            foodtypes = new ArrayList<>(categories.size());
-            for (int i = 0; i < categories.size(); i++) {
-                foodtypes.add(categories.get(i).getName());
-            }
+        ArrayList<Category> categories = db.getCategories();
+        foodtypes = new ArrayList<>(categories.size());
+        for (int i = 0; i < categories.size(); i++) {
+            foodtypes.add(categories.get(i).getName());
+        }
 
-            adapter = new CategoryAdapter(getActivity(), foodtypes);
-            ListView listView = (ListView) v.findViewById(R.id.fragmentCategory);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(
-                    new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            String chosenCategory = String.valueOf(adapterView.getItemAtPosition(i));
-                            showCategory(chosenCategory);
+        adapter = new CategoryAdapter(getActivity(), foodtypes);
+        ListView listView = (ListView) v.findViewById(R.id.fragmentCategory);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String chosenCategory = String.valueOf(adapterView.getItemAtPosition(i));
+                        showCategory(chosenCategory);
+                    }
+                }
+        );
+
+        SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
+                listView,
+                new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            db.deleteCategory(foodtypes.get(position));
+                            (adapter).notifyDataSetChanged();
                         }
                     }
-            );
-
-
-            //(adapter)
-            listView.setAdapter(adapter);
-
-
-            // button addCategory
-        /*addCategory = (Button) v.findViewById(R.id.add_category_button);
-        addCategory.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                foodtypes.add("Hamburgare "+i);
-                i++;
-                ((BaseAdapter) adapter).notifyDataSetChanged();
-            }
-        });*/
-
-
-            // Delete with swipe
-            SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
-                    listView,
-                    new SwipeDismissListViewTouchListener.DismissCallbacks() {
-                        @Override
-                        public boolean canDismiss(int position) {
-                            return true;
-                        }
-
-                        @Override
-                        public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-                            for (int position : reverseSortedPositions) {
-                                db.deleteCategory(foodtypes.get(position));
-                                (adapter).notifyDataSetChanged();
-                            }
-                        }
-                    }
-            );
-            listView.setOnTouchListener(touchListener);
-
-            db.close();
-            return v;
-        }
-
-
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            super.onCreateOptionsMenu(menu, inflater);
-            inflater.inflate(R.menu.meal_category_menu, menu);
-        }
-
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            NewCategoryFragment newFragment = new NewCategoryFragment();
-            getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-            return true;
-        }
-
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            ((BaseAdapter) listAdapter).notifyDataSetChanged();
-        }
-
-        private void showCategory(String category) {
-            MealListFragment newFragment = new MealListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(CHOSEN_CATEGORY, category);
-            newFragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-        }
-
+                }
+        );
+        listView.setOnTouchListener(touchListener);
+        db.close();
+        return v;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.meal_category_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_category_item:
+                //TODO: Change layout to AddCategoryFragment
+                System.out.println("It Works");
+                Toast.makeText(getActivity(), "" + gps.getLatitude(), Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                System.out.println("error");
+        }
+        return true;
+    }
+    @Override
+    public void onActivityResult ( int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        ((BaseAdapter) listAdapter).notifyDataSetChanged();
+    }
+    private void showCategory(String category) {
+        MealListFragment newFragment = new MealListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CHOSEN_CATEGORY, category);
+        newFragment.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+    }
+}
 

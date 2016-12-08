@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
 import android.util.Log;
 
 import java.util.ArrayList;
 
+import iths.com.food.Fragments.MapViewFragment;
 import iths.com.food.Model.Category;
 import iths.com.food.Model.CategoryList;
 import iths.com.food.Model.Meal;
@@ -196,14 +198,13 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper{
         // SQL-query for deleting all meals belonging to this category
         String deleteMealsSQL = "DELETE FROM " + DatabaseContract.MealEntry.TABLE +
                                 " WHERE " + DatabaseContract.MealEntry.COLUMN_CATEGORY + "='" + categoryName + "'";
-        // execute query
+
         getWritableDatabase().execSQL(deleteMealsSQL);
 
         // SQL-query for deleting the category
         String deleteCategorySQL = "DELETE FROM " + DatabaseContract.CategoryEntry.TABLE +
                 " WHERE " + DatabaseContract.CategoryEntry.COLUMN_NAME + "='" + categoryName + "'";
 
-        // execute query
         getWritableDatabase().execSQL(deleteCategorySQL);
     }
 

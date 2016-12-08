@@ -257,8 +257,6 @@
             android:text="0"
             android:textSize="32sp"/>
 
-
-
         <!--TODO: change to wrap_content! -->
         <Button
             android:id="@+id/save_changes_button"

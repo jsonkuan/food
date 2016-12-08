@@ -11,20 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import java.util.ArrayList;
-import iths.com.food.Helper.CategoryAdapter;
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.MealAdapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import iths.com.food.Helper.DatabaseHelper;
+import iths.com.food.Helper.GPSHelper;
 import iths.com.food.Model.Category;
 import iths.com.food.Model.HeartRating;
 import iths.com.food.Model.Meal;
@@ -56,6 +49,7 @@ public class MealFragment extends Fragment{
     private HeartRating heart;
     private ArrayList<Category> categories;
     private DatabaseHelper db;
+    private GPSHelper gps;
     private MyCamera camera;
 
     private View layoutView;
@@ -81,6 +75,7 @@ public class MealFragment extends Fragment{
         myToolbar.setLogo(R.drawable.empty_heart);
 
         db = new DatabaseHelper(getActivity());
+        gps = new GPSHelper(getActivity());
         categories = db.getCategories();
 
         spinner = (Spinner) layoutView.findViewById(R.id.spinner);
@@ -154,12 +149,12 @@ public class MealFragment extends Fragment{
         Date dateTime = Calendar.getInstance().getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm");
         meal.setDateTime(dateFormat.format(dateTime));
-        meal.setLatitude(0);
-        meal.setLongitude(0);
+        meal.setLatitude(gps.getLatitude());
+        meal.setLongitude(gps.getLongitude());
         String imagePath = camera.getPhotoFilePath().toString();
         meal.setImagePath(imagePath);
 
-        long id = db.insertMeal(meal);
+        db.insertMeal(meal);
 
         db.close();
 
@@ -180,11 +175,9 @@ public class MealFragment extends Fragment{
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
 
-        int rowsAffected = db.updateMeal(meal);
+        db.updateMeal(meal);
+        db.close();
 
-        if (rowsAffected > 0) {
-            Toast.makeText(getActivity(), rowsAffected+" rows updated", Toast.LENGTH_SHORT).show();
-        }
     }
 
     /**
