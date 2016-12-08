@@ -12,7 +12,6 @@ import iths.com.food.Fragments.CategoryFragment;
 import iths.com.food.Fragments.MapViewFragment;
 import iths.com.food.Fragments.MealFragment;
 
-
 public class MainActivity extends AppCompatActivity  {
 
     public static String PACKAGE_NAME;
