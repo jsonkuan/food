@@ -4,19 +4,17 @@ package iths.com.food.Model;
  * Created by jas0n on 2016-11-14.
  */
 
-//TODO: Model class for a meal
-
 public class Meal {
-    private long id;
     private String name;
     private String category;
     private String dateTime;
     private String description;
+    private String imagePath;
+    private double latitude;
+    private double longitude;
+    private long id;
     private int healthyScore;
     private int tasteScore;
-    private double longitude;
-    private double latitude;
-    private String imagePath;
 
 
     public long getId() {
