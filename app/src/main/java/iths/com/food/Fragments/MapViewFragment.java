@@ -27,6 +27,7 @@ import iths.com.food.R;
 
 /**
  * Created by jas0n on 2016-11-28.
+ *
  */
 
 public class MapViewFragment extends Fragment {
