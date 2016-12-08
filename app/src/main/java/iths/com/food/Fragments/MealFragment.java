@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -209,6 +211,8 @@ public class MealFragment extends Fragment{
      */
     public void updateMeal(long id) {
 
+        Log.d(TAG, "In updateMeal");
+
         DatabaseHelper db = new DatabaseHelper(getActivity());
         Meal meal = db.getMeal(id);
         meal.setHealthyScore(HeartRating.getHealthGrade());
@@ -216,16 +220,31 @@ public class MealFragment extends Fragment{
         meal.setName(nameEdit.getText().toString());
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
-        String imagePath = camera.getPhotoFilePath().getPath();
-        meal.setImagePath(imagePath);
+        String imagePath = "";
+        if(camera != null) {
+            imagePath = camera.getPhotoFilePath().getPath();
+            meal.setImagePath(imagePath);
+        }
+
+        db.updateMeal(meal);
 
         Log.d(TAG, "imagePath = " + imagePath);
 
-        int rowsAffected = db.updateMeal(meal);
         db.close();
 
+
+
+        /**
+        Fragment fragment = new CategoryFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+         **/
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(container, new CategoryFragment()).commit();
+               .replace(container, new CategoryFragment()).commit();
     }
 
     /**
