@@ -22,5 +22,9 @@
     <string name="loading_facebook">Loading facebook...</string>
     <string name="back_to_categories">Back to categories</string>
     <string name="average_score_null">Avg. ---</string>
+    <string name="choose_a_category">Choose a category:</string>
+    <string name="total_grade">Total grade:</string>
+    <string name="save_button">Save</string>
+    <string name="meal_name">Meal name</string>
 
 </resources>

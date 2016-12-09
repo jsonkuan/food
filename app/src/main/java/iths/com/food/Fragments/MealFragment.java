@@ -64,7 +64,7 @@ public class MealFragment extends Fragment{
     private TextView nameText, descriptionText, categoryText, averageNumber;
     private Spinner spinner;
     private Button saveButton, editButton;
-    private Button shareOnFacebookButton;
+    private ImageView shareOnFacebookButton;
 
     private long id;
     private long current_id = 0;
@@ -105,6 +105,8 @@ public class MealFragment extends Fragment{
             saveButton.setOnClickListener(saveButtonListener);
             setUpSpinner();
             setHeartClickListeners();
+            HeartRating heart = new HeartRating(layoutView, getContext(), getActivity());
+            heart.setHearts(true, 1, 1); //Default score is 1
             Log.d(TAG, "Log point 1");
             isOpenedFromMenu = false;
         } else if (bundle.getBoolean(MAKE_EDITABLE)) {
@@ -120,7 +122,7 @@ public class MealFragment extends Fragment{
             editButton = (Button) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
-            shareOnFacebookButton = (Button) layoutView.findViewById(R.id.shareOnFacebookButton);
+            shareOnFacebookButton = (ImageView) layoutView.findViewById(R.id.share_on_facebook);
             shareOnFacebookButton.setOnClickListener(shareOnFBListener);
         }
         heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
