@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:paddingBottom="60dp">
 
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/meal_editable_toolbar"
         android:layout_width="match_parent"
@@ -25,8 +24,13 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Meal name"
+            android:hint="@string/meal_name"
             android:textSize="32sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_a_category"/>
 
         <Spinner
             android:id="@+id/spinner"
@@ -45,7 +49,9 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/testmeal"
                 android:scaleType="centerCrop"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/image_margin"
+                android:layout_marginBottom="@dimen/image_margin"/>
 
             <ImageView
                 android:id="@+id/camera_icon"
@@ -56,19 +62,6 @@
                 android:src="@drawable/ic_action_name" />
 
         </RelativeLayout>
-
-
-        <EditText
-            android:id="@+id/desc"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/colorAccent"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="top"
-            android:textAlignment="gravity"
-            android:padding="16dp"
-            android:hint="@string/describe"/>
 
         <TextView
             android:id="@+id/taste_text"
@@ -245,7 +238,7 @@
             android:id="@+id/average_grade_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total grade:" />
+            android:text="@string/total_grade" />
 
         <TextView
             android:id="@+id/edit_average_number"
@@ -254,12 +247,23 @@
             android:text="0"
             android:textSize="32sp"/>
 
-        <!--TODO: change to wrap_content! -->
+        <EditText
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorAccent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="top"
+            android:textAlignment="gravity"
+            android:padding="16dp"
+            android:hint="@string/describe"/>
+
         <Button
             android:id="@+id/save_changes_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:text="@string/save_button" />
 
     </LinearLayout>
 
