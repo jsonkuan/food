@@ -107,7 +107,6 @@ public class MealFragment extends Fragment{
             setHeartClickListeners();
             HeartRating heart = new HeartRating(layoutView, getContext(), getActivity());
             heart.setHearts(true, 1, 1); //Default score is 1
-            Log.d(TAG, "Log point 1");
             isOpenedFromMenu = false;
         } else if (bundle.getBoolean(MAKE_EDITABLE)) {
             mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
@@ -127,7 +126,6 @@ public class MealFragment extends Fragment{
         }
         heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
         bundle = this.getArguments();
-        Log.d(TAG, "Log point 2");
         if(bundle == null || bundle.getBoolean(MAKE_EDITABLE)) {
         } else {
             long id = bundle.getLong(MealListFragment.MEAL_ID);
@@ -143,7 +141,9 @@ public class MealFragment extends Fragment{
 
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
-                camera.showImage(mealImage);
+                int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
+                int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
+                camera.showImage(mealImage, thumbnailHeight, thumbnailWidth);
             }
         }
     }
