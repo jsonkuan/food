@@ -1,5 +1,6 @@
 package iths.com.food.Fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,8 +10,11 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +33,7 @@ import java.util.Date;
 
 import iths.com.food.Helper.DatabaseHelper;
 import iths.com.food.Helper.GPSHelper;
+import iths.com.food.Helper.sms.SmsSender;
 import iths.com.food.Model.Category;
 import iths.com.food.Model.HeartRating;
 import iths.com.food.Model.Meal;
@@ -63,8 +68,7 @@ public class MealFragment extends Fragment{
     private EditText nameEdit, descriptionEdit;
     private TextView nameText, descriptionText, categoryText, averageNumber;
     private Spinner spinner;
-    private Button saveButton, editButton;
-    private Button shareOnFacebookButton;
+    private Button saveButton, editButton, shareOnFacebookButton, btnSendSms;
 
     private long id;
     private long current_id = 0;
@@ -81,7 +85,6 @@ public class MealFragment extends Fragment{
         myToolbar.setLogo(R.drawable.empty_heart);
 
         gps = new GPSHelper(getActivity());
-
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
         categories = db.getCategories();
@@ -122,6 +125,8 @@ public class MealFragment extends Fragment{
             id = bundle.getLong(MealListFragment.MEAL_ID);
             shareOnFacebookButton = (Button) layoutView.findViewById(R.id.shareOnFacebookButton);
             shareOnFacebookButton.setOnClickListener(shareOnFBListener);
+            btnSendSms = (Button) layoutView.findViewById(R.id.btn_send_sms);
+            btnSendSms.setOnClickListener(btnSendSmsListener);
         }
         heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
         bundle = this.getArguments();
@@ -188,15 +193,13 @@ public class MealFragment extends Fragment{
         Log.d(TAG, "In updateMeal");
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
+
         Meal meal = db.getMeal(id);
         meal.setHealthyScore(HeartRating.getHealthGrade());
         meal.setTasteScore(HeartRating.getTasteGrade());
         meal.setName(nameEdit.getText().toString());
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
-
-        db.updateMeal(meal);
-        db.close();
 
         String imagePath = "";
         if(camera != null) {
@@ -332,6 +335,21 @@ public class MealFragment extends Fragment{
             }
         }
     };
+
+    private View.OnClickListener btnSendSmsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(current_id!=0){
+                Meal meal = new Meal();
+
+                meal.setName(nameText.getText().toString());
+                meal.setId(id);
+
+                SmsSender.sendSms(getContext(), meal);
+            }
+        }
+    };
+
     private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

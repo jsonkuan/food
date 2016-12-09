@@ -22,5 +22,6 @@
     <string name="loading_facebook">Loading facebook...</string>
     <string name="back_to_categories">Back to categories</string>
     <string name="average_score_null">Avg. ---</string>
+    <string name="send_sms">Send grading SMS</string>
 
 </resources>
