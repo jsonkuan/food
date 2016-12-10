@@ -23,5 +23,8 @@
     <string name="back_to_categories">Back to categories</string>
     <string name="average_score_null">Avg. ---</string>
     <string name="send_sms">Send grading SMS</string>
-
+    <string name="choose_a_category">Choose a category:</string>
+    <string name="total_grade">Total grade:</string>
+    <string name="save_button">Save</string>
+    <string name="meal_name">Meal name</string>
 </resources>

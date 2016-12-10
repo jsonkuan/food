@@ -26,6 +26,11 @@ import java.util.List;
 import iths.com.food.helper.DatabaseHelper;
 import iths.com.food.model.Meal;
 
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.model.Meal;
+import iths.com.food.model.MyCamera;
+
+
 public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
@@ -51,7 +56,7 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
 
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
