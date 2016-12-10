@@ -1,4 +1,4 @@
-package iths.com.food.Fragments;
+package iths.com.food.fragments;
 
 
 import android.content.Context;
@@ -14,8 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.ImageAdapter;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.ImageAdapter;
 import iths.com.food.R;
 
 public class NewCategoryFragment extends Fragment {

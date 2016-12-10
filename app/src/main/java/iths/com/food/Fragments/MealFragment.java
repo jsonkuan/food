@@ -1,20 +1,12 @@
-package iths.com.food.Fragments;
+package iths.com.food.fragments;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.telephony.SmsManager;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.GPSHelper;
-import iths.com.food.Helper.sms.SmsSender;
-import iths.com.food.Model.Category;
-import iths.com.food.Model.HeartRating;
-import iths.com.food.Model.Meal;
-import iths.com.food.Model.MyCamera;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.GPSHelper;
+import iths.com.food.helper.sms.SmsSender;
+import iths.com.food.model.Category;
+import iths.com.food.model.HeartRating;
+import iths.com.food.model.Meal;
+import iths.com.food.model.MyCamera;
 import iths.com.food.R;
 import iths.com.food.ShareOnFacebookActivity;
 

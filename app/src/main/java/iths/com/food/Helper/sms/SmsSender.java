@@ -1,4 +1,4 @@
-package iths.com.food.Helper.sms;
+package iths.com.food.helper.sms;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,7 +8,7 @@ import android.text.InputType;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import iths.com.food.Model.Meal;
+import iths.com.food.model.Meal;
 import iths.com.food.R;
 
 /**

@@ -8,9 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import iths.com.food.Fragments.CategoryFragment;
-import iths.com.food.Fragments.MapViewFragment;
-import iths.com.food.Fragments.MealFragment;
+import iths.com.food.fragments.CategoryFragment;
+import iths.com.food.fragments.MapViewFragment;
+import iths.com.food.fragments.MealFragment;
 
 public class MainActivity extends AppCompatActivity  {
 

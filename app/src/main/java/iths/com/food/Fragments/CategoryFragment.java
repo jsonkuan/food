@@ -1,11 +1,10 @@
-package iths.com.food.Fragments;
+package iths.com.food.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,12 +20,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import iths.com.food.Helper.CategoryAdapter;
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.DialogHandler;
-import iths.com.food.Helper.GPSHelper;
-import iths.com.food.Helper.SwipeDismissListViewTouchListener;
-import iths.com.food.Model.Category;
+import iths.com.food.helper.CategoryAdapter;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.DialogHandler;
+import iths.com.food.helper.GPSHelper;
+import iths.com.food.helper.SwipeDismissListViewTouchListener;
+import iths.com.food.model.Category;
 import iths.com.food.R;
 
 /**

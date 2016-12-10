@@ -1,4 +1,4 @@
-package iths.com.food.Model;
+package iths.com.food.model;
 
 import static iths.com.food.MainActivity.PACKAGE_NAME;
 import android.app.Activity;

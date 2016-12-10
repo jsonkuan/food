@@ -1,8 +1,7 @@
-package iths.com.food.Helper;
+package iths.com.food.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -15,8 +14,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import iths.com.food.Model.Meal;
-import iths.com.food.Model.MyCamera;
+import iths.com.food.model.Meal;
+import iths.com.food.model.MyCamera;
 import iths.com.food.R;
 
 /**
