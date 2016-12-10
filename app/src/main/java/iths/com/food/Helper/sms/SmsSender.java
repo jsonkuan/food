@@ -26,7 +26,7 @@ public class SmsSender {
     public static void sendSms(final Context context, final Meal meal) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Enter recipients phone number, inc country code");
+        builder.setTitle("Enter recipients phone number, inclusive country code");
 
         // Set up the input
         final EditText input = new EditText(context);
@@ -45,7 +45,8 @@ public class SmsSender {
 
                 String phoneNumber = input.getText().toString();
                 String appName = context.getResources().getString(R.string.app_name);
-                String msg = "*"+appName +"* Meal: "+ meal.getName() +" MealID: "+ meal.getId();
+                String msg = "*"+appName +"* Meal: "+ meal.getName() +" MealId: "+ meal.getId() +
+                        ". To replay use the following syntax: *FoodFlash* MealId: [nr] Tasty: [nr] Healthy: [nr]";
 
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(phoneNumber, null, msg, null, null);

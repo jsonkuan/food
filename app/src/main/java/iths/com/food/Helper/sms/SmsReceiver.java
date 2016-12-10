@@ -16,11 +16,12 @@ import iths.com.food.model.Meal;
 /**
  * Created by Hristijan on 2016-12-09.
  *
- * Checks if received sms contains this apps name. If so, it parses it to get meal id, healthy score and tasty score
+ * Checks if received sms contains this apps name. If so, it parses it to get meal id, healthy score and tasty score.
  * Then it updates the meal in the database with those new values.
- * A Toast is shown to the user then this is done.
+ * A Toast is shown to the user when this is done.
  *
  * NOTES: This class should not be instanced.
+ * It is registered in the Manifest, so when a sms is received a call to its onReceive method will be made.
  */
 
 public class SmsReceiver extends BroadcastReceiver {
