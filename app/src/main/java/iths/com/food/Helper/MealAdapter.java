@@ -2,6 +2,7 @@ package iths.com.food.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class MealAdapter extends ArrayAdapter<String> {
         String imagePath = meal.getImagePath();
         Uri imageUri = Uri.parse(imagePath);
         ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
-        Bitmap image = MyCamera.rotatePhoto(MyCamera.getThumbnailFilePath(imageUri.getPath()));
+        Bitmap image = BitmapFactory.decodeFile(MyCamera.getThumbnailFilePath(imageUri.getPath()));
         imageView.setImageBitmap(image);
 
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);

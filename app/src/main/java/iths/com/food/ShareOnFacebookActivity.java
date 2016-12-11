@@ -56,7 +56,7 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
 
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)

@@ -3,6 +3,7 @@ package iths.com.food.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
@@ -297,7 +298,7 @@ public class MealFragment extends Fragment{
         nameText.setText(meal.getName());
         descriptionText.setText(meal.getDescription());
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
         mealImageView.setImageBitmap(image);
 
         //Making the image view square
@@ -327,7 +328,7 @@ public class MealFragment extends Fragment{
         descriptionEdit.setText(meal.getDescription());
 
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
         mealImageView.setImageBitmap(image);
 
         ArrayList<Category> categories = db.getCategories();
