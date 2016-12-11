@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Date;
 
 /**
@@ -23,9 +24,10 @@ import java.util.Date;
 public class MyCamera {
 
     public static final int CAMERA_REQUEST_CODE = 1;
-    private static final String TAG = "ERROR";
+    private static final String TAG = "LOGTAG";
     private Uri photoFilePath;
     private Context context;
+    private static int currentOrientation = 0;
 
     public MyCamera(Context context) {
         this.context = context;
@@ -38,14 +40,25 @@ public class MyCamera {
     public void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(context.getPackageManager()) != null) {
-            File photo = createFile();
+            File photo = createPhotoFile();
             photoFilePath = Uri.fromFile(photo);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoFilePath);
             ((Activity) context).startActivityForResult(intent, CAMERA_REQUEST_CODE);
         }
     }
 
-    public void showImage(ImageView imageView) {
+    private File createPhotoFile() {
+        File photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File ffDir = new File(photoDir, "FoodFlash");
+        if(!ffDir.exists()) {
+            if(!ffDir.mkdirs()) {
+                Log.d(TAG, "Could not create directory" + ffDir.toString());
+            }
+        }
+        return new File(ffDir, "foodflash" + (new Date().getTime()) + ".jpg");
+    }
+
+    public Bitmap createImageBitmap(ImageView imageView, int thumbnailHeight, int thumbnailWidth) {
         int imageViewHeight = imageView.getHeight();
         int imageViewWidth = imageView.getWidth();
 
@@ -58,28 +71,31 @@ public class MyCamera {
         try {
             scaleFactor = Math.min(opt.outHeight / imageViewHeight, opt.outWidth / imageViewWidth);
         } catch(Exception e) {
-            Log.d(TAG, "Could now scale image.");
+            Log.d(TAG, "Could not scale image.");
         }
 
-        Log.d(TAG, "scaleFactor: " + scaleFactor);
         opt = new BitmapFactory.Options();
         opt.inSampleSize = scaleFactor;
 
         Bitmap rotatedBitmap = rotatePhoto(photoFilePath.getPath());
 
-        imageView.setImageBitmap(rotatedBitmap);
+        Bitmap thumbnail = makeThumbnail(photoFilePath.getPath(), thumbnailHeight, thumbnailWidth);
+        Bitmap rotatedThumbnail = rotateThumbnail(thumbnail, currentOrientation);
+        saveThumbnail(rotatedThumbnail, getThumbnailFilePath(photoFilePath.getPath()));
+
+        return rotatedBitmap;
     }
 
     public static Bitmap rotatePhoto(String filePath) {
         Bitmap image = BitmapFactory.decodeFile(filePath);
 
         ExifInterface exif;
-        int orientation = 167;
+        int orientation = 0;
 
         try {
             exif = new ExifInterface(filePath);
             orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-            Log.d("ORIENTATION", orientation + "");
+            currentOrientation = orientation;
         } catch (Exception e) {
             Log.d(TAG, "Error with photo file path");
         }
@@ -93,25 +109,64 @@ public class MyCamera {
             matrix.postRotate(180);
         }
 
-        Bitmap rotatedBitmap = Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
-        return rotatedBitmap;
+        return Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
     }
 
-    private File createFile() {
-        File dir = getDirectory();
-        return new File(dir, "iths" + (new Date().getTime()) + ".jpg");
+    public static Bitmap rotateThumbnail(Bitmap image, int orientation) {
+        Matrix matrix = new Matrix();
+        if(orientation == 6) {
+            matrix.postRotate(90);
+        } else if(orientation == 8) {
+            matrix.postRotate(270);
+        } else if(orientation == 3) {
+            matrix.postRotate(180);
+        }
+
+        return Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
     }
 
-    private File getDirectory() {
-        File photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File ithsDir = new File(photoDir, "ithsPics");
-        if(!ithsDir.exists()) {
-            if(!ithsDir.mkdirs()) {
-                Log.d(TAG, "Could not create directory" + ithsDir.toString());
+    private Bitmap makeThumbnail(String largeImageFilePath, int height, int width) {
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+        opt.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeFile(largeImageFilePath, opt);
+
+        int scaleFactor = 1;
+        try {
+            scaleFactor = Math.min(opt.outHeight / height, opt.outWidth / width);
+        } catch(Exception e) {
+            Log.d(TAG, "Could not scale thumbnail.");
+        }
+
+        opt = new BitmapFactory.Options();
+        opt.inSampleSize = scaleFactor;
+
+        Bitmap thumbnail = BitmapFactory.decodeFile(largeImageFilePath, opt);
+        return thumbnail;
+    }
+
+    private void saveThumbnail(Bitmap image, String thumbnailFilePath) {
+        File file = new File(thumbnailFilePath);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+        } catch (Exception e) {
+            Log.d(TAG, "Saving thumbnail failed");
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        return ithsDir;
     }
 
-
+    public static String getThumbnailFilePath(String filePath) {
+        String newFilePath = filePath.substring(0, filePath.length() - 4) + "m.jpg";
+        return newFilePath;
+    }
 }

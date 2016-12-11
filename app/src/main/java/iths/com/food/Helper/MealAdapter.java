@@ -46,7 +46,7 @@ public class MealAdapter extends ArrayAdapter<String> {
         String imagePath = meal.getImagePath();
         Uri imageUri = Uri.parse(imagePath);
         ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
-        Bitmap image = MyCamera.rotatePhoto(imageUri.getPath());
+        Bitmap image = MyCamera.rotatePhoto(MyCamera.getThumbnailFilePath(imageUri.getPath()));
         imageView.setImageBitmap(image);
 
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);

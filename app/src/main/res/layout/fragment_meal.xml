@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="60dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -25,53 +24,78 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/meal_name_and_category_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <TextView
             android:id="@+id/meal_name_text"
+            style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/my_new_meal"
             android:textSize="32sp"/>
 
-        <Button
-            android:id="@+id/edit_button"
+        <TextView
+            android:id="@+id/category_text"
+            style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="edit" />
+            android:textSize="20dp"
+            android:text="@string/my_category"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/category_text"
+    <Button
+        android:id="@+id/edit_button"
+        style="@style/mealFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/my_category"/>
+        android:layout_alignParentRight="true"
+        android:text="@string/edit" />
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/meal_image"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/testmeal"
         android:scaleType="centerCrop"
         android:layout_centerInParent="true"
         android:layout_marginTop="@dimen/image_margin"
         android:layout_marginBottom="@dimen/image_margin"/>
 
-    <TextView
-        android:id="@+id/taste_text"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/taste_text"
+        style="@style/mealFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="@string/taste"/>
 
     <LinearLayout
         android:id="@+id/taste_hearts"
+        style="@style/mealFragment"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher">
 
@@ -149,14 +173,17 @@
 
     <TextView
         android:id="@+id/healthy_text"
+        style="@style/mealFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="@string/healthy"/>
 
     <LinearLayout
         android:id="@+id/health_hearts"
+        style="@style/mealFragment"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -230,33 +257,51 @@
             />
 
     </LinearLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/average_grade_text"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/average_grade" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/average_number"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="32sp"/>
+        <TextView
+            android:id="@+id/average_grade_text"
+            style="@style/mealFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="@string/average_grade" />
+
+        <TextView
+            android:id="@+id/average_number"
+            style="@style/mealFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:textSize="32sp"/>
+
+    </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/meal_description"
+        style="@style/mealFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/description_box_margin"
+        android:layout_marginBottom="@dimen/description_box_margin"
         android:text="@string/tasty"/>
 
     <ImageView
         android:id="@+id/share_on_facebook"
+        style="@style/mealFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/share_facebook"/>
+        android:src="@drawable/share_facebook_small"/>
 
     <Button
         android:id="@+id/btn_send_sms"
+        style="@style/mealFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/send_sms"/>

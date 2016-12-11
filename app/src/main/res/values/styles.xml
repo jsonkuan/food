@@ -13,4 +13,9 @@
         android:numStars="5"
     </style>
 
+    <style name="mealFragment" parent="AppTheme">
+        <item name="android:layout_marginLeft">@dimen/meal_fragment_side_margin</item>
+        <item name="android:layout_marginRight">@dimen/meal_fragment_side_margin</item>
+    </style>
+
 </resources>
