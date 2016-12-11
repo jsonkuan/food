@@ -1,4 +1,4 @@
-package iths.com.food.Model;
+package iths.com.food.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

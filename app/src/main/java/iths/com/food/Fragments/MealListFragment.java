@@ -1,10 +1,9 @@
-package iths.com.food.Fragments;
+package iths.com.food.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +14,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.DialogHandler;
-import iths.com.food.Helper.MealAdapter;
-import iths.com.food.Helper.SwipeDismissListViewTouchListener;
-import iths.com.food.Model.Category;
-import iths.com.food.Model.Meal;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.DialogHandler;
+import iths.com.food.helper.MealAdapter;
+import iths.com.food.helper.SwipeDismissListViewTouchListener;
+import iths.com.food.model.Category;
+import iths.com.food.model.Meal;
 import iths.com.food.R;
 
 /**

@@ -1,4 +1,4 @@
-package iths.com.food.Helper;
+package iths.com.food.helper;
 
 /**
  * Created by sebastianstrus on 08/12/16.

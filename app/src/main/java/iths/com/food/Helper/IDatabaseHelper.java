@@ -1,9 +1,9 @@
-package iths.com.food.Helper;
+package iths.com.food.helper;
 
 import java.util.ArrayList;
 
-import iths.com.food.Model.Category;
-import iths.com.food.Model.Meal;
+import iths.com.food.model.Category;
+import iths.com.food.model.Meal;
 
 /**
  * Created by Hristijan on 2016-11-16.

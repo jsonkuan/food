@@ -1,4 +1,4 @@
-package iths.com.food.Model;
+package iths.com.food.model;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,17 +12,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Date;
-
-import iths.com.food.R;
-
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 /**
  * Created by asakwarnmark on 2016-11-15.

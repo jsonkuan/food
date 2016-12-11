@@ -1,4 +1,4 @@
-package iths.com.food.Model;
+package iths.com.food.model;
 
 /**
  * Created by jas0n on 2016-11-14.
