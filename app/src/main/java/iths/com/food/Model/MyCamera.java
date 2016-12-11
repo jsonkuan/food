@@ -27,7 +27,6 @@ public class MyCamera {
     private static final String TAG = "LOGTAG";
     private Uri photoFilePath;
     private Context context;
-    private static int currentOrientation = 0;
 
     public MyCamera(Context context) {
         this.context = context;
@@ -77,42 +76,32 @@ public class MyCamera {
         opt = new BitmapFactory.Options();
         opt.inSampleSize = scaleFactor;
 
-        Bitmap rotatedBitmap = rotatePhoto(photoFilePath.getPath());
+        int currentOrientation = getOrientation(photoFilePath.getPath());
+
+        Bitmap bitmap = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
+        Bitmap rotatedBitmap = rotatePhoto(bitmap, currentOrientation);
+        saveImage(rotatedBitmap, photoFilePath.getPath());
 
         Bitmap thumbnail = makeThumbnail(photoFilePath.getPath(), thumbnailHeight, thumbnailWidth);
-        Bitmap rotatedThumbnail = rotateThumbnail(thumbnail, currentOrientation);
-        saveThumbnail(rotatedThumbnail, getThumbnailFilePath(photoFilePath.getPath()));
+        saveImage(thumbnail, getThumbnailFilePath(photoFilePath.getPath()));
 
         return rotatedBitmap;
     }
 
-    public static Bitmap rotatePhoto(String filePath) {
-        Bitmap image = BitmapFactory.decodeFile(filePath);
-
+    private static int getOrientation(String filePath) {
         ExifInterface exif;
         int orientation = 0;
 
         try {
             exif = new ExifInterface(filePath);
             orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-            currentOrientation = orientation;
         } catch (Exception e) {
             Log.d(TAG, "Error with photo file path");
         }
-
-        Matrix matrix = new Matrix();
-        if(orientation == 6) {
-            matrix.postRotate(90);
-        } else if(orientation == 8) {
-            matrix.postRotate(270);
-        } else if(orientation == 3) {
-            matrix.postRotate(180);
-        }
-
-        return Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
+        return orientation;
     }
 
-    public static Bitmap rotateThumbnail(Bitmap image, int orientation) {
+    public static Bitmap rotatePhoto(Bitmap image, int orientation) {
         Matrix matrix = new Matrix();
         if(orientation == 6) {
             matrix.postRotate(90);
@@ -145,15 +134,16 @@ public class MyCamera {
         return thumbnail;
     }
 
-    private void saveThumbnail(Bitmap image, String thumbnailFilePath) {
-        File file = new File(thumbnailFilePath);
+    private void saveImage(Bitmap image, String filePath) {
+        File file = new File(filePath);
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(file);
             image.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            Log.d(TAG, "Saved image: " + filePath);
             out.close();
         } catch (Exception e) {
-            Log.d(TAG, "Saving thumbnail failed");
+            Log.d(TAG, "Saving image failed");
         } finally {
             try {
                 if (out != null) {
