@@ -1,16 +1,20 @@
 package iths.com.food.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,7 +60,7 @@ public class MealFragment extends Fragment{
     private MyCamera camera;
 
     private View layoutView;
-    private ImageView mealImage, heartImage, cameraIcon;
+    private ImageView mealImageView, heartImage, cameraIcon;
     private EditText nameEdit, descriptionEdit;
     private TextView nameText, descriptionText, categoryText, averageNumber;
     private Spinner spinner;
@@ -66,6 +70,40 @@ public class MealFragment extends Fragment{
 
     private long id;
     private long current_id = 0;
+
+    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            camera = new MyCamera(getActivity());
+            camera.takePhoto();
+        }
+    };
+    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveMeal();
+        }
+    };
+    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            heart.fillHearts(v);
+        }
+    };
+    private View.OnClickListener editButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            makeEditable(id);
+        }
+    };
+    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Bundle bundle = getArguments();
+            long id = bundle.getLong(MEAL_ID);
+            updateMeal(id);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -94,7 +132,7 @@ public class MealFragment extends Fragment{
         Bundle bundle = getArguments();
 
         if(isOpenedFromMenu) {
-            mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
+            mealImageView = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
 
             camera = new MyCamera(getActivity());
             camera.takePhoto();
@@ -106,7 +144,7 @@ public class MealFragment extends Fragment{
             heart.setHearts(true, 1, 1); //Default score is 1
             isOpenedFromMenu = false;
         } else if (bundle.getBoolean(MAKE_EDITABLE)) {
-            mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
+            mealImageView = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
             saveButton.setOnClickListener(updateButtonListener);
             setUpSpinner();
             setHeartClickListeners();
@@ -114,7 +152,7 @@ public class MealFragment extends Fragment{
         }
         else {
             layoutView = inflater.inflate(R.layout.fragment_meal, container, false);
-            mealImage = (ImageView) layoutView.findViewById(R.id.meal_image);
+            mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
             editButton = (Button) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
@@ -142,7 +180,8 @@ public class MealFragment extends Fragment{
             if(resultCode == RESULT_OK) {
                 int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
                 int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
-                camera.showImage(mealImage, thumbnailHeight, thumbnailWidth);
+                Bitmap mealBitmap = camera.createImageBitmap(mealImageView, thumbnailHeight, thumbnailWidth);
+                mealImageView.setImageBitmap(mealBitmap);
             }
         }
     }
@@ -168,8 +207,6 @@ public class MealFragment extends Fragment{
 
         meal.setLatitude(0);
         meal.setLongitude(0);
-        Log.d(TAG, "imagePath = " + imagePath);
-        meal.setImagePath(imagePath);
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
         long id = db.insertMeal(meal);
@@ -185,8 +222,6 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal that is updated.
      */
     public void updateMeal(long id) {
-
-        Log.d(TAG, "In updateMeal");
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
 
@@ -205,8 +240,6 @@ public class MealFragment extends Fragment{
 
         db.updateMeal(meal);
 
-        Log.d(TAG, "imagePath = " + imagePath);
-
         db.close();
 
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -218,7 +251,6 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal.
      */
     public void makeEditable(long id) {
-        Log.d(TAG, "making stuff editable");
         MealFragment newFragment = new MealFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(MAKE_EDITABLE, true);
@@ -257,17 +289,25 @@ public class MealFragment extends Fragment{
         Meal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
         descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
-        mealImage = (ImageView) layoutView.findViewById(R.id.meal_image);
+        mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
         categoryText = (TextView) layoutView.findViewById(R.id.category_text);
         averageNumber = (TextView) layoutView.findViewById(R.id.average_number);
 
 
         nameText.setText(meal.getName());
         descriptionText.setText(meal.getDescription());
-        Log.d(TAG, "Right before setting image");
         Uri filePathUri = Uri.parse(meal.getImagePath());
         Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
-        mealImage.setImageBitmap(image);
+        mealImageView.setImageBitmap(image);
+
+        //Making the image view square
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        mealImageView.getLayoutParams().height = width;
+        Log.d(TAG, "mealImage width: " + mealImageView.getLayoutParams().height);
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
 
@@ -288,7 +328,7 @@ public class MealFragment extends Fragment{
 
         Uri filePathUri = Uri.parse(meal.getImagePath());
         Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
-        mealImage.setImageBitmap(image);
+        mealImageView.setImageBitmap(image);
 
         ArrayList<Category> categories = db.getCategories();
         int position = 0;
@@ -346,39 +386,7 @@ public class MealFragment extends Fragment{
         }
     };
 
-    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            camera = new MyCamera(getActivity());
-            camera.takePhoto();
-        }
-    };
-    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            saveMeal();
-        }
-    };
-    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            heart.fillHearts(v);
-        }
-    };
-    private View.OnClickListener editButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            makeEditable(id);
-        }
-    };
-    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Bundle bundle = getArguments();
-            long id = bundle.getLong(MEAL_ID);
-            updateMeal(id);
-        }
-    };
+
 }
 
 

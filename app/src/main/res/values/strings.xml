@@ -16,7 +16,7 @@
     <string name="my_new_meal">My new meal</string>
     <string name="my_category">My category</string>
     <string name="tasty">Tasty</string>
-    <string name="average_grade">Average grade:</string>
+    <string name="average_grade">Total grade:</string>
 
     <string name="facebook_app_id">557438107789061</string>
     <string name="loading_facebook">Loading facebook...</string>
@@ -27,4 +27,5 @@
     <string name="total_grade">Total grade:</string>
     <string name="save_button">Save</string>
     <string name="meal_name">Meal name</string>
+    <string name="edit">edit</string>
 </resources>
