@@ -1,6 +1,5 @@
 package iths.com.food.helper.sms;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
-
 import iths.com.food.helper.DatabaseHelper;
 import iths.com.food.model.Meal;
 

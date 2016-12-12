@@ -49,8 +49,6 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     public interface DismissCallbacks {
 
         boolean canDismiss(int position);
-
-
         void onDismiss(ListView listView, int[] reverseSortedPositions);
     }
 

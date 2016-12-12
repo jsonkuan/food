@@ -112,9 +112,6 @@ public class CategoryFragment extends Fragment {
             return v;
         }
 
-
-
-
     public void doSwipe(int position) {
         DialogHandler appdialog = new DialogHandler();
 
@@ -141,9 +138,7 @@ public class CategoryFragment extends Fragment {
             }
         };
     }
-
-
-
+    
 /*
 db.deleteCategory(foodtypes.get(position));
         CategoryFragment newFragment = new CategoryFragment();
