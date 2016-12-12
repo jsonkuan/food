@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,17 +57,17 @@ public class CategoryFragment extends Fragment {
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Window window = getActivity().getWindow();
+        /*Window window = getActivity().getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.navyBlue));
+        window.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.navyBlue));*/
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
         /**
          * UNCOMMENT this code block to reset the database in the emulator
          */
         /*if(deleteDB) {
-            context.deleteDatabase("food.db");
+            getActivity().deleteDatabase("food.db");
             deleteDB = false;
             Toast.makeText(getActivity(), "Database deleted", Toast.LENGTH_SHORT).show();
         }*/
