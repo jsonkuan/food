@@ -43,4 +43,27 @@
         android:text="@string/save"
         android:onClick="saveButtonPressed"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/info_chose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="Swipe to choose the icon that you prefer"/>
+
+    <TextView
+        android:id="@+id/info_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/info_chose"
+        android:layout_alignLeft="@+id/info_chose"
+        android:layout_alignRight="@+id/info_chose"
+        android:padding="5dp"
+        android:text="You can delete a category or meal by swiping to the left in the list"/>
+    </RelativeLayout>
+
 </LinearLayout>
