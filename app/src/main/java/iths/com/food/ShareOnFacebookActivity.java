@@ -31,6 +31,9 @@ import iths.com.food.model.Meal;
 import iths.com.food.model.MyCamera;
 
 
+/**
+ * This class handle FB sharing and can publish an image
+ */
 public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
@@ -44,9 +47,13 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         Intent intent = getIntent();
         current_id = intent.getLongExtra("id",0);
 
+        // Runs the facebook sharing thing
         this.shareOnFacebook();
     }
 
+    /**
+     * Specifies what image and text to publish on FB
+     */
     private void publishImage(){
 
         DatabaseHelper db = new DatabaseHelper(this);
@@ -79,6 +86,9 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Login to FB, look for permissions to share things on FB and call publishImage on success
+     */
     public void shareOnFacebook() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -105,6 +115,10 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Runs when we tap on "Go back"
+     * @param view - the view that we tapped on
+     */
     public void fbGoBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
