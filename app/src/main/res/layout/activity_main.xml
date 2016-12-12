@@ -19,7 +19,6 @@
         android:orientation="vertical"
         android:background="#FFFFFF"
         android:layout_marginBottom="@dimen/bottom_container_margin">
-
     </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
@@ -31,5 +30,4 @@
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/bottom_navigation_main" />
-
 </RelativeLayout>
