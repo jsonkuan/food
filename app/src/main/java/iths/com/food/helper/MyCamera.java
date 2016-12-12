@@ -1,4 +1,4 @@
-package iths.com.food.model;
+package iths.com.food.helper;
 
 import android.app.Activity;
 import android.content.Context;
@@ -57,9 +57,15 @@ public class MyCamera {
         return new File(ffDir, "foodflash" + (new Date().getTime()) + ".jpg");
     }
 
-    public Bitmap createImageBitmap(ImageView imageView, int thumbnailHeight, int thumbnailWidth) {
-        int imageViewHeight = imageView.getHeight();
-        int imageViewWidth = imageView.getWidth();
+    /**
+     *
+     * @param imageViewHeight
+     * @param imageViewWidth
+     * @param thumbnailHeight
+     * @param thumbnailWidth
+     * @return
+     */
+    public Bitmap createImageBitmap(int imageViewHeight, int imageViewWidth, int thumbnailHeight, int thumbnailWidth) {
 
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
@@ -79,7 +85,7 @@ public class MyCamera {
         int currentOrientation = getOrientation(photoFilePath.getPath());
 
         Bitmap bitmap = BitmapFactory.decodeFile(photoFilePath.getPath(), opt);
-        Bitmap rotatedBitmap = rotatePhoto(bitmap, currentOrientation);
+        Bitmap rotatedBitmap = rotateImage(bitmap, currentOrientation);
         saveImage(rotatedBitmap, photoFilePath.getPath());
 
         Bitmap thumbnail = makeThumbnail(photoFilePath.getPath(), thumbnailHeight, thumbnailWidth);
@@ -88,6 +94,12 @@ public class MyCamera {
         return rotatedBitmap;
     }
 
+    /**
+     * Returns the orientation of a photo from the camera of the device.
+     * @param filePath The file path of the photograph.
+     * @return The orientation as an int - 1 for landscape, 3 for upside-down landscape,
+     * 6 for portrait, 8 for upside-down portrait.
+     */
     private static int getOrientation(String filePath) {
         ExifInterface exif;
         int orientation = 0;
@@ -98,22 +110,38 @@ public class MyCamera {
         } catch (Exception e) {
             Log.d(TAG, "Error with photo file path");
         }
+        Log.d(TAG, "Orientation: " + orientation);
         return orientation;
     }
 
-    public static Bitmap rotatePhoto(Bitmap image, int orientation) {
+    /**
+     * Rotates an image depending on its orientation.
+     * @param image The image to be rotated.
+     * @param orientation The orientation of the image - can be retrieved with getOrientation
+     *                    if the image is from the camera.
+     * @return The rotated image.
+     */
+    public static Bitmap rotateImage(Bitmap image, int orientation) {
         Matrix matrix = new Matrix();
-        if(orientation == 6) {
-            matrix.postRotate(90);
-        } else if(orientation == 8) {
-            matrix.postRotate(270);
-        } else if(orientation == 3) {
-            matrix.postRotate(180);
+        switch(orientation) {
+            case 3: matrix.postRotate(180);
+                break;
+            case 6: matrix.postRotate(90);
+                break;
+            case 8: matrix.postRotate(270);
+                break;
         }
 
         return Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true);
     }
 
+    /**
+     * Create a thumbnail.
+     * @param largeImageFilePath Where the original image is stored.
+     * @param height The height of the image view where the thumbnail will be presented.
+     * @param width The width of the image view where the thumbnail will be presented.
+     * @return The thumbnail as a Bitmap object.
+     */
     private Bitmap makeThumbnail(String largeImageFilePath, int height, int width) {
         BitmapFactory.Options opt = new BitmapFactory.Options();
         opt.inJustDecodeBounds = true;
@@ -134,6 +162,11 @@ public class MyCamera {
         return thumbnail;
     }
 
+    /**
+     * Save an image in jpeg format to the specified file path.
+     * @param image The image to be saved.
+     * @param filePath The file path where the file should be saved.
+     */
     private void saveImage(Bitmap image, String filePath) {
         File file = new File(filePath);
         FileOutputStream out = null;

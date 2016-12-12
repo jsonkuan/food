@@ -16,7 +16,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import iths.com.food.model.Meal;
-import iths.com.food.model.MyCamera;
 import iths.com.food.R;
 
 /**

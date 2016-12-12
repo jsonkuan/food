@@ -19,9 +19,11 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +36,7 @@ import iths.com.food.helper.sms.SmsSender;
 import iths.com.food.model.Category;
 import iths.com.food.model.HeartRating;
 import iths.com.food.model.Meal;
-import iths.com.food.model.MyCamera;
+import iths.com.food.helper.MyCamera;
 import iths.com.food.R;
 import iths.com.food.ShareOnFacebookActivity;
 
@@ -66,8 +68,8 @@ public class MealFragment extends Fragment{
     private TextView nameText, descriptionText, categoryText, averageNumber;
     private Spinner spinner;
 
-    private Button saveButton, editButton, btnSendSms;
-    private ImageView shareOnFacebookButton;
+    private Button saveButton, btnSendSms;
+    private ImageView shareOnFacebookButton, editButton;
 
     private long id;
     private long current_id = 0;
@@ -103,6 +105,31 @@ public class MealFragment extends Fragment{
             Bundle bundle = getArguments();
             long id = bundle.getLong(MEAL_ID);
             updateMeal(id);
+        }
+    };
+
+    private View.OnClickListener shareOnFBListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(current_id!=0){
+                Intent intent = new Intent(getActivity(), ShareOnFacebookActivity.class);
+                intent.putExtra("id",current_id);
+                startActivity(intent);
+            }
+        }
+    };
+
+    private View.OnClickListener btnSendSmsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(current_id!=0){
+                Meal meal = new Meal();
+
+                meal.setName(nameText.getText().toString());
+                meal.setId(id);
+
+                SmsSender.sendSms(getContext(), meal);
+            }
         }
     };
 
@@ -154,10 +181,10 @@ public class MealFragment extends Fragment{
         else {
             layoutView = inflater.inflate(R.layout.fragment_meal, container, false);
             mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
-            editButton = (Button) layoutView.findViewById(R.id.edit_button);
+            editButton = (ImageView) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
-            shareOnFacebookButton = (ImageView) layoutView.findViewById(R.id.share_on_facebook);
+            shareOnFacebookButton = (ImageButton) layoutView.findViewById(R.id.share_on_facebook);
             shareOnFacebookButton.setOnClickListener(shareOnFBListener);
             btnSendSms = (Button) layoutView.findViewById(R.id.btn_send_sms);
             btnSendSms.setOnClickListener(btnSendSmsListener);
@@ -179,9 +206,13 @@ public class MealFragment extends Fragment{
 
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
+                int imageViewHeight = getScreenWidth();
+                int imageViewWidth = getScreenWidth();
+                Log.d(TAG, "ivHeight: " + imageViewHeight + ", ivWidth: " + imageViewWidth);
                 int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
                 int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
-                Bitmap mealBitmap = camera.createImageBitmap(mealImageView, thumbnailHeight, thumbnailWidth);
+                Bitmap mealBitmap = camera.createImageBitmap(imageViewHeight, imageViewWidth,
+                        thumbnailHeight, thumbnailWidth);
                 mealImageView.setImageBitmap(mealBitmap);
             }
         }
@@ -210,9 +241,11 @@ public class MealFragment extends Fragment{
         meal.setLongitude(0);
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
-        long id = db.insertMeal(meal);
+        db.insertMeal(meal);
 
         db.close();
+
+        Toast.makeText(getContext(), "Meal saved to " + meal.getCategory(), Toast.LENGTH_LONG).show();
 
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(container, new CategoryFragment()).commit();
@@ -302,18 +335,22 @@ public class MealFragment extends Fragment{
         mealImageView.setImageBitmap(image);
 
         //Making the image view square
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
+        int width = getScreenWidth();
         mealImageView.getLayoutParams().height = width;
-        Log.d(TAG, "mealImage width: " + mealImageView.getLayoutParams().height);
+
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
 
         heart.setHearts(false, meal.getHealthyScore(), meal.getTasteScore());
         db.close();
+    }
+
+    private int getScreenWidth() {
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
     }
 
     /**
@@ -360,34 +397,4 @@ public class MealFragment extends Fragment{
             heartImage.setOnClickListener(heartButtonListener);
         }
     }
-
-
-    private View.OnClickListener shareOnFBListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(current_id!=0){
-                Intent intent = new Intent(getActivity(), ShareOnFacebookActivity.class);
-                intent.putExtra("id",current_id);
-                startActivity(intent);
-            }
-        }
-    };
-
-    private View.OnClickListener btnSendSmsListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(current_id!=0){
-                Meal meal = new Meal();
-
-                meal.setName(nameText.getText().toString());
-                meal.setId(id);
-
-                SmsSender.sendSms(getContext(), meal);
-            }
-        }
-    };
-
-
 }
-
-

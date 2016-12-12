@@ -26,10 +26,6 @@ import java.util.List;
 import iths.com.food.helper.DatabaseHelper;
 import iths.com.food.model.Meal;
 
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Meal;
-import iths.com.food.model.MyCamera;
-
 
 public class ShareOnFacebookActivity extends AppCompatActivity {
 

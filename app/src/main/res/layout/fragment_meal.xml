@@ -29,18 +29,13 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <LinearLayout
-            android:id="@+id/meal_name_and_category_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
         <TextView
             android:id="@+id/meal_name_text"
             style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/my_new_meal"
+            android:layout_marginRight="@dimen/edit_button_width"
             android:textSize="32sp"/>
 
         <TextView
@@ -48,18 +43,19 @@
             style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/meal_name_text"
             android:textSize="20dp"
             android:text="@string/my_category"/>
 
-        </LinearLayout>
-
-    <Button
-        android:id="@+id/edit_button"
-        style="@style/mealFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="@string/edit" />
+        <ImageView
+            android:id="@+id/edit_button"
+            style="@style/mealFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:minWidth="@dimen/edit_button_width"
+            android:maxWidth="@dimen/edit_button_width"
+            android:src="@drawable/edit_button" />
 
     </RelativeLayout>
 
@@ -292,18 +288,22 @@
         android:layout_marginBottom="@dimen/description_box_margin"
         android:text="@string/tasty"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/share_on_facebook"
         style="@style/mealFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/share_facebook_small"/>
+        android:layout_marginTop="@dimen/image_margin"
+        android:layout_marginBottom="@dimen/image_margin"
+        android:background="@drawable/share_facebook_small"/>
 
     <Button
         android:id="@+id/btn_send_sms"
         style="@style/mealFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/image_margin"
+        android:layout_marginBottom="@dimen/image_margin"
         android:text="@string/send_sms"/>
 
     </LinearLayout>
