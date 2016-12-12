@@ -47,7 +47,7 @@ public class WelcomeActivity extends AppCompatActivity {
         fadeIn = new AlphaAnimation(0.0f , 1.0f );
         tvIntro.startAnimation(fadeIn);
         fadeIn.setDuration(3000);
-        fadeIn.setStartOffset(5000);
+        //fadeIn.setStartOffset(5000);
 
 
         /*
@@ -60,7 +60,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // Logo animation
         final ImageView img = (ImageView) findViewById(R.id.imageView);
-        final Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.animation);
+        final Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
 
         // Logo fade out automatically
         final Animation fadeOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.abc_fade_out);
@@ -88,13 +88,13 @@ public class WelcomeActivity extends AppCompatActivity {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        mAnimationSet.start();
+                        //mAnimationSet.start();
                     }
                 });
                 mAnimationSet.start();
 
                 // When animation finish (or onClick), load Main Activity
-                //img.startAnimation(fadeOutAnimation);
+                img.startAnimation(fadeOutAnimation);
                 //finish();
                 //startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }

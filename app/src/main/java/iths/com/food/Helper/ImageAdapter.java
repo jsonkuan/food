@@ -51,5 +51,11 @@ public class ImageAdapter extends PagerAdapter {
             R.drawable.img10, R.drawable.img11, R.drawable.img12,
             R.drawable.img13, R.drawable.img14, R.drawable.img15,
             R.drawable.img16, R.drawable.img17, R.drawable.img18,
+            R.drawable.img19, R.drawable.img20, R.drawable.img21,
+            R.drawable.img22, R.drawable.img23, R.drawable.img24,
+            R.drawable.img25, R.drawable.img26, R.drawable.img27,
+            R.drawable.img28, R.drawable.img29, R.drawable.img30,
+            R.drawable.img31, R.drawable.img32, R.drawable.img33,
+            R.drawable.img34, R.drawable.img35
     };
 }
