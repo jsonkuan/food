@@ -40,7 +40,6 @@ public class MealListFragment extends Fragment {
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.meallist_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         db = new DatabaseHelper(getActivity());
