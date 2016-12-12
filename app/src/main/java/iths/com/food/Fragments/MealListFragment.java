@@ -1,5 +1,6 @@
 package iths.com.food.fragments;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -32,11 +33,14 @@ public class MealListFragment extends Fragment {
     public static final String MEAL_ID = "meal_id";
     DatabaseHelper db;
     Bundle bundle;
+    private MediaPlayer mySound;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meal_list, container, false);
 
+        mySound = MediaPlayer.create(getActivity(), R.raw.swipe);
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.meallist_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
@@ -127,6 +131,7 @@ public class MealListFragment extends Fragment {
             public void run() {
                 db.deleteMeal(finalID);
                 MealListFragment newFragment = new MealListFragment();
+                mySound.start();
                 newFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
             }

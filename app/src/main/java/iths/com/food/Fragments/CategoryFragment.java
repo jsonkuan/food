@@ -1,6 +1,7 @@
 package iths.com.food.fragments;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -42,13 +43,18 @@ public class CategoryFragment extends Fragment {
     CategoryAdapter adapter;
     //boolean deleteDB = true;    // UNCOMMENT this code block to reset the database in the emulator
     GPSHelper gps;
+    private MediaPlayer mySound;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        mySound = MediaPlayer.create(getActivity(), R.raw.swipe);
+
+
+
         gps = new GPSHelper(getActivity());
         View v = inflater.inflate(R.layout.fragment_category, container, false);
-
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
@@ -124,11 +130,13 @@ public class CategoryFragment extends Fragment {
     }
     public Runnable okPressed(int position){
         final int finalPsition = position;
+
         return new Runnable() {
             public void run() {
                 db.deleteCategory(foodtypes.get(finalPsition));
                 CategoryFragment newFragment = new CategoryFragment();
                 getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+                mySound.start();
             }
         };
     }
