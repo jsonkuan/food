@@ -138,7 +138,7 @@ public class CategoryFragment extends Fragment {
             }
         };
     }
-    
+
 /*
 db.deleteCategory(foodtypes.get(position));
         CategoryFragment newFragment = new CategoryFragment();
