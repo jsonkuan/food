@@ -40,8 +40,7 @@ public class NewCategoryFragment extends Fragment {
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.new_category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        myToolbar.setTitle("Add Category");
-        myToolbar.setLogo(R.drawable.empty_heart);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ImageAdapter adapterView = new ImageAdapter(getActivity());
         mViewPager = (ViewPager) v.findViewById(R.id.viewPageAndroid);

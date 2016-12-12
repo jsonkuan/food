@@ -7,15 +7,22 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/meal_toolbar"
+        android:id="@+id/category_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/babyBlue"
         android:elevation="4dp"
-        android:title="CATEGORY"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:contentDescription="logo_top"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:src="@mipmap/logo_top_small"/>
+    </android.support.v7.widget.Toolbar>
 <ScrollView
     android:layout_height="match_parent"
     android:layout_width="match_parent">

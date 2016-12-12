@@ -114,8 +114,7 @@ public class MealFragment extends Fragment{
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_editable_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        myToolbar.setTitle("FoodFlash!");
-        myToolbar.setLogo(R.drawable.empty_heart);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         gps = new GPSHelper(getActivity());
 

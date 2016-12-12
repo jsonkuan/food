@@ -41,8 +41,7 @@ public class MealListFragment extends Fragment {
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.meallist_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        myToolbar.setTitle("FoodFlash!");
-        myToolbar.setLogo(R.drawable.empty_heart);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         db = new DatabaseHelper(getActivity());
 
