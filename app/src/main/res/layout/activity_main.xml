@@ -9,6 +9,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
+    android:background="@color/babyBlue"
     tools:context="iths.com.food.MainActivity">
 
     <LinearLayout
@@ -16,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="50dp">
+        android:background="#FFFFFF"
+        android:layout_marginBottom="@dimen/bottom_container_margin">
 
     </LinearLayout>
 
@@ -25,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@android:color/holo_orange_light"
+        app:itemBackground="@color/babyBlue"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
         app:menu="@menu/bottom_navigation_main" />

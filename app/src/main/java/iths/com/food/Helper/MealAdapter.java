@@ -1,4 +1,4 @@
-package iths.com.food.Helper;
+package iths.com.food.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import iths.com.food.Model.Meal;
-import iths.com.food.Model.MyCamera;
+import iths.com.food.model.Meal;
+import iths.com.food.model.MyCamera;
 import iths.com.food.R;
 
 /**
@@ -47,7 +47,7 @@ public class MealAdapter extends ArrayAdapter<String> {
         String imagePath = meal.getImagePath();
         Uri imageUri = Uri.parse(imagePath);
         ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
-        Bitmap image = MyCamera.rotatePhoto(imageUri.getPath());
+        Bitmap image = BitmapFactory.decodeFile(MyCamera.getThumbnailFilePath(imageUri.getPath()));
         imageView.setImageBitmap(image);
 
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);

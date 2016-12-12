@@ -1,4 +1,4 @@
-package iths.com.food.Fragments;
+package iths.com.food.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,10 +14,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.MealAdapter;
-import iths.com.food.Model.Category;
-import iths.com.food.Model.Meal;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.DialogHandler;
+import iths.com.food.helper.MealAdapter;
+import iths.com.food.helper.SwipeDismissListViewTouchListener;
+import iths.com.food.model.Category;
+import iths.com.food.model.Meal;
 import iths.com.food.R;
 
 /**
@@ -29,6 +31,7 @@ public class MealListFragment extends Fragment {
 
     public static final String MEAL_ID = "meal_id";
     DatabaseHelper db;
+    Bundle bundle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,11 +46,11 @@ public class MealListFragment extends Fragment {
 
         db = new DatabaseHelper(getActivity());
 
-        Bundle bundle = this.getArguments();
+        bundle = this.getArguments();
         String category = bundle.getString(CategoryFragment.CHOSEN_CATEGORY);
         Toast.makeText(getActivity(), category, Toast.LENGTH_SHORT).show();
         Category listCategory = db.getCategory(category);
-        ArrayList<Meal> mealsInCategory = listCategory.getMeals();
+        final ArrayList<Meal> mealsInCategory = listCategory.getMeals();
         ArrayList<String> idArray = new ArrayList<>();
         for(int i = 0; i < mealsInCategory.size(); i++) {
             idArray.add(Long.toString(mealsInCategory.get(i).getId()));
@@ -69,8 +72,74 @@ public class MealListFragment extends Fragment {
         );
 
         db.close();
+
+
+
+        SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
+                listView,
+                new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            //db.deleteCategory(foodtypes.get(position));
+                            long ID = mealsInCategory.get(position).getId();
+
+
+                            Toast.makeText(getActivity(), ""+ID, Toast.LENGTH_SHORT).show();
+
+
+                            doSwipe((int)ID);
+                            /*db.deleteMeal(ID);
+                            MealListFragment newFragment = new MealListFragment();
+                            newFragment.setArguments(bundle);
+                            getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();*/
+                        }
+                    }
+                }
+        );
+        listView.setOnTouchListener(touchListener);
+
+
         return view;
     }
+
+
+
+
+    public void doSwipe(int ID) {
+        DialogHandler appdialog = new DialogHandler();
+
+
+        double score = db.getMeal(ID).getTotalScore();
+
+
+        appdialog.Confirm(getActivity(), "Are you sure you want to delete?", "This meal has " + score + " score.",
+                "Cancel", "OK", okPressed(ID), cancelPressed());
+    }
+    public Runnable okPressed(int ID){
+        final int finalID = ID;
+        return new Runnable() {
+            public void run() {
+                db.deleteMeal(finalID);
+                MealListFragment newFragment = new MealListFragment();
+                newFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+            }
+        };
+    }
+    public Runnable cancelPressed(){
+        return new Runnable() {
+            public void run() {
+            }
+        };
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,4 +1,4 @@
-package iths.com.food.Fragments;
+package iths.com.food.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -20,9 +20,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Model.Category;
-import iths.com.food.Model.Meal;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.model.Category;
+import iths.com.food.model.Meal;
 import iths.com.food.R;
 
 /**

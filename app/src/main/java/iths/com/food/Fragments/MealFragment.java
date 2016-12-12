@@ -1,20 +1,21 @@
-package iths.com.food.Fragments;
+package iths.com.food.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,12 +28,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Helper.GPSHelper;
-import iths.com.food.Model.Category;
-import iths.com.food.Model.HeartRating;
-import iths.com.food.Model.Meal;
-import iths.com.food.Model.MyCamera;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.GPSHelper;
+import iths.com.food.helper.sms.SmsSender;
+import iths.com.food.model.Category;
+import iths.com.food.model.HeartRating;
+import iths.com.food.model.Meal;
+import iths.com.food.model.MyCamera;
 import iths.com.food.R;
 import iths.com.food.ShareOnFacebookActivity;
 
@@ -59,15 +61,50 @@ public class MealFragment extends Fragment{
     private MyCamera camera;
 
     private View layoutView;
-    private ImageView mealImage, heartImage, cameraIcon;
+    private ImageView mealImageView, heartImage, cameraIcon;
     private EditText nameEdit, descriptionEdit;
     private TextView nameText, descriptionText, categoryText, averageNumber;
     private Spinner spinner;
-    private Button saveButton, editButton;
-    private Button shareOnFacebookButton;
+
+    private Button saveButton, editButton, btnSendSms;
+    private ImageView shareOnFacebookButton;
 
     private long id;
     private long current_id = 0;
+
+    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            camera = new MyCamera(getActivity());
+            camera.takePhoto();
+        }
+    };
+    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            saveMeal();
+        }
+    };
+    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            heart.fillHearts(v);
+        }
+    };
+    private View.OnClickListener editButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            makeEditable(id);
+        }
+    };
+    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Bundle bundle = getArguments();
+            long id = bundle.getLong(MEAL_ID);
+            updateMeal(id);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,13 +112,12 @@ public class MealFragment extends Fragment{
         layoutView = inflater.inflate(R.layout.fragment_meal_editable, container, false);
 
         setHasOptionsMenu(true);
-        Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_toolbar);
+        Toolbar myToolbar = (Toolbar) layoutView.findViewById(R.id.meal_editable_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         myToolbar.setTitle("FoodFlash!");
         myToolbar.setLogo(R.drawable.empty_heart);
 
         gps = new GPSHelper(getActivity());
-
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
         categories = db.getCategories();
@@ -97,7 +133,7 @@ public class MealFragment extends Fragment{
         Bundle bundle = getArguments();
 
         if(isOpenedFromMenu) {
-            mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
+            mealImageView = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
 
             camera = new MyCamera(getActivity());
             camera.takePhoto();
@@ -105,10 +141,11 @@ public class MealFragment extends Fragment{
             saveButton.setOnClickListener(saveButtonListener);
             setUpSpinner();
             setHeartClickListeners();
-            Log.d(TAG, "Log point 1");
+            HeartRating heart = new HeartRating(layoutView, getContext(), getActivity());
+            heart.setHearts(true, 1, 1); //Default score is 1
             isOpenedFromMenu = false;
         } else if (bundle.getBoolean(MAKE_EDITABLE)) {
-            mealImage = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
+            mealImageView = (ImageView) layoutView.findViewById(R.id.edit_meal_image);
             saveButton.setOnClickListener(updateButtonListener);
             setUpSpinner();
             setHeartClickListeners();
@@ -116,16 +153,17 @@ public class MealFragment extends Fragment{
         }
         else {
             layoutView = inflater.inflate(R.layout.fragment_meal, container, false);
-            mealImage = (ImageView) layoutView.findViewById(R.id.meal_image);
+            mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
             editButton = (Button) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
-            shareOnFacebookButton = (Button) layoutView.findViewById(R.id.shareOnFacebookButton);
+            shareOnFacebookButton = (ImageView) layoutView.findViewById(R.id.share_on_facebook);
             shareOnFacebookButton.setOnClickListener(shareOnFBListener);
+            btnSendSms = (Button) layoutView.findViewById(R.id.btn_send_sms);
+            btnSendSms.setOnClickListener(btnSendSmsListener);
         }
         heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
         bundle = this.getArguments();
-        Log.d(TAG, "Log point 2");
         if(bundle == null || bundle.getBoolean(MAKE_EDITABLE)) {
         } else {
             long id = bundle.getLong(MealListFragment.MEAL_ID);
@@ -141,7 +179,10 @@ public class MealFragment extends Fragment{
 
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
-                camera.showImage(mealImage);
+                int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
+                int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
+                Bitmap mealBitmap = camera.createImageBitmap(mealImageView, thumbnailHeight, thumbnailWidth);
+                mealImageView.setImageBitmap(mealBitmap);
             }
         }
     }
@@ -167,8 +208,6 @@ public class MealFragment extends Fragment{
 
         meal.setLatitude(0);
         meal.setLongitude(0);
-        Log.d(TAG, "imagePath = " + imagePath);
-        meal.setImagePath(imagePath);
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
         long id = db.insertMeal(meal);
@@ -185,18 +224,14 @@ public class MealFragment extends Fragment{
      */
     public void updateMeal(long id) {
 
-        Log.d(TAG, "In updateMeal");
-
         DatabaseHelper db = new DatabaseHelper(getActivity());
+
         Meal meal = db.getMeal(id);
         meal.setHealthyScore(HeartRating.getHealthGrade());
         meal.setTasteScore(HeartRating.getTasteGrade());
         meal.setName(nameEdit.getText().toString());
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
-
-        db.updateMeal(meal);
-        db.close();
 
         String imagePath = "";
         if(camera != null) {
@@ -205,8 +240,6 @@ public class MealFragment extends Fragment{
         }
 
         db.updateMeal(meal);
-
-        Log.d(TAG, "imagePath = " + imagePath);
 
         db.close();
 
@@ -219,7 +252,6 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal.
      */
     public void makeEditable(long id) {
-        Log.d(TAG, "making stuff editable");
         MealFragment newFragment = new MealFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(MAKE_EDITABLE, true);
@@ -258,17 +290,25 @@ public class MealFragment extends Fragment{
         Meal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
         descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
-        mealImage = (ImageView) layoutView.findViewById(R.id.meal_image);
+        mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
         categoryText = (TextView) layoutView.findViewById(R.id.category_text);
         averageNumber = (TextView) layoutView.findViewById(R.id.average_number);
 
 
         nameText.setText(meal.getName());
         descriptionText.setText(meal.getDescription());
-        Log.d(TAG, "Right before setting image");
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
-        mealImage.setImageBitmap(image);
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        mealImageView.setImageBitmap(image);
+
+        //Making the image view square
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        mealImageView.getLayoutParams().height = width;
+        Log.d(TAG, "mealImage width: " + mealImageView.getLayoutParams().height);
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
 
@@ -288,8 +328,8 @@ public class MealFragment extends Fragment{
         descriptionEdit.setText(meal.getDescription());
 
         Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = MyCamera.rotatePhoto(filePathUri.getPath());
-        mealImage.setImageBitmap(image);
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        mealImageView.setImageBitmap(image);
 
         ArrayList<Category> categories = db.getCategories();
         int position = 0;
@@ -332,39 +372,22 @@ public class MealFragment extends Fragment{
             }
         }
     };
-    private View.OnClickListener cameraButtonListener = new View.OnClickListener() {
+
+    private View.OnClickListener btnSendSmsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            camera = new MyCamera(getActivity());
-            camera.takePhoto();
+            if(current_id!=0){
+                Meal meal = new Meal();
+
+                meal.setName(nameText.getText().toString());
+                meal.setId(id);
+
+                SmsSender.sendSms(getContext(), meal);
+            }
         }
     };
-    private View.OnClickListener saveButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            saveMeal();
-        }
-    };
-    private View.OnClickListener heartButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            heart.fillHearts(v);
-        }
-    };
-    private View.OnClickListener editButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            makeEditable(id);
-        }
-    };
-    private View.OnClickListener updateButtonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Bundle bundle = getArguments();
-            long id = bundle.getLong(MEAL_ID);
-            updateMeal(id);
-        }
-    };
+
+
 }
 
 

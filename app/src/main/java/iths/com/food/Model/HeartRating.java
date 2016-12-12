@@ -1,4 +1,4 @@
-package iths.com.food.Model;
+package iths.com.food.model;
 
 import static iths.com.food.MainActivity.PACKAGE_NAME;
 import android.app.Activity;
@@ -49,7 +49,6 @@ public class HeartRating {
         }
         for(int i = 1; i <= 10; i++) {
             int imgId = context.getResources().getIdentifier(healthOrTaste + i, "id", PACKAGE_NAME);
-            Log.d(TAG, "imgId i fillHearts: " + imgId);
             ImageView heart = (ImageView) activity.findViewById(imgId);
             if(i <= heartNr) {
                 heart.setImageResource(R.drawable.filled_heart);
@@ -73,10 +72,7 @@ public class HeartRating {
 
         for(int i = 1; i <= 10; i++) {
             int imgId = context.getResources().getIdentifier(edit + "heart_health_" + i, "id", PACKAGE_NAME);
-            Log.d(TAG, "imgId = " + imgId);
-            Log.d(TAG, "imgId 2 = " + context.getResources().getIdentifier("heart_health_1", "id", PACKAGE_NAME));
             ImageView heart = (ImageView) layoutView.findViewById(imgId);
-            Log.d(TAG, "Is heart null? " + (heart == null));
             if(i <= healthGrade) {
                 heart.setImageResource(R.drawable.filled_heart);
             } else {
@@ -104,9 +100,6 @@ public class HeartRating {
         } else {
             averageGradeTV = (TextView) layoutView.findViewById(R.id.average_number);
         }
-        Log.d(TAG, "Is averageGradeTV null? " + (averageGradeTV == null));
-        Log.d(TAG, "healthGrade = " + healthGrade);
-        Log.d(TAG, "tasteGrade = " + tasteGrade);
         averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
         averageGradeTV.setText(Double.toString(averageGrade));
     }

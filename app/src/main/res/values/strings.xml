@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Food</string>
+    <string name="app_name">FoodFlash</string>
 
     <string name="taste">Taste</string>
     <string name="healthy">Healthy</string>
@@ -16,11 +16,16 @@
     <string name="my_new_meal">My new meal</string>
     <string name="my_category">My category</string>
     <string name="tasty">Tasty</string>
-    <string name="average_grade">Average grade:</string>
+    <string name="average_grade">Total grade:</string>
 
     <string name="facebook_app_id">557438107789061</string>
     <string name="loading_facebook">Loading facebook...</string>
     <string name="back_to_categories">Back to categories</string>
     <string name="average_score_null">Avg. ---</string>
-
+    <string name="send_sms">Send grading SMS</string>
+    <string name="choose_a_category">Choose a category:</string>
+    <string name="total_grade">Total grade:</string>
+    <string name="save_button">Save</string>
+    <string name="meal_name">Meal name</string>
+    <string name="edit">edit</string>
 </resources>

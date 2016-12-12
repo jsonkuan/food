@@ -9,7 +9,7 @@
         android:id="@+id/meallist_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/babyBlue"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -17,8 +17,7 @@
     <ListView
         android:id="@+id/fragmentMealList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="50dp" >
+        android:layout_height="match_parent">
     </ListView>
 
 </LinearLayout>

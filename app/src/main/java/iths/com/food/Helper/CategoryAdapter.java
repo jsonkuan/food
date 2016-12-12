@@ -1,4 +1,4 @@
-package iths.com.food.Helper;
+package iths.com.food.helper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

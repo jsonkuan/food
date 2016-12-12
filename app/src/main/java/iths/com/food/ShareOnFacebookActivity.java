@@ -23,8 +23,13 @@ import com.facebook.share.model.SharePhotoContent;
 import java.util.Collections;
 import java.util.List;
 
-import iths.com.food.Helper.DatabaseHelper;
-import iths.com.food.Model.Meal;
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.model.Meal;
+
+import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.model.Meal;
+import iths.com.food.model.MyCamera;
+
 
 public class ShareOnFacebookActivity extends AppCompatActivity {
 

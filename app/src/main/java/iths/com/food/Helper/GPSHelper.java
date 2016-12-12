@@ -1,4 +1,4 @@
-package iths.com.food.Helper;
+package iths.com.food.helper;
 
 import android.Manifest;
 import android.content.Context;

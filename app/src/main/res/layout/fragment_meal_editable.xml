@@ -7,18 +7,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="60dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
-        >
+        android:layout_height="match_parent">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/meal_toolbar"
+        android:id="@+id/meal_editable_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/holo_orange_light"
+        android:background="@color/babyBlue"
         android:elevation="4dp"
         android:title="CATEGORY"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -26,13 +21,21 @@
 
         <EditText
             android:id="@+id/name"
+            style="@style/mealFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Meal name"
+            android:hint="@string/meal_name"
             android:textSize="32sp" />
+
+        <TextView
+            style="@style/mealFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_a_category"/>
 
         <Spinner
             android:id="@+id/spinner"
+            style="@style/mealFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </Spinner>
@@ -48,7 +51,9 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/testmeal"
                 android:scaleType="centerCrop"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/image_margin"
+                android:layout_marginBottom="@dimen/image_margin"/>
 
             <ImageView
                 android:id="@+id/camera_icon"
@@ -60,30 +65,30 @@
 
         </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/desc"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/colorAccent"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="top"
-            android:textAlignment="gravity"
-            android:padding="16dp"
-            android:hint="@string/describe"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/taste_text"
+            style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="@string/taste"/>
 
         <LinearLayout
             android:id="@+id/edit_taste_hearts"
+            style="@style/mealFragment"
             android:clickable="true"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher">
 
@@ -161,15 +166,18 @@
 
         <TextView
             android:id="@+id/healthy_text"
+            style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="@string/healthy"/>
 
         <LinearLayout
             android:id="@+id/edit_health_hearts"
+            style="@style/mealFragment"
             android:clickable="true"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -243,26 +251,52 @@
                 android:src="@drawable/empty_heart" />
 
         </LinearLayout>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/average_grade_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total grade:" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/edit_average_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="32sp"/>
+            <TextView
+                android:id="@+id/average_grade_text"
+                style="@style/mealFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="@string/total_grade" />
 
-        <!--TODO: change to wrap_content! -->
+            <TextView
+                android:id="@+id/edit_average_number"
+                style="@style/mealFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="0"
+                android:textSize="32sp"/>
+
+        </LinearLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/desc"
+            style="@style/mealFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorAccent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="top"
+            android:textAlignment="gravity"
+            android:padding="16dp"
+            android:hint="@string/describe"/>
+
         <Button
             android:id="@+id/save_changes_button"
+            style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:text="@string/save_button" />
 
     </LinearLayout>
 
