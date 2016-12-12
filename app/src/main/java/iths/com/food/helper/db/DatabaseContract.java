@@ -1,4 +1,4 @@
-package iths.com.food.helper;
+package iths.com.food.helper.db;
 
 import android.provider.BaseColumns;
 
@@ -15,7 +15,7 @@ final class DatabaseContract {
     static final String DATABASE_NAME = "food.db";
 
     // SQL script for creating our tables and food categories
-    static final String SQL_CREATE_SCRIPT =
+    static final String SQL_CREATE_DB_SCRIPT =
             "CREATE TABLE " + MealEntry.TABLE + " (" +
                     MealEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     MealEntry.COLUMN_NAME + " TEXT," +

@@ -28,12 +28,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.db.DatabaseHelper;
 import iths.com.food.helper.GPSHelper;
 import iths.com.food.helper.sms.SmsSender;
-import iths.com.food.model.Category;
+import iths.com.food.model.ICategory;
 import iths.com.food.model.HeartRating;
-import iths.com.food.model.Meal;
+import iths.com.food.model.*;
 import iths.com.food.model.MyCamera;
 import iths.com.food.R;
 import iths.com.food.ShareOnFacebookActivity;
@@ -55,7 +55,7 @@ public class MealFragment extends Fragment{
     private static boolean isOpenedFromMenu;
 
     private HeartRating heart;
-    private ArrayList<Category> categories;
+    private ArrayList<ICategory> categories;
 
     private GPSHelper gps;
     private MyCamera camera;
@@ -191,7 +191,7 @@ public class MealFragment extends Fragment{
      * Save a new meal to the database.
      */
     public void saveMeal() {
-        Meal meal = new Meal();
+        IMeal meal = new Meal();
         meal.setHealthyScore(HeartRating.getHealthGrade());
         meal.setTasteScore(HeartRating.getTasteGrade());
         meal.setName(nameEdit.getText().toString());
@@ -226,7 +226,7 @@ public class MealFragment extends Fragment{
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
 
-        Meal meal = db.getMeal(id);
+        IMeal meal = db.getMeal(id);
         meal.setHealthyScore(HeartRating.getHealthGrade());
         meal.setTasteScore(HeartRating.getTasteGrade());
         meal.setName(nameEdit.getText().toString());
@@ -287,7 +287,7 @@ public class MealFragment extends Fragment{
         this.current_id = id;
         DatabaseHelper db = new DatabaseHelper(getActivity());
 
-        Meal meal = db.getMeal(id);
+        IMeal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
         descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
         mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
@@ -323,7 +323,7 @@ public class MealFragment extends Fragment{
      */
     private void displayEditableMeal(long id) {
         DatabaseHelper db = new DatabaseHelper(getActivity());
-        Meal meal = db.getMeal(id);
+        IMeal meal = db.getMeal(id);
         nameEdit.setText(meal.getName());
         descriptionEdit.setText(meal.getDescription());
 
@@ -331,7 +331,7 @@ public class MealFragment extends Fragment{
         Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
         mealImageView.setImageBitmap(image);
 
-        ArrayList<Category> categories = db.getCategories();
+        ArrayList<ICategory> categories = db.getCategories();
         int position = 0;
         for(int i = 0; i < categories.size(); i++) {
             if (meal.getCategory().equals(categories.get(i).getName())) {
@@ -377,7 +377,7 @@ public class MealFragment extends Fragment{
         @Override
         public void onClick(View v) {
             if(current_id!=0){
-                Meal meal = new Meal();
+                IMeal meal = new Meal();
 
                 meal.setName(nameText.getText().toString());
                 meal.setId(id);

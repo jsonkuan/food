@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.db.DatabaseHelper;
 import iths.com.food.helper.ImageAdapter;
 import iths.com.food.R;
 

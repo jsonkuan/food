@@ -14,12 +14,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.db.DatabaseHelper;
 import iths.com.food.helper.DialogHandler;
 import iths.com.food.helper.MealAdapter;
 import iths.com.food.helper.SwipeDismissListViewTouchListener;
-import iths.com.food.model.Category;
-import iths.com.food.model.Meal;
+import iths.com.food.model.ICategory;
+import iths.com.food.model.IMeal;
 import iths.com.food.R;
 
 /**
@@ -49,8 +49,8 @@ public class MealListFragment extends Fragment {
         bundle = this.getArguments();
         String category = bundle.getString(CategoryFragment.CHOSEN_CATEGORY);
         Toast.makeText(getActivity(), category, Toast.LENGTH_SHORT).show();
-        Category listCategory = db.getCategory(category);
-        final ArrayList<Meal> mealsInCategory = listCategory.getMeals();
+        ICategory listCategory = db.getCategory(category);
+        final ArrayList<IMeal> mealsInCategory = listCategory.getMeals();
         ArrayList<String> idArray = new ArrayList<>();
         for(int i = 0; i < mealsInCategory.size(); i++) {
             idArray.add(Long.toString(mealsInCategory.get(i).getId()));

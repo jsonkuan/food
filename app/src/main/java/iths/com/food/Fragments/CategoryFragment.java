@@ -21,11 +21,11 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import iths.com.food.helper.CategoryAdapter;
-import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.db.DatabaseHelper;
 import iths.com.food.helper.DialogHandler;
 import iths.com.food.helper.GPSHelper;
 import iths.com.food.helper.SwipeDismissListViewTouchListener;
-import iths.com.food.model.Category;
+import iths.com.food.model.ICategory;
 import iths.com.food.R;
 
 /**
@@ -64,7 +64,7 @@ public class CategoryFragment extends Fragment {
             deleteDB = false;
             Toast.makeText(getActivity(), "Database deleted", Toast.LENGTH_SHORT).show();
         }*/
-        ArrayList<Category> categories = db.getCategories();
+        ArrayList<ICategory> categories = db.getCategories();
 
         //sort categories by score, highest first
         sortCategories(categories);
@@ -192,10 +192,10 @@ db.deleteCategory(foodtypes.get(position));
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 
-    public void sortCategories(ArrayList<Category> categories){
-        Collections.sort(categories, new Comparator<Category>() {
+    public void sortCategories(ArrayList<ICategory> categories){
+        Collections.sort(categories, new Comparator<ICategory>() {
             @Override
-            public int compare(Category c1, Category c2) {
+            public int compare(ICategory c1, ICategory c2) {
                 if (c1.getAverageScore() > c2.getAverageScore())
                     return -1;
                 else if (c1.getAverageScore() < c2.getAverageScore())

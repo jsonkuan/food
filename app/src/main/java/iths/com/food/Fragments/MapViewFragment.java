@@ -20,9 +20,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Category;
-import iths.com.food.model.Meal;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.ICategory;
+import iths.com.food.model.IMeal;
 import iths.com.food.R;
 
 /**
@@ -35,17 +35,17 @@ public class MapViewFragment extends Fragment {
     private MapView mMapView;
     private GoogleMap googleMap;
     private DatabaseHelper db;
-    ArrayList<Meal> allMeals = new ArrayList<>();
+    ArrayList<IMeal> allMeals = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
         db = new DatabaseHelper(getActivity());
 
-        ArrayList<Category> categories = db.getCategories();
+        ArrayList<ICategory> categories = db.getCategories();
 
         for (int i = 0; i < categories.size(); i++) {
-            ArrayList<Meal> meals = db.getCategories().get(i).getMeals();
+            ArrayList<IMeal> meals = db.getCategories().get(i).getMeals();
             for(int j = 0; j < meals.size(); j++) {
                 allMeals.add(meals.get(j));
             }
@@ -129,7 +129,7 @@ public class MapViewFragment extends Fragment {
      * Places map markers on each Locations in ArrayList<Locations> locationsArrayList = new ArrayList<>();
      */
     public void markLocations() {
-        for (Meal meal : allMeals) {
+        for (IMeal meal : allMeals) {
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(meal.getLatitude(), meal.getLongitude()))
                     .title(meal.getName()).snippet(meal.getDescription()));
