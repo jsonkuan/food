@@ -57,11 +57,6 @@ public class CategoryFragment extends Fragment {
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        /*Window window = getActivity().getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.navyBlue));*/
-
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
         /**
          * UNCOMMENT this code block to reset the database in the emulator

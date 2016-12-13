@@ -16,12 +16,10 @@ import iths.com.food.R;
 
 public class HeartRating {
 
-    private static final String TAG = "LOGTAG";
     private Activity activity;
     private Context context;
     private static int healthGrade;
     private static int tasteGrade;
-    private double averageGrade;
     private View layoutView;
 
     public HeartRating(View layoutView, Context context, Activity activity) {
@@ -100,7 +98,7 @@ public class HeartRating {
         } else {
             averageGradeTV = (TextView) layoutView.findViewById(R.id.average_number);
         }
-        averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
+        double averageGrade = ((double) (healthGrade + tasteGrade) ) / 2;
         averageGradeTV.setText(Double.toString(averageGrade));
     }
 

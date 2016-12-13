@@ -10,11 +10,9 @@ import android.provider.BaseColumns;
 
 final class DatabaseContract {
 
-    // Database name and version
     static final int DATABASE_VERSION = 1;
     static final String DATABASE_NAME = "food.db";
 
-    // SQL script for creating our tables and food categories
     static final String SQL_CREATE_DB_SCRIPT =
             "CREATE TABLE " + MealEntry.TABLE + " (" +
                     MealEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -38,13 +36,11 @@ final class DatabaseContract {
                     "VALUES ('Fish','4');";
 
 
-    // Prevents instantiating of this class
     private DatabaseContract() {}
 
-    // Table Meal
     static class MealEntry implements BaseColumns{
         static final String TABLE = "meal";
-        static final String COLUMN_ID = "_id"; //primary key
+        static final String COLUMN_ID = "_id";
         static final String COLUMN_NAME = "name";
         static final String COLUMN_DESCRIPTION = "description";
         static final String COLUMN_HEALTHY_SCORE = "healthy_score";
@@ -56,7 +52,6 @@ final class DatabaseContract {
         static final String COLUMN_IMAGE_PATH = "image_path";
     }
 
-    //Table Category
     static class CategoryEntry implements BaseColumns{
         static final String TABLE = "category";
         static final String COLUMN_NAME = "name";

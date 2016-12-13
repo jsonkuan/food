@@ -43,10 +43,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     String senderNo = sms.getDisplayOriginatingAddress();
                     String msg = sms.getDisplayMessageBody();
 
-                    //parse received sms to get meal id, healthy score and tasty score
                     IMeal receivedMeal = parseReceivedSms(msg);
 
-                    //update meal in database an notify user
                     if(receivedMeal != null){
                         IMeal meal = updateMeal(receivedMeal);
                         makeToast(context, meal.getName());
@@ -64,8 +62,6 @@ public class SmsReceiver extends BroadcastReceiver {
         }
     }
 
-    // Updates the given meal in the database
-    // Returns the updated meal
     private IMeal updateMeal(IMeal receivedMeal) {
         IMeal meal = db.getMeal(receivedMeal.getId());
         meal.setTasteScore(receivedMeal.getTasteScore());
@@ -75,32 +71,26 @@ public class SmsReceiver extends BroadcastReceiver {
         return meal;
     }
 
-    // Parses the received sms to get mealId, testy score and healthy score. Receive sms syntax
-    // should look like this: *AppName* MealId: <number> Tasty: <number> Healthy: <number>
     private IMeal parseReceivedSms(String msg) {
         IMeal meal = null;
         msg = msg.toLowerCase();
 
         if(msg.contains("*foodflash*")){
             try {
-                // Parse mealId
                 int beginIdxMealId = msg.indexOf("mealid:") + "mealid:".length();
                 int endIdxMealId = msg.indexOf("tasty:");
                 String strMealId = msg.substring(beginIdxMealId, endIdxMealId).trim();
                 long mealId = Long.valueOf(strMealId);
 
-                // Parse testy score
                 int beginIdxTasty = msg.indexOf("tasty:") + "tasty:".length();
                 int endIdxTasty = msg.indexOf("healthy:");
                 String strTastyScore = msg.substring(beginIdxTasty, endIdxTasty).trim();
                 int tastyScore = Integer.valueOf(strTastyScore);
 
-                // Parse Healthy score
                 int beginIdxHealthy = msg.indexOf("healthy:") + "healthy:".length();
                 String strHealthyScore = msg.substring(beginIdxHealthy).trim();
                 int healthyScore = Integer.valueOf(strHealthyScore);
 
-                // Create meal
                 meal = new Meal();
                 meal.setId(mealId);
                 meal.setTasteScore(tastyScore);

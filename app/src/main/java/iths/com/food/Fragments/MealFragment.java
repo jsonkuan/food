@@ -245,7 +245,7 @@ public class MealFragment extends Fragment{
 
         db.close();
 
-        Toast.makeText(getContext(), "Meal saved to " + meal.getCategory(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "FoodFlash saved to " + meal.getCategory(), Toast.LENGTH_LONG).show();
 
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(container, new CategoryFragment()).commit();
@@ -274,6 +274,8 @@ public class MealFragment extends Fragment{
 
         db.updateMeal(meal);
         db.close();
+
+        Toast.makeText(getContext(), "FoodFlash saved to " + meal.getCategory(), Toast.LENGTH_LONG).show();
 
         getActivity().getSupportFragmentManager().beginTransaction()
                .replace(container, new CategoryFragment()).commit();

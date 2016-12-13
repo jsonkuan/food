@@ -47,40 +47,13 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         this.shareOnFacebook();
     }
 
-    /**
-     * Specifies what image and text to publish on FB
-     */
-    private void publishImage(){
-
-        DatabaseHelper db = new DatabaseHelper(this);
-        IMeal meal = db.getMeal(current_id);
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
-
-        Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
-
-        SharePhoto photo = new SharePhoto.Builder()
-                .setBitmap(image)
-                .setCaption(meal.getName()+" - "+ meal.getDescription())
-                .build();
-
-        SharePhotoContent content = new SharePhotoContent.Builder()
-                .addPhoto(photo)
-                .build();
-
-        ShareApi.share(content, null);
-
-        TextView fbShareStatus = (TextView) findViewById(R.id.fb_share_status);
-        fbShareStatus.setText(String.format("%s is now shared on facebook.", meal.getName()));
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
+
 
     /**
      * Login to FB, look for permissions to share things on FB and call publishImage on success
@@ -118,5 +91,34 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
     public void fbGoBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Specifies what image and text to publish on FB
+     */
+    private void publishImage(){
+
+        DatabaseHelper db = new DatabaseHelper(this);
+        IMeal meal = db.getMeal(current_id);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
+
+        Uri filePathUri = Uri.parse(meal.getImagePath());
+        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+
+        SharePhoto photo = new SharePhoto.Builder()
+                .setBitmap(image)
+                .setCaption(meal.getName()+" - "+ meal.getDescription())
+                .build();
+
+        SharePhotoContent content = new SharePhotoContent.Builder()
+                .addPhoto(photo)
+                .build();
+
+        ShareApi.share(content, null);
+
+        TextView fbShareStatus = (TextView) findViewById(R.id.fb_share_status);
+        fbShareStatus.setText(String.format("%s is now shared on facebook.", meal.getName()));
     }
 }
