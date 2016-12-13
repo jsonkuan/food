@@ -35,6 +35,8 @@ public class CategoryAdapter extends ArrayAdapter<String> {
         TextView textView = (TextView) customView.findViewById(R.id.categoryName);
         textView.setText(categoryName);
 
+
+
         DatabaseHelper db = new DatabaseHelper(getContext());
         float averageScoreFloat = (float) db.getCategory(categoryName).getAverageScore();
 
@@ -44,6 +46,17 @@ public class CategoryAdapter extends ArrayAdapter<String> {
         } else {
             averageScore.setText(String.format("Avg. %s", averageScoreFloat));
         }
+
+
+        TextView numOfMeals = (TextView) customView.findViewById(R.id.num_meals);
+        String str = "(" + db.getCategory(categoryName).getMeals().size() + " meals)";
+        numOfMeals.setText(str);
+
+        /*
+        int numMeals = db.getCategory(adapter
+                .getItem(position))
+                .getMeals().size();
+         */
 
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
         ratingbar.setRating(averageScoreFloat);

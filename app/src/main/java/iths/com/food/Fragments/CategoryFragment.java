@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -48,11 +50,16 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mySound = MediaPlayer.create(getActivity(), R.raw.swipe);
-
-
-
         gps = new GPSHelper(getActivity());
         View v = inflater.inflate(R.layout.fragment_category, container, false);
+
+
+
+
+
+
+
+
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
