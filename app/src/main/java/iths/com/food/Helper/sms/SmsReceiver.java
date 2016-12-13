@@ -42,8 +42,10 @@ public class SmsReceiver extends BroadcastReceiver {
                     String senderNo = sms.getDisplayOriginatingAddress();
                     String msg = sms.getDisplayMessageBody();
 
+                    // Parse received sms to get meal id, healthy score and tasty score
                     IMeal receivedMeal = parseReceivedSms(msg);
 
+                    // Update meal in database and notify user
                     if(receivedMeal != null){
                         IMeal meal = updateMeal(receivedMeal);
                         makeToast(context, meal.getName());
@@ -61,6 +63,8 @@ public class SmsReceiver extends BroadcastReceiver {
         }
     }
 
+    // Updates the give meal in the database
+    // Returns the updated meal
     private IMeal updateMeal(IMeal receivedMeal) {
         IMeal meal = db.getMeal(receivedMeal.getId());
         meal.setTasteScore(receivedMeal.getTasteScore());
@@ -70,6 +74,8 @@ public class SmsReceiver extends BroadcastReceiver {
         return meal;
     }
 
+    // Parses the received sms to get mealId, tasty score and healthy score. Receive sms syntax
+    // should look like this: *FlashFood* MealId: <number> Tasty: <number> Healthy: <number>
     private IMeal parseReceivedSms(String msg) {
         IMeal meal = null;
         msg = msg.toLowerCase();

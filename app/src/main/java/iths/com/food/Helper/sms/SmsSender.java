@@ -34,12 +34,16 @@ public class SmsSender {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Enter recipients phone number, inc. country code");
 
+        // Set up the input
         final EditText input = new EditText(context);
 
+        // Specify the type of input expected
         input.setInputType(InputType.TYPE_CLASS_PHONE);
 
         builder.setView(input);
 
+        // Set up the buttons
+        // Button Ok
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -57,6 +61,7 @@ public class SmsSender {
             }
         });
 
+        // Button Cancel
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
