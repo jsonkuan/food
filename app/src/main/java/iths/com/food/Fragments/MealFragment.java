@@ -231,9 +231,6 @@ public class MealFragment extends Fragment{
         String imagePath = camera.getPhotoFilePath().getPath();
         meal.setImagePath(imagePath);
 
-        meal.setLatitude(0);
-        meal.setLongitude(0);
-
         DatabaseHelper db = new DatabaseHelper(getActivity());
         db.insertMeal(meal);
 
