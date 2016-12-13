@@ -207,11 +207,9 @@ public class MealFragment extends Fragment{
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 int imageViewHeight = getScreenWidth();
-                int imageViewWidth = getScreenWidth();
-                Log.d(TAG, "ivHeight: " + imageViewHeight + ", ivWidth: " + imageViewWidth);
                 int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
                 int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.thumbnail_width);
-                Bitmap mealBitmap = camera.createImageBitmap(imageViewHeight, imageViewWidth,
+                Bitmap mealBitmap = camera.createImageBitmap(imageViewHeight, imageViewHeight,
                         thumbnailHeight, thumbnailWidth);
                 mealImageView.setImageBitmap(mealBitmap);
             }
@@ -273,7 +271,6 @@ public class MealFragment extends Fragment{
         }
 
         db.updateMeal(meal);
-
         db.close();
 
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -326,7 +323,6 @@ public class MealFragment extends Fragment{
         mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
         categoryText = (TextView) layoutView.findViewById(R.id.category_text);
         averageNumber = (TextView) layoutView.findViewById(R.id.average_number);
-
 
         nameText.setText(meal.getName());
         descriptionText.setText(meal.getDescription());

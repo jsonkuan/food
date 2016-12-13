@@ -296,6 +296,7 @@
             style="@style/mealFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/image_margin"
             android:text="@string/save_button" />
 
     </LinearLayout>

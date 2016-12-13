@@ -32,10 +32,10 @@ public class MyCamera {
         this.context = context;
     }
 
-    public Uri getPhotoFilePath() {
-        return photoFilePath;
-    }
-
+    /**
+     * To be called when the user clicks the camera button.
+     * Creates a photo file and starts the camera.
+     */
     public void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(context.getPackageManager()) != null) {
@@ -46,6 +46,11 @@ public class MyCamera {
         }
     }
 
+    /**
+     * Creates - in a directory called "FoodFlash" - a file that the photo can be saved to.
+     * Each new file will have a unique name.
+     * @return The photo file.
+     */
     private File createPhotoFile() {
         File photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File ffDir = new File(photoDir, "FoodFlash");
@@ -58,12 +63,13 @@ public class MyCamera {
     }
 
     /**
-     *
-     * @param imageViewHeight
-     * @param imageViewWidth
-     * @param thumbnailHeight
-     * @param thumbnailWidth
-     * @return
+     * Should be called in onActivityResult. Creates and saves a bitmap with the approximate size
+     * specified in the first two arguments, plus a thumbnail.
+     * @param imageViewHeight Height of the image view where the image will be shown.
+     * @param imageViewWidth Width of the image view where the image will be shown.
+     * @param thumbnailHeight Desired height of thumbnail.
+     * @param thumbnailWidth Desired width of thumbnail.
+     * @return The bitmap that is created, rotated if necessary.
      */
     public Bitmap createImageBitmap(int imageViewHeight, int imageViewWidth, int thumbnailHeight, int thumbnailWidth) {
 
@@ -188,8 +194,17 @@ public class MyCamera {
         }
     }
 
+    /**
+     * Get the file path to a thumbnail for a photo.
+     * @param filePath The file path to the large-size photo.
+     * @return The file path to the thumbnail.
+     */
     public static String getThumbnailFilePath(String filePath) {
         String newFilePath = filePath.substring(0, filePath.length() - 4) + "m.jpg";
         return newFilePath;
+    }
+
+    public Uri getPhotoFilePath() {
+        return photoFilePath;
     }
 }
