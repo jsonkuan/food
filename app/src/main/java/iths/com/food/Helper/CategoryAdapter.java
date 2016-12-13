@@ -44,7 +44,7 @@ public class CategoryAdapter extends ArrayAdapter<String> {
         if (Float.isNaN(averageScoreFloat)) {
             averageScore.setText(R.string.average_score_null);
         } else {
-            averageScore.setText(String.format("Avg. %s", averageScoreFloat));
+            averageScore.setText(String.format("Avg:  %s", averageScoreFloat));
         }
 
         RatingBar ratingbar = (RatingBar) customView.findViewById(R.id.categoryRatingBar);
