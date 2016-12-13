@@ -1,10 +1,13 @@
 package iths.com.food.model;
 
 /**
- * Created by jas0n on 2016-11-14.
+ * Created by Hristijan on 2016-11-14.
+ *
+ * A model class for a Meal. It has a corresponding table in the database. But it has no column for
+ * total score. This is calculated by following formula: (tasteScore + healthyScore) / 2
  */
 
-public class Meal {
+public class Meal implements IMeal{
     private String name;
     private String category;
     private String dateTime;

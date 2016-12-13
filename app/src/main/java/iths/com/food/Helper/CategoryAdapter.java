@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import iths.com.food.R;
+import iths.com.food.helper.db.DatabaseHelper;
 
 
 /**

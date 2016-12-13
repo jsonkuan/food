@@ -15,7 +15,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import iths.com.food.model.Meal;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.IMeal;
 import iths.com.food.model.MyCamera;
 import iths.com.food.R;
 
@@ -39,7 +40,7 @@ public class MealAdapter extends ArrayAdapter<String> {
         String mealID = getItem(position);
         Long id = Long.valueOf(mealID);
         DatabaseHelper db = new DatabaseHelper(getContext());
-        Meal meal = db.getMeal(id);
+        IMeal meal = db.getMeal(id);
 
         TextView textView = (TextView) customView.findViewById(R.id.categoryName);
         textView.setText(meal.getName());

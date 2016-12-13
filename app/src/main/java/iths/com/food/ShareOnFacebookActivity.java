@@ -23,12 +23,8 @@ import com.facebook.share.model.SharePhotoContent;
 import java.util.Collections;
 import java.util.List;
 
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Meal;
-
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Meal;
-import iths.com.food.model.MyCamera;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.IMeal;
 
 
 /**
@@ -57,7 +53,7 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
     private void publishImage(){
 
         DatabaseHelper db = new DatabaseHelper(this);
-        Meal meal = db.getMeal(current_id);
+        IMeal meal = db.getMeal(current_id);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
