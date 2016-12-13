@@ -54,7 +54,6 @@ public class MealListFragment extends Fragment {
             idArray.add(Long.toString(mealsInCategory.get(i).getId()));
         }
 
-
         MealAdapter adapter = new MealAdapter(getActivity(), idArray);
         ListView listView = (ListView) view.findViewById(R.id.fragmentMealList);
         listView.setAdapter(adapter);
@@ -68,10 +67,7 @@ public class MealListFragment extends Fragment {
                     }
                 }
         );
-
         db.close();
-
-
 
         SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
                 listView,
@@ -84,7 +80,7 @@ public class MealListFragment extends Fragment {
                     @Override
                     public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
-                            //db.deleteCategory(foodtypes.get(position));
+                            //db.deleteCategory(foodTypesArrayList.get(position));
                             long ID = mealsInCategory.get(position).getId();
 
 
@@ -98,42 +94,8 @@ public class MealListFragment extends Fragment {
         );
         listView.setOnTouchListener(touchListener);
 
-
         return view;
     }
-
-
-
-
-    public void doSwipe(int ID) {
-        DialogHandler appdialog = new DialogHandler();
-
-
-        double score = db.getMeal(ID).getTotalScore();
-
-
-        appdialog.Confirm(getActivity(), "Are you sure you want to delete?", "This meal has " + score + " score.",
-                "Cancel", "OK", okPressed(ID), cancelPressed());
-    }
-    public Runnable okPressed(int ID){
-        final int finalID = ID;
-        return new Runnable() {
-            public void run() {
-                db.deleteMeal(finalID);
-                MealListFragment newFragment = new MealListFragment();
-                newFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-            }
-        };
-    }
-    public Runnable cancelPressed(){
-        return new Runnable() {
-            public void run() {
-            }
-        };
-    }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -146,12 +108,39 @@ public class MealListFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    public void doSwipe(int ID) {
+        DialogHandler appDialog = new DialogHandler();
+        double score = db.getMeal(ID).getTotalScore();
+
+        appDialog.Confirm(getActivity(), "Are you sure you want to delete?", "This meal has " + score + " score.",
+                "Cancel", "OK", okPressed(ID), cancelPressed());
+    }
+
+    public Runnable okPressed(int ID){
+        final int finalID = ID;
+        return new Runnable() {
+            public void run() {
+                db.deleteMeal(finalID);
+                MealListFragment newFragment = new MealListFragment();
+                newFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
+            }
+        };
+    }
+
+    public Runnable cancelPressed(){
+        return new Runnable() {
+            public void run() {
+            }
+        };
+    }
+
     public void openMeal(long id) {
-        MealFragment newFragment = new MealFragment();
         Bundle bundle = new Bundle();
         bundle.putLong(MEAL_ID, id);
+
+        MealFragment newFragment = new MealFragment();
         newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 }
-

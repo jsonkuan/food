@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * Created by sebastianstrus on 20/11/16.
+ *
  */
 
 public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
@@ -45,15 +46,10 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     private View mDownView;
     private boolean mPaused;
 
-
     public interface DismissCallbacks {
-
         boolean canDismiss(int position);
-
-
         void onDismiss(ListView listView, int[] reverseSortedPositions);
     }
-
 
     public SwipeDismissListViewTouchListener(ListView listView, DismissCallbacks callbacks) {
         ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
@@ -65,7 +61,6 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
         mListView = listView;
         mCallbacks = callbacks;
     }
-
 
     private void setEnabled(boolean enabled) {
         mPaused = !enabled;
@@ -96,15 +91,13 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                     return false;
                 }
 
-                // TODO: ensure this is a finger, and set a flag
-
                 // Find the child view that was touched (perform a hit test)
                 Rect rect = new Rect();
                 int childCount = mListView.getChildCount();
-                int[] listViewCoords = new int[2];
-                mListView.getLocationOnScreen(listViewCoords);
-                int x = (int) motionEvent.getRawX() - listViewCoords[0];
-                int y = (int) motionEvent.getRawY() - listViewCoords[1];
+                int[] listViewChords = new int[2];
+                mListView.getLocationOnScreen(listViewChords);
+                int x = (int) motionEvent.getRawX() - listViewChords[0];
+                int y = (int) motionEvent.getRawY() - listViewChords[1];
                 View child;
                 for (int i = 0; i < childCount; i++) {
                     child = mListView.getChildAt(i);
@@ -128,7 +121,6 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                 }
                 return false;
             }
-
             case MotionEvent.ACTION_CANCEL: {
                 if (mVelocityTracker == null) {
                     break;

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,20 +29,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import iths.com.food.helper.db.DatabaseHelper;
-import iths.com.food.helper.GPSHelper;
-import iths.com.food.helper.sms.SmsSender;
-import iths.com.food.model.ICategory;
-import iths.com.food.model.HeartRating;
-import iths.com.food.model.Meal;
-import iths.com.food.helper.MyCamera;
-import iths.com.food.model.*;
 import iths.com.food.R;
 import iths.com.food.ShareOnFacebookActivity;
+import iths.com.food.helper.GPSHelper;
+import iths.com.food.helper.MyCamera;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.helper.sms.SmsSender;
+import iths.com.food.model.HeartRating;
+import iths.com.food.model.ICategory;
+import iths.com.food.model.IMeal;
+import iths.com.food.model.Meal;
 
 import static android.app.Activity.RESULT_OK;
 import static iths.com.food.R.id.container;
-
 
 /**
  * Created by asakwarnmark on 2016-11-23.
@@ -54,7 +52,6 @@ public class MealFragment extends Fragment{
 
     private static final String MAKE_EDITABLE = "make_editable";
     public static final String MEAL_ID = "meal_id";
-    private static final String TAG = "LOGTAG";
     private static boolean isOpenedFromMenu;
 
     private HeartRating heart;
@@ -64,13 +61,10 @@ public class MealFragment extends Fragment{
     private MyCamera camera;
 
     private View layoutView;
-    private ImageView mealImageView, heartImage, cameraIcon;
+    private ImageView mealImageView;
     private EditText nameEdit, descriptionEdit;
-    private TextView nameText, descriptionText, categoryText, averageNumber;
+    private TextView nameText;
     private Spinner spinner;
-
-    private Button saveButton, btnSendSms;
-    private ImageView shareOnFacebookButton, editButton;
 
     private long id;
     private long current_id = 0;
@@ -147,13 +141,14 @@ public class MealFragment extends Fragment{
         DatabaseHelper db = new DatabaseHelper(getActivity());
         categories = db.getCategories();
 
+        ImageView cameraIcon = (ImageView) layoutView.findViewById(R.id.camera_icon);
+        cameraIcon.setOnClickListener(cameraButtonListener);
+
         spinner = (Spinner) layoutView.findViewById(R.id.spinner);
         nameEdit = (EditText) layoutView.findViewById(R.id.name);
         descriptionEdit = (EditText) layoutView.findViewById(R.id.desc);
-        saveButton = (Button) layoutView.findViewById(R.id.save_changes_button);
-        cameraIcon = (ImageView) layoutView.findViewById(R.id.camera_icon);
+        Button saveButton = (Button) layoutView.findViewById(R.id.save_changes_button);
 
-        cameraIcon.setOnClickListener(cameraButtonListener);
 
         Bundle bundle = getArguments();
 
@@ -179,12 +174,12 @@ public class MealFragment extends Fragment{
         else {
             layoutView = inflater.inflate(R.layout.fragment_meal, container, false);
             mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
-            editButton = (ImageView) layoutView.findViewById(R.id.edit_button);
+            ImageView editButton = (ImageView) layoutView.findViewById(R.id.edit_button);
             editButton.setOnClickListener(editButtonListener);
             id = bundle.getLong(MealListFragment.MEAL_ID);
-            shareOnFacebookButton = (ImageButton) layoutView.findViewById(R.id.share_on_facebook);
+            ImageView shareOnFacebookButton = (ImageButton) layoutView.findViewById(R.id.share_on_facebook);
             shareOnFacebookButton.setOnClickListener(shareOnFBListener);
-            btnSendSms = (Button) layoutView.findViewById(R.id.btn_send_sms);
+            Button btnSendSms = (Button) layoutView.findViewById(R.id.btn_send_sms);
             btnSendSms.setOnClickListener(btnSendSmsListener);
         }
         heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
@@ -266,7 +261,7 @@ public class MealFragment extends Fragment{
         meal.setDescription(descriptionEdit.getText().toString());
         meal.setCategory(spinner.getSelectedItem().toString());
 
-        String imagePath = "";
+        String imagePath;
         if(camera != null) {
             imagePath = camera.getPhotoFilePath().getPath();
             meal.setImagePath(imagePath);
@@ -323,10 +318,10 @@ public class MealFragment extends Fragment{
 
         IMeal meal = db.getMeal(id);
         nameText = (TextView) layoutView.findViewById(R.id.meal_name_text);
-        descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
+        TextView descriptionText = (TextView) layoutView.findViewById(R.id.meal_description);
         mealImageView = (ImageView) layoutView.findViewById(R.id.meal_image);
-        categoryText = (TextView) layoutView.findViewById(R.id.category_text);
-        averageNumber = (TextView) layoutView.findViewById(R.id.average_number);
+        TextView categoryText = (TextView) layoutView.findViewById(R.id.category_text);
+        TextView averageNumber = (TextView) layoutView.findViewById(R.id.average_number);
 
         nameText.setText(meal.getName());
         descriptionText.setText(meal.getDescription());
@@ -339,7 +334,7 @@ public class MealFragment extends Fragment{
         mealImageView.getLayoutParams().height = width;
 
         categoryText.setText(meal.getCategory());
-        averageNumber.setText(""+meal.getTotalScore());
+        averageNumber.setText(String.format("%s", meal.getTotalScore()));
 
         heart.setHearts(false, meal.getHealthyScore(), meal.getTasteScore());
         db.close();
@@ -375,7 +370,6 @@ public class MealFragment extends Fragment{
                 position = i;
             }
         }
-
         spinner.setSelection(position);
         HeartRating heart = new HeartRating(layoutView, getContext(), getActivity());
         heart.setHearts(true, meal.getHealthyScore(), meal.getTasteScore());
@@ -389,7 +383,7 @@ public class MealFragment extends Fragment{
         for (int i = 1; i <= 10; i++) {
             int resNr = getActivity().getResources().getIdentifier("edit_heart_health_" + i, "id",
                     getActivity().getPackageName());
-            heartImage = (ImageView) layoutView.findViewById(resNr);
+            ImageView heartImage = (ImageView) layoutView.findViewById(resNr);
             heartImage.setOnClickListener(heartButtonListener);
             resNr = getActivity().getResources().getIdentifier("edit_heart_taste_" + i, "id",
                     getActivity().getPackageName());

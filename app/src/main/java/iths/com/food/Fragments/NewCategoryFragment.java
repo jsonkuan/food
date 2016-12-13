@@ -52,7 +52,6 @@ public class NewCategoryFragment extends Fragment {
     public void saveButtonPressed() {
 
         db = new DatabaseHelper(getActivity());
-
         EditText etCategoryName = (EditText) v.findViewById(R.id.add_category_editText);
         String categoryName = etCategoryName.getText().toString();
 
@@ -68,11 +67,6 @@ public class NewCategoryFragment extends Fragment {
             db.insertCategory(categoryName, iconId);
             getFragmentManager().beginTransaction()
                     .replace(R.id.container, new CategoryFragment()).commit();
-
-
-
-
         }
     }
 }
-
