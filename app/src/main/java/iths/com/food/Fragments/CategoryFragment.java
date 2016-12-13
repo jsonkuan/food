@@ -3,6 +3,7 @@ package iths.com.food.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -11,21 +12,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import iths.com.food.helper.CategoryAdapter;
-import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.db.DatabaseHelper;
 import iths.com.food.helper.DialogHandler;
 import iths.com.food.helper.GPSHelper;
 import iths.com.food.helper.SwipeDismissListViewTouchListener;
-import iths.com.food.model.Category;
+import iths.com.food.model.ICategory;
 import iths.com.food.R;
 
 /**
@@ -52,19 +56,22 @@ public class CategoryFragment extends Fragment {
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        myToolbar.setTitle("FoodFlash!");
-        myToolbar.setLogo(R.drawable.empty_heart);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        /*Window window = getActivity().getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(ContextCompat.getColor(getActivity(), R.color.navyBlue));*/
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
         /**
          * UNCOMMENT this code block to reset the database in the emulator
          */
         /*if(deleteDB) {
-            context.deleteDatabase("food.db");
+            getActivity().deleteDatabase("food.db");
             deleteDB = false;
             Toast.makeText(getActivity(), "Database deleted", Toast.LENGTH_SHORT).show();
         }*/
-        ArrayList<Category> categories = db.getCategories();
+        ArrayList<ICategory> categories = db.getCategories();
 
         //sort categories by score, highest first
         sortCategories(categories);
@@ -192,10 +199,10 @@ db.deleteCategory(foodtypes.get(position));
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 
-    public void sortCategories(ArrayList<Category> categories){
-        Collections.sort(categories, new Comparator<Category>() {
+    public void sortCategories(ArrayList<ICategory> categories){
+        Collections.sort(categories, new Comparator<ICategory>() {
             @Override
-            public int compare(Category c1, Category c2) {
+            public int compare(ICategory c1, ICategory c2) {
                 if (c1.getAverageScore() > c2.getAverageScore())
                     return -1;
                 else if (c1.getAverageScore() < c2.getAverageScore())

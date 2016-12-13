@@ -10,20 +10,20 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Meal;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.*;
 
 /**
  * Created by Hristijan on 2016-12-09.
  *
- * Checks if received sms contains this apps name. If so, it parses it to get meal id, healthy score and tasty score.
- * Then it updates the meal in the database with those new values.
+ * This class is used to grade the meals healthy and tasty score from received sms.
+ * It checks if received sms contains this apps name. If so, it parses it to get meal id,
+ * healthy score and tasty score. Then it updates the meal in the database with those new values.
  * A Toast is shown to the user when this is done.
  *
- * NOTES: This class should not be instanced.
- * It is registered in the Manifest, so when a sms is received a call to its onReceive method will be made.
+ * NOTES: This class should not be instanced. It is registered in the Manifest,
+ * so when a sms is received a call to its onReceive method will be made.
  */
-
 public class SmsReceiver extends BroadcastReceiver {
     private static final String TAG = "SMSReceiver";
 
@@ -44,11 +44,11 @@ public class SmsReceiver extends BroadcastReceiver {
                     String msg = sms.getDisplayMessageBody();
 
                     //parse received sms to get meal id, healthy score and tasty score
-                    Meal receivedMeal = parseReceivedSms(msg);
+                    IMeal receivedMeal = parseReceivedSms(msg);
 
                     //update meal in database an notify user
                     if(receivedMeal != null){
-                        Meal meal = updateMeal(receivedMeal);
+                        IMeal meal = updateMeal(receivedMeal);
                         makeToast(context, meal.getName());
 
                         Log.i(TAG, "onReceive:\n MealID " + meal.getId() +
@@ -66,8 +66,8 @@ public class SmsReceiver extends BroadcastReceiver {
 
     // Updates the given meal in the database
     // Returns the updated meal
-    private Meal updateMeal(Meal receivedMeal) {
-        Meal meal = db.getMeal(receivedMeal.getId());
+    private IMeal updateMeal(IMeal receivedMeal) {
+        IMeal meal = db.getMeal(receivedMeal.getId());
         meal.setTasteScore(receivedMeal.getTasteScore());
         meal.setHealthyScore(receivedMeal.getHealthyScore());
         db.updateMeal(meal);
@@ -75,10 +75,10 @@ public class SmsReceiver extends BroadcastReceiver {
         return meal;
     }
 
-    //receive sms syntax: *AppName* MealId: <number> Tasty: <number> Healthy: <number>
-    // Returns a meal that only contain mealId, testy score and healthy score
-    private Meal parseReceivedSms(String msg) {
-        Meal meal = null;
+    // Parses the received sms to get mealId, testy score and healthy score. Receive sms syntax
+    // should look like this: *AppName* MealId: <number> Tasty: <number> Healthy: <number>
+    private IMeal parseReceivedSms(String msg) {
+        IMeal meal = null;
         msg = msg.toLowerCase();
 
         if(msg.contains("*foodflash*")){

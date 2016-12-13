@@ -4,7 +4,7 @@
     <!-- "Add category", should appear as action button if possible -->
     <item
         android:id="@+id/add_category_item"
-        android:icon="@drawable/ic_add_black_24dp_hdpi"
+        android:icon="@drawable/ic_add_white"
         app:showAsAction="ifRoom"
         android:title="@string/app_name" />
 </menu>

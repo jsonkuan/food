@@ -14,8 +14,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import iths.com.food.model.Meal;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.IMeal;
 import iths.com.food.R;
 
 /**
@@ -38,7 +38,7 @@ public class MealAdapter extends ArrayAdapter<String> {
         String mealID = getItem(position);
         Long id = Long.valueOf(mealID);
         DatabaseHelper db = new DatabaseHelper(getContext());
-        Meal meal = db.getMeal(id);
+        IMeal meal = db.getMeal(id);
 
         TextView textView = (TextView) customView.findViewById(R.id.categoryName);
         textView.setText(meal.getName());
@@ -47,7 +47,11 @@ public class MealAdapter extends ArrayAdapter<String> {
         Uri imageUri = Uri.parse(imagePath);
         ImageView imageView = (ImageView) customView.findViewById(R.id.iconThumbnail);
         Bitmap image = BitmapFactory.decodeFile(MyCamera.getThumbnailFilePath(imageUri.getPath()));
-        imageView.setImageBitmap(image);
+        try {
+            imageView.setImageBitmap(image);
+        } catch (Exception e) {
+            imageView.setImageResource(R.drawable.testmeal_thumbnail);
+        }
 
         TextView averageScore = (TextView) customView.findViewById(R.id.average_grade_text);
         averageScore.setText(String.format("Score: %s", meal.getTotalScore()));
