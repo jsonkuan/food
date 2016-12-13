@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Category;
-import iths.com.food.model.Meal;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.ICategory;
+import iths.com.food.model.IMeal;
 import iths.com.food.R;
 
 /**
@@ -32,27 +33,22 @@ import iths.com.food.R;
 
 public class MapViewFragment extends Fragment {
 
+    ArrayList<IMeal> allMeals = new ArrayList<>();
     private MapView mMapView;
     private GoogleMap googleMap;
-    private DatabaseHelper db;
-    ArrayList<Meal> allMeals = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-        db = new DatabaseHelper(getActivity());
-
-        ArrayList<Category> categories = db.getCategories();
+        DatabaseHelper db = new DatabaseHelper(getActivity());
+        ArrayList<ICategory> categories = db.getCategories();
 
         for (int i = 0; i < categories.size(); i++) {
-            ArrayList<Meal> meals = db.getCategories().get(i).getMeals();
+            ArrayList<IMeal> meals = db.getCategories().get(i).getMeals();
             for(int j = 0; j < meals.size(); j++) {
                 allMeals.add(meals.get(j));
             }
         }
-
-
-
         /**
          * Creates the frame to display the GoogleMap
          */
@@ -73,14 +69,13 @@ public class MapViewFragment extends Fragment {
                 googleMap = mMap;
                 markLocations();
 
-                LatLng london = new LatLng(55.5, 15);
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(5).build();
+                LatLng scandinavia = new LatLng(55.5, 15);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(scandinavia).zoom(5).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                 /**
                  * Obligatory code block for handling permissions
                  */
-
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -94,11 +89,8 @@ public class MapViewFragment extends Fragment {
                 googleMap.setMyLocationEnabled(true);
             }
         });
-
         return rootView;
-
     }
-
 
     @Override
     public void onResume() {
@@ -124,15 +116,16 @@ public class MapViewFragment extends Fragment {
         mMapView.onLowMemory();
     }
 
-
     /**
-     * Places map markers on each Locations in ArrayList<Locations> locationsArrayList = new ArrayList<>();
+     * Places map markers on each longitude and latitude that is saved when taking a picture;
      */
     public void markLocations() {
-        for (Meal meal : allMeals) {
+        for (IMeal meal : allMeals) {
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(meal.getLatitude(), meal.getLongitude()))
                     .title(meal.getName()).snippet(meal.getDescription()));
+            Log.d("LOGTAG", "meal latitude: " + meal.getLatitude());
+
         }
     }
 

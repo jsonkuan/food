@@ -23,14 +23,13 @@ import com.facebook.share.model.SharePhotoContent;
 import java.util.Collections;
 import java.util.List;
 
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Meal;
-
-import iths.com.food.helper.DatabaseHelper;
-import iths.com.food.model.Meal;
-import iths.com.food.model.MyCamera;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.IMeal;
 
 
+/**
+ * This class handle FB sharing and can publish an image
+ */
 public class ShareOnFacebookActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
@@ -44,33 +43,8 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         Intent intent = getIntent();
         current_id = intent.getLongExtra("id",0);
 
+        // Runs the facebook sharing thing
         this.shareOnFacebook();
-    }
-
-    private void publishImage(){
-
-        DatabaseHelper db = new DatabaseHelper(this);
-        Meal meal = db.getMeal(current_id);
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
-
-        Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
-
-        SharePhoto photo = new SharePhoto.Builder()
-                .setBitmap(image)
-                .setCaption(meal.getName()+" - "+ meal.getDescription())
-                .build();
-
-        SharePhotoContent content = new SharePhotoContent.Builder()
-                .addPhoto(photo)
-                .build();
-
-        ShareApi.share(content, null);
-
-        TextView fbShareStatus = (TextView) findViewById(R.id.fb_share_status);
-        fbShareStatus.setText(String.format("%s is now shared on facebook.", meal.getName()));
     }
 
     @Override
@@ -79,6 +53,9 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Login to FB, look for permissions to share things on FB and call publishImage on success
+     */
     public void shareOnFacebook() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -105,8 +82,39 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Runs when we tap on "Go back"
+     * @param view - the view that we tapped on
+     */
     public void fbGoBack(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Specifies what image and text to publish on FB
+     */
+    private void publishImage(){
+
+        DatabaseHelper db = new DatabaseHelper(this);
+        IMeal meal = db.getMeal(current_id);
+
+        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
+        Log.d("LOGTAG", "meal image path i fbactivity: " + meal.getImagePath());
+        Log.d("LOGTAG", "Is Bitmap image null? " + (image == null));
+
+        SharePhoto photo = new SharePhoto.Builder()
+                .setBitmap(image)
+                .setCaption(meal.getName()+" - "+ meal.getDescription())
+                .build();
+
+        SharePhotoContent content = new SharePhotoContent.Builder()
+                .addPhoto(photo)
+                .build();
+
+        ShareApi.share(content, null);
+
+        TextView fbShareStatus = (TextView) findViewById(R.id.fb_share_status);
+        fbShareStatus.setText(String.format("%s is now shared on facebook.", meal.getName()));
     }
 }

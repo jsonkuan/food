@@ -16,28 +16,27 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import iths.com.food.R;
 import iths.com.food.helper.CategoryAdapter;
-import iths.com.food.helper.DatabaseHelper;
 import iths.com.food.helper.DialogHandler;
 import iths.com.food.helper.GPSHelper;
 import iths.com.food.helper.SwipeDismissListViewTouchListener;
-import iths.com.food.model.Category;
-import iths.com.food.R;
+import iths.com.food.helper.db.DatabaseHelper;
+import iths.com.food.model.ICategory;
 
 /**
  * Created by asakwarnmark on 2016-11-23.
  *
  */
-
 public class CategoryFragment extends Fragment {
 
     public static final String CHOSEN_CATEGORY = "category";
-    public ArrayList<String> foodtypes;
+    public ArrayList<String> foodTypesArrayList;
     ListAdapter listAdapter;
     DatabaseHelper db;
     CategoryAdapter adapter;
@@ -45,47 +44,24 @@ public class CategoryFragment extends Fragment {
     GPSHelper gps;
     private MediaPlayer mySound;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         mySound = MediaPlayer.create(getActivity(), R.raw.swipe);
         gps = new GPSHelper(getActivity());
         View v = inflater.inflate(R.layout.fragment_category, container, false);
-
-
-
-
-
-
-
-
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        myToolbar.setTitle("FoodFlash!");
-        myToolbar.setLogo(R.drawable.empty_heart);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
-        /**
-         * UNCOMMENT this code block to reset the database in the emulator
-         */
-        /*if(deleteDB) {
-            context.deleteDatabase("food.db");
-            deleteDB = false;
-            Toast.makeText(getActivity(), "Database deleted", Toast.LENGTH_SHORT).show();
-        }*/
-        ArrayList<Category> categories = db.getCategories();
-
-        //sort categories by score, highest first
-        sortCategories(categories);
-
-        foodtypes = new ArrayList<>(categories.size());
+        ArrayList<ICategory> categories = db.getCategories();
+        categories = sortCategories(categories);
+        foodTypesArrayList = new ArrayList<>(categories.size());
         for (int i = 0; i < categories.size(); i++) {
-            foodtypes.add(categories.get(i).getName());
+            foodTypesArrayList.add(categories.get(i).getName());
         }
 
-        adapter = new CategoryAdapter(getActivity(), foodtypes);
+        adapter = new CategoryAdapter(getActivity(), foodTypesArrayList);
         ListView listView = (ListView) v.findViewById(R.id.fragmentCategory);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(
@@ -109,37 +85,56 @@ public class CategoryFragment extends Fragment {
                     public boolean canDismiss(int position) {
                         return true;
                     }
-
-
-                        @Override
-                        public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-                            for (int position : reverseSortedPositions) {
-                                openDialogHandler(position);
-
-
-                            }
+                    @Override
+                    public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                        for (int position : reverseSortedPositions) {
+                            openDialogHandler(position);
                         }
                     }
-            );
-            listView.setOnTouchListener(touchListener);
+                });
 
+            listView.setOnTouchListener(touchListener);
             db.close();
             return v;
-        }
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.meal_category_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_category_item:
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new NewCategoryFragment()).commit();
+                break;
+            default:
+                System.out.println("error inflating the menu");
+        }
+        return true;
+    }
+
+    @Override
+    public void onActivityResult ( int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        ((BaseAdapter) listAdapter).notifyDataSetChanged();
+    }
 
     /**
      * This method opens a confirmation window for deleting of categories.
      * @param position - position of category in list.
      */
     public void openDialogHandler(int position) {
-        DialogHandler appdialog = new DialogHandler();
+        DialogHandler appDialog = new DialogHandler();
 
         int numMeals = db.getCategory(adapter
                 .getItem(position))
                 .getMeals().size();
 
-        appdialog.Confirm(getActivity(), "Are you sure you want to delete?", "There is " + numMeals+ " meals in this category.",
+        appDialog.Confirm(getActivity(), "Are you sure you want to delete?", "There is " + numMeals+ " meals in this category.",
                 "Cancel", "OK", okPressed(position), cancelPressed());
     }
 
@@ -149,11 +144,10 @@ public class CategoryFragment extends Fragment {
      * @return Runnable - the object to execute.
      */
     public Runnable okPressed(int position){
-        final int finalPsition = position;
-
+        final int finalPosition = position;
         return new Runnable() {
             public void run() {
-                db.deleteCategory(foodtypes.get(finalPsition));
+                db.deleteCategory(foodTypesArrayList.get(finalPosition));
                 CategoryFragment newFragment = new CategoryFragment();
                 getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
                 mySound.start();
@@ -172,31 +166,18 @@ public class CategoryFragment extends Fragment {
         };
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.meal_category_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_category_item:
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new NewCategoryFragment()).commit();
-                break;
-            default:
-                System.out.println("error");
-        }
-
-        return true;
-
-    }
-
-    @Override
-    public void onActivityResult ( int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        ((BaseAdapter) listAdapter).notifyDataSetChanged();
+    public ArrayList<ICategory> sortCategories(ArrayList<ICategory> categories){
+        Collections.sort(categories, new Comparator<ICategory>() {
+            @Override
+            public int compare(ICategory c1, ICategory c2) {
+                if (c1.getAverageScore() > c2.getAverageScore())
+                    return -1;
+                else if (c1.getAverageScore() < c2.getAverageScore())
+                    return 1;
+                else return 0;
+            }
+        });
+        return categories;
     }
 
     private void showCategory(String category) {
@@ -205,18 +186,5 @@ public class CategoryFragment extends Fragment {
         bundle.putString(CHOSEN_CATEGORY, category);
         newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-    }
-
-    public void sortCategories(ArrayList<Category> categories){
-        Collections.sort(categories, new Comparator<Category>() {
-            @Override
-            public int compare(Category c1, Category c2) {
-                if (c1.getAverageScore() > c2.getAverageScore())
-                    return -1;
-                else if (c1.getAverageScore() < c2.getAverageScore())
-                    return 1;
-                else return 0;
-            }
-        });
     }
 }

@@ -41,15 +41,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Avg. 3"
-            android:textSize="10sp"
-            android:maxLength="10"
+            android:textSize="14sp"
+            android:maxLength="11"
             android:layout_below="@id/categoryRatingBar"
             android:layout_marginLeft="20sp" />
         <TextView
             android:id="@+id/date_of_meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
+            android:textSize="14sp"
             android:layout_below="@id/average_grade_text"
             android:layout_marginLeft="20sp" />
         <TextView

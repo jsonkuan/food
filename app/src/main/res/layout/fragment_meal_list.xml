@@ -13,7 +13,16 @@
         android:background="@color/babyBlue"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:contentDescription="logo_top"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:src="@mipmap/logo_top_small"/>
+    </android.support.v7.widget.Toolbar>
 
     <ListView
         android:id="@+id/fragmentMealList"

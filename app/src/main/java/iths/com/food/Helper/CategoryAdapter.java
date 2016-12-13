@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import iths.com.food.R;
+import iths.com.food.helper.db.DatabaseHelper;
 
 
 /**
@@ -21,6 +22,7 @@ import iths.com.food.R;
  */
 
 public class CategoryAdapter extends ArrayAdapter<String> {
+
 
     public CategoryAdapter(Context context, ArrayList<String> categories) {
         super(context, R.layout.custom_row, categories);
@@ -44,7 +46,7 @@ public class CategoryAdapter extends ArrayAdapter<String> {
         if (Float.isNaN(averageScoreFloat)) {
             averageScore.setText(R.string.average_score_null);
         } else {
-            averageScore.setText(String.format("Avg. %s", averageScoreFloat));
+            averageScore.setText(String.format("Avg:  %s", averageScoreFloat));
         }
 
 

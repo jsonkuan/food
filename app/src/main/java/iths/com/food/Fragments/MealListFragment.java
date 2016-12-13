@@ -15,12 +15,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.db.DatabaseHelper;
 import iths.com.food.helper.DialogHandler;
 import iths.com.food.helper.MealAdapter;
 import iths.com.food.helper.SwipeDismissListViewTouchListener;
-import iths.com.food.model.Category;
-import iths.com.food.model.Meal;
+import iths.com.food.model.ICategory;
+import iths.com.food.model.IMeal;
 import iths.com.food.R;
 
 /**
@@ -44,17 +44,15 @@ public class MealListFragment extends Fragment {
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) view.findViewById(R.id.meallist_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        myToolbar.setTitle("FoodFlash!");
-        myToolbar.setLogo(R.drawable.empty_heart);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         db = new DatabaseHelper(getActivity());
 
         bundle = this.getArguments();
         String category = bundle.getString(CategoryFragment.CHOSEN_CATEGORY);
         Toast.makeText(getActivity(), category, Toast.LENGTH_SHORT).show();
-        Category listCategory = db.getCategory(category);
-        final ArrayList<Meal> mealsInCategory = listCategory.getMeals();
+        ICategory listCategory = db.getCategory(category);
+        final ArrayList<IMeal> mealsInCategory = listCategory.getMeals();
         ArrayList<String> idArray = new ArrayList<>();
         for(int i = 0; i < mealsInCategory.size(); i++) {
             idArray.add(Long.toString(mealsInCategory.get(i).getId()));
@@ -73,7 +71,6 @@ public class MealListFragment extends Fragment {
                     }
                 }
         );
-
         db.close();
 
 
@@ -92,26 +89,30 @@ public class MealListFragment extends Fragment {
                     @Override
                     public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                         for (int position : reverseSortedPositions) {
-                            //db.deleteCategory(foodtypes.get(position));
+                            //db.deleteCategory(foodTypesArrayList.get(position));
                             long ID = mealsInCategory.get(position).getId();
-
 
                             Toast.makeText(getActivity(), ""+ID, Toast.LENGTH_SHORT).show();
 
-
                             openDialogHandler((int)ID);
-                            /*db.deleteMeal(ID);
-                            MealListFragment newFragment = new MealListFragment();
-                            newFragment.setArguments(bundle);
-                            getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();*/
                         }
                     }
                 }
         );
         listView.setOnTouchListener(touchListener);
 
-
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //TODO: Implement back button
+                break;
+            default: super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -119,13 +120,10 @@ public class MealListFragment extends Fragment {
      * @param ID - id of the meal.
      */
     public void openDialogHandler(int ID) {
-        DialogHandler appdialog = new DialogHandler();
-
-
+        DialogHandler appDialog = new DialogHandler();
         double score = db.getMeal(ID).getTotalScore();
 
-
-        appdialog.Confirm(getActivity(), "Are you sure you want to delete?", "This meal has " + score + " score.",
+        appDialog.Confirm(getActivity(), "Are you sure you want to delete?", "This meal has " + score + " score.",
                 "Cancel", "OK", okPressed(ID), cancelPressed());
     }
 
@@ -158,25 +156,12 @@ public class MealListFragment extends Fragment {
         };
     }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                //TODO: Implement back button
-                break;
-            default: super.onOptionsItemSelected(item);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void openMeal(long id) {
-        MealFragment newFragment = new MealFragment();
         Bundle bundle = new Bundle();
         bundle.putLong(MEAL_ID, id);
+
+        MealFragment newFragment = new MealFragment();
         newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
     }
 }
-

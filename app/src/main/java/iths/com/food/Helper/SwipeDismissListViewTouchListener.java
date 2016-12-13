@@ -19,8 +19,8 @@ import java.util.List;
 
 /**
  * Created by sebastianstrus on 20/11/16.
+ * This class allows deleting elements from a list.
  */
-
 public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
 
     private int mSlop;
@@ -34,7 +34,7 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
 
     // Transient properties
-    private List<PendingDismissData> mPendingDismisses = new ArrayList<PendingDismissData>();
+    private List<PendingDismissData> mPendingDismisses = new ArrayList<>();
     private int mDismissAnimationRefCount = 0;
     private float mDownX;
     private float mDownY;
@@ -107,10 +107,10 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                 // Find the child view that was touched (perform a hit test)
                 Rect rect = new Rect();
                 int childCount = mListView.getChildCount();
-                int[] listViewCoords = new int[2];
-                mListView.getLocationOnScreen(listViewCoords);
-                int x = (int) motionEvent.getRawX() - listViewCoords[0];
-                int y = (int) motionEvent.getRawY() - listViewCoords[1];
+                int[] listViewChords = new int[2];
+                mListView.getLocationOnScreen(listViewChords);
+                int x = (int) motionEvent.getRawX() - listViewChords[0];
+                int y = (int) motionEvent.getRawY() - listViewChords[1];
                 View child;
                 for (int i = 0; i < childCount; i++) {
                     child = mListView.getChildAt(i);
@@ -134,7 +134,6 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
                 }
                 return false;
             }
-
             case MotionEvent.ACTION_CANCEL: {
                 if (mVelocityTracker == null) {
                     break;

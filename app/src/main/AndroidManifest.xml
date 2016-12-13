@@ -65,11 +65,13 @@
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true"/>
 
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="AIzaSyD1T6WyYg0jFh5P-JSkvUsyfCQpuX2WZSo" />
 
-        <receiver android:name="iths.com.food.helper.sms.SmsReceiver">
+        <receiver android:name="iths.com.food.helper.sms.SmsReceiver"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>

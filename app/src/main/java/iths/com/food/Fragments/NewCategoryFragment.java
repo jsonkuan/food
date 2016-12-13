@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import iths.com.food.helper.DatabaseHelper;
+import iths.com.food.helper.db.DatabaseHelper;
 import iths.com.food.helper.ImageAdapter;
 import iths.com.food.R;
 
@@ -40,8 +40,7 @@ public class NewCategoryFragment extends Fragment {
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.new_category_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
-        myToolbar.setTitle("Add Category");
-        myToolbar.setLogo(R.drawable.empty_heart);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ImageAdapter adapterView = new ImageAdapter(getActivity());
         mViewPager = (ViewPager) v.findViewById(R.id.viewPageAndroid);
@@ -53,7 +52,6 @@ public class NewCategoryFragment extends Fragment {
     public void saveButtonPressed() {
 
         db = new DatabaseHelper(getActivity());
-
         EditText etCategoryName = (EditText) v.findViewById(R.id.add_category_editText);
         String categoryName = etCategoryName.getText().toString();
 
@@ -69,11 +67,6 @@ public class NewCategoryFragment extends Fragment {
             db.insertCategory(categoryName, iconId);
             getFragmentManager().beginTransaction()
                     .replace(R.id.container, new CategoryFragment()).commit();
-
-
-
-
         }
     }
 }
-
