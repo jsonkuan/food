@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,7 @@ public class MealFragment extends Fragment{
 
     private static final String MAKE_EDITABLE = "make_editable";
     public static final String MEAL_ID = "meal_id";
+    private static final String TAG = "LOGTAG";
     private static boolean isOpenedFromMenu;
 
     private HeartRating heart;
@@ -228,11 +230,10 @@ public class MealFragment extends Fragment{
         meal.setDateTime(dateFormat.format(dateTime));
         meal.setLatitude(gps.getLatitude());
         meal.setLongitude(gps.getLongitude());
+        Log.d(TAG, "latitud: " + gps.getLatitude());
+        Log.d(TAG, "saveMeal longitude: "+meal.getLongitude());
         String imagePath = camera.getPhotoFilePath().getPath();
         meal.setImagePath(imagePath);
-
-        meal.setLatitude(0);
-        meal.setLongitude(0);
 
         DatabaseHelper db = new DatabaseHelper(getActivity());
         db.insertMeal(meal);

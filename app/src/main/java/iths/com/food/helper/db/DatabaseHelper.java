@@ -56,6 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper 
         values.put(DatabaseContract.MealEntry.COLUMN_HEALTHY_SCORE, meal.getHealthyScore());
         values.put(DatabaseContract.MealEntry.COLUMN_TASTE_SCORE, meal.getTasteScore());
         values.put(DatabaseContract.MealEntry.COLUMN_LONGITUDE, meal.getLongitude());
+        Log.d(TAG, "insertMeal longitud: "+meal.getLongitude());
         values.put(DatabaseContract.MealEntry.COLUMN_LATITUDE, meal.getLatitude());
         values.put(DatabaseContract.MealEntry.COLUMN_IMAGE_PATH, meal.getImagePath());
 

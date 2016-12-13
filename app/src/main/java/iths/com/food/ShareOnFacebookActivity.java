@@ -100,6 +100,8 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         IMeal meal = db.getMeal(current_id);
 
         Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
+        Log.d("LOGTAG", "meal image path i fbactivity: " + meal.getImagePath());
+        Log.d("LOGTAG", "Is Bitmap image null? " + (image == null));
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)

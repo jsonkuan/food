@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,6 +124,8 @@ public class MapViewFragment extends Fragment {
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(meal.getLatitude(), meal.getLongitude()))
                     .title(meal.getName()).snippet(meal.getDescription()));
+            Log.d("LOGTAG", "meal latitude: " + meal.getLatitude());
+
         }
     }
 
