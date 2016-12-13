@@ -82,20 +82,24 @@ public class SmsReceiver extends BroadcastReceiver {
 
         if(msg.contains("*foodflash*")){
             try {
+                // Parse mealId
                 int beginIdxMealId = msg.indexOf("mealid:") + "mealid:".length();
                 int endIdxMealId = msg.indexOf("tasty:");
                 String strMealId = msg.substring(beginIdxMealId, endIdxMealId).trim();
                 long mealId = Long.valueOf(strMealId);
 
+                // Parse tasty score
                 int beginIdxTasty = msg.indexOf("tasty:") + "tasty:".length();
                 int endIdxTasty = msg.indexOf("healthy:");
                 String strTastyScore = msg.substring(beginIdxTasty, endIdxTasty).trim();
                 int tastyScore = Integer.valueOf(strTastyScore);
 
+                // Parse Healthy score
                 int beginIdxHealthy = msg.indexOf("healthy:") + "healthy:".length();
                 String strHealthyScore = msg.substring(beginIdxHealthy).trim();
                 int healthyScore = Integer.valueOf(strHealthyScore);
 
+                // Create meal
                 meal = new Meal();
                 meal.setId(mealId);
                 meal.setTasteScore(tastyScore);
