@@ -53,8 +53,6 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-
-
     /**
      * Login to FB, look for permissions to share things on FB and call publishImage on success
      */
@@ -101,11 +99,7 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
         DatabaseHelper db = new DatabaseHelper(this);
         IMeal meal = db.getMeal(current_id);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
-
-        Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
