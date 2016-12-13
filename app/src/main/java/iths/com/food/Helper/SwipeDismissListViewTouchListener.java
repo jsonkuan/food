@@ -46,13 +46,20 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
     private boolean mPaused;
 
 
+    /**
+     * The callback interface used by SwipeDismissTouchListener to inform its client
+     * about a successful dismissal of the view for which it was created.
+     */
     public interface DismissCallbacks {
-
         boolean canDismiss(int position);
         void onDismiss(ListView listView, int[] reverseSortedPositions);
     }
 
-
+    /**
+     * Constructs a new swipe-to-dismiss touch listener for the given view.
+     * @param listView - The view to make dismissable.
+     * @param callbacks -  The callback to trigger when the user has indicated that he would like to dismiss this view.
+     */
     public SwipeDismissListViewTouchListener(ListView listView, DismissCallbacks callbacks) {
         ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
         mSlop = vc.getScaledTouchSlop();
@@ -64,7 +71,10 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
         mCallbacks = callbacks;
     }
 
-
+    /**
+     * Enables or disables (pauses or resumes) watching for swipe-to-dismiss gestures.
+     * @param enabled - Whether or not to watch for gestures.
+     */
     public void setEnabled(boolean enabled) {
         mPaused = !enabled;
     }
@@ -237,10 +247,18 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
         return false;
     }
 
+    /**
+     * Class that saves pending dismiss data.
+     */
     class PendingDismissData implements Comparable<PendingDismissData> {
         public int position;
         public View view;
 
+        /**
+         * Constructor for PendingDismissData.
+         * @param position - the position of item.
+         * @param view - required view.
+         */
         public PendingDismissData(int position, View view) {
             this.position = position;
             this.view = view;
@@ -253,11 +271,12 @@ public class SwipeDismissListViewTouchListener implements View.OnTouchListener {
         }
     }
 
+    /**
+     * Animate the dismissed view.
+     * @param dismissView
+     * @param dismissPosition - Position on the list.
+     */
     private void performDismiss(final View dismissView, final int dismissPosition) {
-        // Animate the dismissed list item to zero-height and fire the dismiss callback when
-        // all dismissed list item animations have completed. This triggers layout on each animation
-        // frame; in the future we may want to do something smarter and more performant.
-
         final ViewGroup.LayoutParams lp = dismissView.getLayoutParams();
         final int originalHeight = dismissView.getHeight();
 

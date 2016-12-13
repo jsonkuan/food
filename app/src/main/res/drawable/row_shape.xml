@@ -12,4 +12,6 @@
         android:bottomLeftRadius="7dp"
         android:topLeftRadius="7dp"
         android:topRightRadius="7dp"/>
+
+    <stroke android:width="2dip" android:color="@color/babyBlue" />
 </shape>

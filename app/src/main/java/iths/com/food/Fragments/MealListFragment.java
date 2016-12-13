@@ -60,7 +60,6 @@ public class MealListFragment extends Fragment {
             idArray.add(Long.toString(mealsInCategory.get(i).getId()));
         }
 
-
         MealAdapter adapter = new MealAdapter(getActivity(), idArray);
         ListView listView = (ListView) view.findViewById(R.id.fragmentMealList);
         listView.setAdapter(adapter);
@@ -78,7 +77,10 @@ public class MealListFragment extends Fragment {
         db.close();
 
 
-
+        /**
+         * Instance of the class SwipeDismissListViewTouchListener required to remove meals
+         * with TouchListener (swiping).
+         */
         SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
                 listView,
                 new SwipeDismissListViewTouchListener.DismissCallbacks() {
@@ -97,7 +99,7 @@ public class MealListFragment extends Fragment {
                             Toast.makeText(getActivity(), ""+ID, Toast.LENGTH_SHORT).show();
 
 
-                            doSwipe((int)ID);
+                            openDialogHandler((int)ID);
                             /*db.deleteMeal(ID);
                             MealListFragment newFragment = new MealListFragment();
                             newFragment.setArguments(bundle);
@@ -112,10 +114,11 @@ public class MealListFragment extends Fragment {
         return view;
     }
 
-
-
-
-    public void doSwipe(int ID) {
+    /**
+     * This method opens a confirmation window for deleting of meals.
+     * @param ID - id of the meal.
+     */
+    public void openDialogHandler(int ID) {
         DialogHandler appdialog = new DialogHandler();
 
 
@@ -125,6 +128,12 @@ public class MealListFragment extends Fragment {
         appdialog.Confirm(getActivity(), "Are you sure you want to delete?", "This meal has " + score + " score.",
                 "Cancel", "OK", okPressed(ID), cancelPressed());
     }
+
+    /**
+     * This method allows to delete meals.
+     * @param ID the id of the meal in DB.
+     * @return Runnable - the object to execute.
+     */
     public Runnable okPressed(int ID){
         final int finalID = ID;
         return new Runnable() {
@@ -137,6 +146,11 @@ public class MealListFragment extends Fragment {
             }
         };
     }
+
+    /**
+     * This method allows to cancel the removal of meals.
+     * @return Runnable.
+     */
     public Runnable cancelPressed(){
         return new Runnable() {
             public void run() {

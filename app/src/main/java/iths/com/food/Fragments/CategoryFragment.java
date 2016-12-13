@@ -16,11 +16,9 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import iths.com.food.helper.CategoryAdapter;
 import iths.com.food.helper.DatabaseHelper;
 import iths.com.food.helper.DialogHandler;
@@ -93,6 +91,10 @@ public class CategoryFragment extends Fragment {
                 }
         );
 
+        /**
+         * Instance of the class SwipeDismissListViewTouchListener required to remove categories
+         * with TouchListener (swiping).
+         */
         SwipeDismissListViewTouchListener touchListener = new SwipeDismissListViewTouchListener(
                 listView,
                 new SwipeDismissListViewTouchListener.DismissCallbacks() {
@@ -105,7 +107,7 @@ public class CategoryFragment extends Fragment {
                         @Override
                         public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                             for (int position : reverseSortedPositions) {
-                                doSwipe(position);
+                                openDialogHandler(position);
 
 
                             }
@@ -118,7 +120,12 @@ public class CategoryFragment extends Fragment {
             return v;
         }
 
-    public void doSwipe(int position) {
+
+    /**
+     * This method opens a confirmation window for deleting of categories.
+     * @param position - position of category in list.
+     */
+    public void openDialogHandler(int position) {
         DialogHandler appdialog = new DialogHandler();
 
         int numMeals = db.getCategory(adapter
@@ -128,6 +135,12 @@ public class CategoryFragment extends Fragment {
         appdialog.Confirm(getActivity(), "Are you sure you want to delete?", "There is " + numMeals+ " meals in this category.",
                 "Cancel", "OK", okPressed(position), cancelPressed());
     }
+
+    /**
+     * This method allows to delete categories.
+     * @param position - the position of category in the list.
+     * @return Runnable - the object to execute.
+     */
     public Runnable okPressed(int position){
         final int finalPsition = position;
 
@@ -140,27 +153,17 @@ public class CategoryFragment extends Fragment {
             }
         };
     }
+
+    /**
+     * This method allows to cancel the removal of categories.
+     * @return Runnable - the object to execute.
+     */
     public Runnable cancelPressed(){
         return new Runnable() {
             public void run() {
             }
         };
     }
-
-/*
-db.deleteCategory(foodtypes.get(position));
-        CategoryFragment newFragment = new CategoryFragment();
-        getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-*/
-
-
-
-
-
-
-
-
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -182,11 +185,13 @@ db.deleteCategory(foodtypes.get(position));
         return true;
 
     }
+
     @Override
     public void onActivityResult ( int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         ((BaseAdapter) listAdapter).notifyDataSetChanged();
     }
+
     private void showCategory(String category) {
         MealListFragment newFragment = new MealListFragment();
         Bundle bundle = new Bundle();

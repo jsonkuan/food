@@ -18,7 +18,10 @@
     <ListView
         android:id="@+id/fragmentMealList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="3.0sp"
+        android:layout_margin="4dp" >
     </ListView>
 
 </LinearLayout>

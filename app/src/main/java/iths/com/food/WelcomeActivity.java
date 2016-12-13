@@ -15,27 +15,23 @@ import android.widget.TextView;
 
 /**
  * Created by sebastianstrus on 11/12/16. WelcomeActivity class represents a launch screen.
- * When animation finish loads MainActivity automatically.
+ * When animations finish loads MainActivity automatically.
  */
-
 public class WelcomeActivity extends AppCompatActivity {
 
     protected AlphaAnimation fadeIn;
-
     AnimatorSet mAnimationSet;
-
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        //fade in
+        //fade in intro text
         TextView tvIntro = (TextView) findViewById(R.id.intro_text);
         fadeIn = new AlphaAnimation(0.0f , 1.0f );
         fadeIn.setDuration(3000);
@@ -64,7 +60,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 mAnimationSet = new AnimatorSet();
                 mAnimationSet.play(fadeIn).after(fadeOut);
-                //mAnimationSet.play(fadeOut).after(fadeIn);
                 mAnimationSet.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -83,8 +78,5 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onAnimationRepeat(Animation animation) {
             }
         });
-
     }
-
-
 }
