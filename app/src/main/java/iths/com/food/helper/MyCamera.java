@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,7 +23,7 @@ import java.util.Date;
 public class MyCamera {
 
     public static final int CAMERA_REQUEST_CODE = 1;
-    private static final String TAG = "LOGTAG";
+    private static final String TAG = "MY_CAMERA";
     private Uri photoFilePath;
     private Context context;
 
@@ -46,21 +45,6 @@ public class MyCamera {
         }
     }
 
-    /**
-     * Creates - in a directory called "FoodFlash" - a file that the photo can be saved to.
-     * Each new file will have a unique name.
-     * @return The photo file.
-     */
-    private File createPhotoFile() {
-        File photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File ffDir = new File(photoDir, "FoodFlash");
-        if(!ffDir.exists()) {
-            if(!ffDir.mkdirs()) {
-                Log.d(TAG, "Could not create directory" + ffDir.toString());
-            }
-        }
-        return new File(ffDir, "foodflash" + (new Date().getTime()) + ".jpg");
-    }
 
     /**
      * Should be called in onActivityResult. Creates and saves a bitmap with the approximate size
@@ -100,6 +84,20 @@ public class MyCamera {
         return rotatedBitmap;
     }
 
+    public Uri getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    /**
+     * Get the file path to a thumbnail for a photo.
+     * @param filePath The file path to the large-size photo.
+     * @return The file path to the thumbnail.
+     */
+    static String getThumbnailFilePath(String filePath) {
+        String newFilePath = filePath.substring(0, filePath.length() - 4) + "m.jpg";
+        return newFilePath;
+    }
+
     /**
      * Returns the orientation of a photo from the camera of the device.
      * @param filePath The file path of the photograph.
@@ -127,7 +125,7 @@ public class MyCamera {
      *                    if the image is from the camera.
      * @return The rotated image.
      */
-    public static Bitmap rotateImage(Bitmap image, int orientation) {
+    private static Bitmap rotateImage(Bitmap image, int orientation) {
         Matrix matrix = new Matrix();
         switch(orientation) {
             case 3: matrix.postRotate(180);
@@ -194,17 +192,20 @@ public class MyCamera {
         }
     }
 
-    /**
-     * Get the file path to a thumbnail for a photo.
-     * @param filePath The file path to the large-size photo.
-     * @return The file path to the thumbnail.
-     */
-    public static String getThumbnailFilePath(String filePath) {
-        String newFilePath = filePath.substring(0, filePath.length() - 4) + "m.jpg";
-        return newFilePath;
-    }
 
-    public Uri getPhotoFilePath() {
-        return photoFilePath;
+    /**
+     * Creates - in a directory called "FoodFlash" - a file that the photo can be saved to.
+     * Each new file will have a unique name.
+     * @return The photo file.
+     */
+    private File createPhotoFile() {
+        File photoDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File ffDir = new File(photoDir, "FoodFlash");
+        if(!ffDir.exists()) {
+            if(!ffDir.mkdirs()) {
+                Log.d(TAG, "Could not create directory" + ffDir.toString());
+            }
+        }
+        return new File(ffDir, "foodflash" + (new Date().getTime()) + ".jpg");
     }
 }

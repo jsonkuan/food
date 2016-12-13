@@ -32,16 +32,14 @@ import iths.com.food.R;
 
 public class MapViewFragment extends Fragment {
 
+    ArrayList<IMeal> allMeals = new ArrayList<>();
     private MapView mMapView;
     private GoogleMap googleMap;
-    private DatabaseHelper db;
-    ArrayList<IMeal> allMeals = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_map, container, false);
-        db = new DatabaseHelper(getActivity());
-
+        DatabaseHelper db = new DatabaseHelper(getActivity());
         ArrayList<ICategory> categories = db.getCategories();
 
         for (int i = 0; i < categories.size(); i++) {
@@ -50,9 +48,6 @@ public class MapViewFragment extends Fragment {
                 allMeals.add(meals.get(j));
             }
         }
-
-
-
         /**
          * Creates the frame to display the GoogleMap
          */
@@ -73,14 +68,13 @@ public class MapViewFragment extends Fragment {
                 googleMap = mMap;
                 markLocations();
 
-                LatLng london = new LatLng(55.5, 15);
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(london).zoom(5).build();
+                LatLng scandinavia = new LatLng(55.5, 15);
+                CameraPosition cameraPosition = new CameraPosition.Builder().target(scandinavia).zoom(5).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
                 /**
                  * Obligatory code block for handling permissions
                  */
-
                 if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -94,11 +88,8 @@ public class MapViewFragment extends Fragment {
                 googleMap.setMyLocationEnabled(true);
             }
         });
-
         return rootView;
-
     }
-
 
     @Override
     public void onResume() {
@@ -124,9 +115,8 @@ public class MapViewFragment extends Fragment {
         mMapView.onLowMemory();
     }
 
-
     /**
-     * Places map markers on each Locations in ArrayList<Locations> locationsArrayList = new ArrayList<>();
+     * Places map markers on each longitude and latitude that is saved when taking a picture;
      */
     public void markLocations() {
         for (IMeal meal : allMeals) {

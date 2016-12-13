@@ -9,8 +9,8 @@ import android.app.Activity;
         import android.content.DialogInterface;
 
 public class DialogHandler {
-    public Runnable ans_true = null;
-    public Runnable ans_false = null;
+    private Runnable ans_true = null;
+    private Runnable ans_false = null;
 
     // Dialog. --------------------------------------------------------------
 
