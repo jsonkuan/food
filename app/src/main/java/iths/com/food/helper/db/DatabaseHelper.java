@@ -216,12 +216,11 @@ public class DatabaseHelper extends SQLiteOpenHelper implements IDatabaseHelper 
      * @param categoryName - the name of the category to be deleted
      */
     public void deleteCategory(String categoryName){
-        // SQL-query for deleting all meals belonging to this category
+
         String deleteMealsSQL = "DELETE FROM " + DatabaseContract.MealEntry.TABLE +
                                 " WHERE " + DatabaseContract.MealEntry.COLUMN_CATEGORY + "='" + categoryName + "'";
         getWritableDatabase().execSQL(deleteMealsSQL);
 
-        // SQL-query for deleting the category
         String deleteCategorySQL = "DELETE FROM " + DatabaseContract.CategoryEntry.TABLE +
                 " WHERE " + DatabaseContract.CategoryEntry.COLUMN_NAME + "='" + categoryName + "'";
         getWritableDatabase().execSQL(deleteCategorySQL);

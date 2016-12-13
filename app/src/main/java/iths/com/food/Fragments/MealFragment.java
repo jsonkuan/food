@@ -181,7 +181,7 @@ public class MealFragment extends Fragment{
             id = bundle.getLong(MealListFragment.MEAL_ID);
             ImageView shareOnFacebookButton = (ImageButton) layoutView.findViewById(R.id.share_on_facebook);
             shareOnFacebookButton.setOnClickListener(shareOnFBListener);
-            Button btnSendSms = (Button) layoutView.findViewById(R.id.btn_send_sms);
+            ImageButton btnSendSms = (ImageButton) layoutView.findViewById(R.id.btn_send_sms);
             btnSendSms.setOnClickListener(btnSendSmsListener);
         }
         heart = new HeartRating(layoutView, getActivity().getApplicationContext(), getActivity());
