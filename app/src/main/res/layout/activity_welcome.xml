@@ -16,19 +16,18 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="FoodFlash®"
+    android:text="FoodFlash"
     android:textSize="60dp"
     android:shadowColor="#0000ff"
-    android:shadowDx="8.0"
-    android:shadowDy="8.0"
-    android:shadowRadius="10"
+    android:shadowDx="1.0"
+    android:shadowDy="1.0"
+    android:shadowRadius="1"
     android:layout_marginTop="50dp"
     android:layout_gravity="center_horizontal"
-    android:textStyle="bold"
     android:textColor="#FFFFFF"
     android:id="@+id/intro_text"
-    android:padding="5dp"
-    />
+    android:padding="5dp" />
+
 
 <ImageView
     android:layout_width="wrap_content"
@@ -39,4 +38,5 @@
     android:layout_gravity="center_horizontal"
     app:srcCompat="@drawable/logo"
     android:onClick="goToMainActivity" />
+
 </LinearLayout>
