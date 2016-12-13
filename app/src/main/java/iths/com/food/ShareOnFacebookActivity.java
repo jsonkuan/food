@@ -51,15 +51,10 @@ public class ShareOnFacebookActivity extends AppCompatActivity {
      * Specifies what image and text to publish on FB
      */
     private void publishImage(){
-
         DatabaseHelper db = new DatabaseHelper(this);
         IMeal meal = db.getMeal(current_id);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Log.d("LOGTAG", "Options inJustDecodeBounds: " + options.inJustDecodeBounds);
-
-        Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
+        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)

@@ -201,7 +201,6 @@ public class MealFragment extends Fragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
         if(requestCode == MyCamera.CAMERA_REQUEST_CODE) {
             if(resultCode == RESULT_OK) {
                 int imageViewHeight = getScreenWidth();
@@ -256,7 +255,6 @@ public class MealFragment extends Fragment{
      * @param id The database id of the meal that is updated.
      */
     public void updateMeal(long id) {
-
         DatabaseHelper db = new DatabaseHelper(getActivity());
 
         IMeal meal = db.getMeal(id);
@@ -290,10 +288,6 @@ public class MealFragment extends Fragment{
         bundle.putLong(MEAL_ID, id);
         newFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();
-    }
-
-    public static void setOpenedFromMenu(boolean b) {
-        isOpenedFromMenu = b;
     }
 
     /**
@@ -333,8 +327,7 @@ public class MealFragment extends Fragment{
         mealImageView.setImageBitmap(image);
 
         //Making the image view square
-        int width = getScreenWidth();
-        mealImageView.getLayoutParams().height = width;
+        mealImageView.getLayoutParams().height = getScreenWidth();
 
         categoryText.setText(meal.getCategory());
         averageNumber.setText(""+meal.getTotalScore());
@@ -343,6 +336,9 @@ public class MealFragment extends Fragment{
         db.close();
     }
 
+    /**
+     * @return The width of the device screen in pixels.
+     */
     private int getScreenWidth() {
         WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -362,9 +358,12 @@ public class MealFragment extends Fragment{
         nameEdit.setText(meal.getName());
         descriptionEdit.setText(meal.getDescription());
 
-        Uri filePathUri = Uri.parse(meal.getImagePath());
-        Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
-        mealImageView.setImageBitmap(image);
+        Bitmap image = BitmapFactory.decodeFile(meal.getImagePath());
+        try {
+            mealImageView.setImageBitmap(image);
+        } catch (Exception e) {
+            mealImageView.setImageResource(R.drawable.testmeal);
+        }
 
         ArrayList<ICategory> categories = db.getCategories();
         int position = 0;
@@ -394,5 +393,9 @@ public class MealFragment extends Fragment{
             heartImage = (ImageView) layoutView.findViewById(resNr);
             heartImage.setOnClickListener(heartButtonListener);
         }
+    }
+
+    public static void setOpenedFromMenu(boolean b) {
+        isOpenedFromMenu = b;
     }
 }
