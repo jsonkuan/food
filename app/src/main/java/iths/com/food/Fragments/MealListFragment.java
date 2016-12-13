@@ -92,10 +92,6 @@ public class MealListFragment extends Fragment {
 
 
                             doSwipe((int)ID);
-                            /*db.deleteMeal(ID);
-                            MealListFragment newFragment = new MealListFragment();
-                            newFragment.setArguments(bundle);
-                            getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();*/
                         }
                     }
                 }
