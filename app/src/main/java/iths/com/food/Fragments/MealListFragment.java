@@ -46,7 +46,6 @@ public class MealListFragment extends Fragment {
 
         bundle = this.getArguments();
         String category = bundle.getString(CategoryFragment.CHOSEN_CATEGORY);
-        Toast.makeText(getActivity(), category, Toast.LENGTH_SHORT).show();
         Category listCategory = db.getCategory(category);
         final ArrayList<Meal> mealsInCategory = listCategory.getMeals();
         ArrayList<String> idArray = new ArrayList<>();
@@ -92,10 +91,6 @@ public class MealListFragment extends Fragment {
 
 
                             doSwipe((int)ID);
-                            /*db.deleteMeal(ID);
-                            MealListFragment newFragment = new MealListFragment();
-                            newFragment.setArguments(bundle);
-                            getFragmentManager().beginTransaction().replace(R.id.container, newFragment).addToBackStack(null).commit();*/
                         }
                     }
                 }
