@@ -304,13 +304,14 @@
         android:layout_marginBottom="@dimen/image_margin"
         android:background="@drawable/share_facebook_small"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_send_sms"
         style="@style/mealFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
         android:layout_marginTop="@dimen/image_margin"
         android:layout_marginBottom="@dimen/image_margin"
+        android:background="@drawable/sms"
         android:text="@string/send_sms"/>
 
     </LinearLayout>
