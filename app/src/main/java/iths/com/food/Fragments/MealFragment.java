@@ -230,8 +230,6 @@ public class MealFragment extends Fragment{
         meal.setDateTime(dateFormat.format(dateTime));
         meal.setLatitude(gps.getLatitude());
         meal.setLongitude(gps.getLongitude());
-        Log.d(TAG, "latitud: " + gps.getLatitude());
-        Log.d(TAG, "saveMeal longitude: "+meal.getLongitude());
         String imagePath = camera.getPhotoFilePath().getPath();
         meal.setImagePath(imagePath);
 
@@ -324,7 +322,6 @@ public class MealFragment extends Fragment{
         Bitmap image = BitmapFactory.decodeFile(filePathUri.getPath());
         mealImageView.setImageBitmap(image);
 
-        //Making the image view square
         mealImageView.getLayoutParams().height = getScreenWidth();
 
         categoryText.setText(meal.getCategory());

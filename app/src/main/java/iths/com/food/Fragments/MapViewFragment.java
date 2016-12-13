@@ -124,7 +124,6 @@ public class MapViewFragment extends Fragment {
             googleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(meal.getLatitude(), meal.getLongitude()))
                     .title(meal.getName()).snippet(meal.getDescription()));
-            Log.d("LOGTAG", "meal latitude: " + meal.getLatitude());
 
         }
     }

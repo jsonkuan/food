@@ -29,11 +29,11 @@ final class DatabaseContract {
                     CategoryEntry.COLUMN_NAME + " TEXT PRIMARY KEY, " +
                     CategoryEntry.COLUMN_ICON_ID + " INTEGER);" +
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
-                    "VALUES ('Meat','17');" +
+                    "VALUES ('Meat','12');" +
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
-                    "VALUES ('Veggie','18');" +
+                    "VALUES ('Veggie','11');" +
                     "INSERT INTO " + CategoryEntry.TABLE + " (" + CategoryEntry.COLUMN_NAME + ", "+CategoryEntry.COLUMN_ICON_ID+") " +
-                    "VALUES ('Fish','4');";
+                    "VALUES ('Fish','17');";
 
 
     private DatabaseContract() {}

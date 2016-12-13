@@ -40,14 +40,11 @@ public class CategoryFragment extends Fragment {
     ListAdapter listAdapter;
     DatabaseHelper db;
     CategoryAdapter adapter;
-    //boolean deleteDB = true;    // UNCOMMENT this code block to reset the database in the emulator
-    GPSHelper gps;
     private MediaPlayer mySound;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mySound = MediaPlayer.create(getActivity(), R.raw.swipe);
-        gps = new GPSHelper(getActivity());
         View v = inflater.inflate(R.layout.fragment_category, container, false);
         setHasOptionsMenu(true);
         Toolbar myToolbar = (Toolbar) v.findViewById(R.id.category_toolbar);

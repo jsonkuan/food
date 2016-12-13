@@ -68,7 +68,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD1T6WyYg0jFh5P-JSkvUsyfCQpuX2WZSo" />
+            android:value="AIzaSyCUnDUGHv3VrCXKq-Y3-_HyGeC0Qlukdfs" />
 
         <receiver android:name="iths.com.food.helper.sms.SmsReceiver"
             android:permission="android.permission.BROADCAST_SMS">
