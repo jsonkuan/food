@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,7 +53,7 @@ public class CategoryFragment extends Fragment {
 
         db = new DatabaseHelper(this.getActivity().getApplicationContext());
         ArrayList<ICategory> categories = db.getCategories();
-        sortCategories(categories);
+        categories = sortCategories(categories);
 
         foodTypesArrayList = new ArrayList<>(categories.size());
         for (int i = 0; i < categories.size(); i++) {
@@ -147,7 +148,7 @@ public class CategoryFragment extends Fragment {
         };
     }
 
-    public void sortCategories(ArrayList<ICategory> categories){
+    public ArrayList<ICategory> sortCategories(ArrayList<ICategory> categories){
         Collections.sort(categories, new Comparator<ICategory>() {
             @Override
             public int compare(ICategory c1, ICategory c2) {
@@ -158,6 +159,7 @@ public class CategoryFragment extends Fragment {
                 else return 0;
             }
         });
+        return categories;
     }
 
     private void showCategory(String category) {

@@ -1,5 +1,7 @@
 package iths.com.food.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,7 +47,11 @@ public class Category implements ICategory{
             sum += meal.getTotalScore();
         }
 
-        return sum / meals.size();
+        if(meals.size() == 0) {
+            return 0;
+        } else {
+            return sum / meals.size();
+        }
     }
 
     /**
